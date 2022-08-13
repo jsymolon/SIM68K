@@ -1,0 +1,14 @@
+#TOML configuration
+[source]
+	fontname = "Courier"
+	fontsize = 10
+	fontweight = "wxNORMAL"
+#R,G,B,A (0 - transparent)
+#Note, need double quotes to prevent extra chars after value
+	fontcolor = "0,0,0,255"
+	backgroundcolor = "255,255,255,255"
+	guttercolor = "128,128,128,255"
+	divcolor = "64,64,64,255"
+	bp_active = "64,64,255,255"
+	bp_inactive = "32,32,128,255"
+	code_highlight = "64,255,64,255"
