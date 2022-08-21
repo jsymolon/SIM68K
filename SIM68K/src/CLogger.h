@@ -12,6 +12,8 @@
 #include <cstdarg>
 #include <string>
 
+#define LOGLINEMAX 80
+
 class CLogger {
 public:
 	void Log(const std::string &sMessage);
@@ -21,10 +23,13 @@ public:
 	static const std::string CurrentDateTime();
 private:
 	CLogger();
-	CLogger(const CLogger&) { }; // copy constructor is private
+	CLogger(const CLogger&) {
+	}
+	; // copy constructor is private
 	CLogger& operator=(const CLogger&) {
-		return *this;
-	};  // assignment operator is private
+		return (*this);
+	}
+	;  // assignment operator is private
 	static const std::string m_sFileName;
 	static CLogger *m_pThis;
 	static std::ofstream m_Logfile;

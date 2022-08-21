@@ -13,14 +13,13 @@ CLogger::CLogger() {
 }
 
 //--------------------------------------------------------------------------------
-const std::string CLogger::CurrentDateTime()
-{
-    time_t     now = time(NULL);
-    struct tm  tstruct;
-    char       buf[80];
-    //localtime_r(&tstruct, &now);
-    strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
-    return buf;
+const std::string CLogger::CurrentDateTime() {
+	//time_t now = time(NULL);
+	struct tm tstruct;
+	char buf[LOGLINEMAX];
+	//localtime_r(&tstruct, &now);
+	strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
+	return (buf);
 }
 
 //--------------------------------------------------------------------------------
@@ -29,7 +28,7 @@ CLogger* CLogger::GetLogger() {
 		m_pThis = new CLogger();
 		m_Logfile.open(m_sFileName.c_str(), std::ios::out | std::ios::app);
 	}
-	return m_pThis;
+	return (m_pThis);
 }
 
 //--------------------------------------------------------------------------------
@@ -59,5 +58,5 @@ void CLogger::Log(const std::string &sMessage) {
 CLogger& CLogger::operator<<(const std::string &sMessage) {
 	m_Logfile << "\n" << CurrentDateTime() << ":\t";
 	m_Logfile << sMessage << "\n";
-	return *this;
+	return (*this);
 }
