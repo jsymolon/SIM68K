@@ -59,12 +59,13 @@ void MemoryCtrl::OnEraseBackGround(wxEraseEvent &event) {
 
 	wxSize sz = GetClientSize();
 	// Our rectangle dimensions
-	wxCoord w = 100, h = 50;
+	wxCoord w = 100;
+	wxCoord h = 50;
 
 	// Center the rectangle on the window, but never
 	// draw at a negative position.
-	int x = wxMax(0, (sz.x-w)/2);
-	int y = wxMax(0, (sz.y-h)/2);
+	int x = wxMax(0, (sz.x - w) / 2);
+	int y = wxMax(0, (sz.y - h) / 2);
 
 	wxRect rectToDraw(x, y, w, h);
 
@@ -103,7 +104,7 @@ std::string MemoryCtrl::buildDataLine(unsigned long addr) {
 		outstr.append(outc);
 	}
 
-	return outstr;
+	return (outstr);
 }
 
 //----------------------------------------------------------------------------------
@@ -151,7 +152,8 @@ void MemoryCtrl::paintEvent(wxPaintEvent &evt) {
 	internal->GetViewStart(&viewStartX, &viewStartY);
 
 	// Find out how much the scrollbar moves each unit in pixels
-	int xUnit = 0, yUnit = 0;
+	int xUnit = 0;
+	int yUnit = 0;
 	internal->GetScrollPixelsPerUnit(&xUnit, &yUnit);
 	viewStartX *= xUnit;
 	viewStartY *= yUnit;

@@ -2,6 +2,8 @@
 
 #include "../src/extern.h"         /* contains global "extern" declarations */
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 //----------------------------------------------------------------------------------
 //C141      EXG     D0, D1
 TEST_F(CODE2Test,TestEXG) {
@@ -17,9 +19,9 @@ TEST_F(CODE2Test,TestLEA) {
 	inst = 0x47d2;
 	PC = 0;
 	memory->memory[PC] = 0x47;
-	memory->memory[PC+1] = 0xea;
-	memory->memory[PC+2] = 0x00;
-	memory->memory[PC+3] = 0x05;
+	memory->memory[PC + 1] = 0xea;
+	memory->memory[PC + 2] = 0x00;
+	memory->memory[PC + 3] = 0x05;
 	PC = 2;
 	A[2] = 0x0010;
 	LEA();
@@ -32,7 +34,7 @@ TEST_F(CODE2Test,TestPEA) {
 	A[2] = 0x0010;
 	uint32_t loc = 0x10;
 	memory->memory[loc] = 0xa5;
-	memory->memory[loc+1] = 0xa5;
+	memory->memory[loc + 1] = 0xa5;
 	A[7] = 0x1004;
 	PC = 0x6969;
 	PEA();
@@ -48,9 +50,9 @@ TEST_F(CODE2Test,TestLINK) {
 	inst = 0x3400;
 	PC = 0;
 	memory->memory[PC] = 0x4e;
-	memory->memory[PC+1] = 0x51;
-	memory->memory[PC+2] = 0x00;
-	memory->memory[PC+3] = 0x0c;
+	memory->memory[PC + 1] = 0x51;
+	memory->memory[PC + 2] = 0x00;
+	memory->memory[PC + 3] = 0x0c;
 	PC = 2;
 	A[7] = 0x1020;
 	A[1] = 0x0010;
@@ -67,3 +69,5 @@ TEST_F(CODE2Test,TestUNLK) {
 	MOVE();
 	EXPECT_EQ(D[2], 0xa5a5) << "UNLK A";
 }
+
+#pragma GCC diagnostic pop

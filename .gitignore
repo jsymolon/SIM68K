@@ -1,3 +1,5 @@
-/.metadata/
+.metadata/
 **/*.o
 **/gmon.out
+Debug/
+Test/

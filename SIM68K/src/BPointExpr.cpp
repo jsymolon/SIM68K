@@ -21,16 +21,10 @@
 #include "BPointExpr.h"
 
 // Default constructor
-BPointExpr::BPointExpr() {
-	id = 0;
+BPointExpr::BPointExpr() :
+		id(0), p_count(0), i_count(0), expr(""), count(0), isBrk(false), isEnab(false) {
 //		int postfix_expr[MAX_LB_NODES];
 //		int infix_expr[MAX_LB_NODES];
-	p_count = 0;
-	i_count = 0;
-	expr = "";
-	count = 0;
-	isBrk = false;
-	isEnab = false;
 }
 
 // Destructor
@@ -38,7 +32,7 @@ BPointExpr::~BPointExpr() {
 }
 
 int BPointExpr::getId() {
-	return id;
+	return (id);
 }
 
 void BPointExpr::setId(int _id) {
@@ -70,7 +64,7 @@ void BPointExpr::getInfixExpr(int *_infix_expr, int &_i_count) {
 }
 
 std::string BPointExpr::getExprString() {
-	return expr;
+	return (expr);
 }
 
 void BPointExpr::setExprString(std::string _expr) {
@@ -78,7 +72,7 @@ void BPointExpr::setExprString(std::string _expr) {
 }
 
 int BPointExpr::getCount() {
-	return count;
+	return (count);
 }
 
 void BPointExpr::setCount(int _count) {
@@ -86,7 +80,7 @@ void BPointExpr::setCount(int _count) {
 }
 
 bool BPointExpr::isEnabled() {
-	return isEnab;
+	return (isEnab);
 }
 
 void BPointExpr::isEnabled(bool _isEnab) {
@@ -104,8 +98,8 @@ bool BPointExpr::isBreak() {
 	// TODO:restore
 	// If the breakpoint is turned off, then don't process
 	if (!isEnab)
-		return false;
-	return false;
+		return (false);
+	return (false);
 //	// Initialize an empty stack.
 //	stack<bool> s_operand;
 //	int curToken;

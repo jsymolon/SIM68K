@@ -57,7 +57,7 @@ int ABCD() {
 	result = result + (temp_result << 4);
 
 	if (inst & 0x0008)
-		utils->put((uint32_t*)&memory->memory[A[Rx]], result, BYTE_MASK);
+		utils->put((uint32_t*) &memory->memory[A[Rx]], result, BYTE_MASK);
 	else
 		utils->put(&D[Rx], result, BYTE_MASK);
 	if (carry)
@@ -65,9 +65,9 @@ int ABCD() {
 	else
 		SR = SR & ~cbit;
 
-	utils->cc_update(GEN, UND, CASE_1, UND, N_A, source, dest, result,  BYTE_MASK, 0);
+	utils->cc_update(GEN, UND, CASE_1, UND, N_A, source, dest, result, BYTE_MASK, 0);
 	utils->inc_cyc((inst & 0x0008) ? 18 : 6);
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 //-------------------------------------------------------
@@ -83,9 +83,9 @@ int SBCD() {
 		Rx = utils->a_reg(Rx);
 		Ry = utils->a_reg(Ry);
 		A[Ry]--;
-		utils->mem_req( A[Ry], BYTE_MASK, &source);
+		utils->mem_req(A[Ry], BYTE_MASK, &source);
 		A[Rx]--;
-		if (utils->mem_req( A[Rx], BYTE_MASK, &dest) == BUS_ERROR)
+		if (utils->mem_req(A[Rx], BYTE_MASK, &dest) == BUS_ERROR)
 			A[Rx]++;      // Bus Error on destination does not decrement An
 	} else {		        // Dy,Dx addressing mode
 		source = D[Ry];
@@ -108,7 +108,7 @@ int SBCD() {
 	result = result + (temp_result << 4);
 
 	if (inst & 0x0008)
-		utils->put((uint32_t*)&memory->memory[A[Rx]], result, BYTE_MASK);
+		utils->put((uint32_t*) &memory->memory[A[Rx]], result, BYTE_MASK);
 	else
 		utils->put(&D[Rx], result, BYTE_MASK);
 
@@ -117,10 +117,9 @@ int SBCD() {
 	else
 		SR = SR & ~cbit;
 
-	utils->cc_update(GEN, UND, CASE_1, UND, N_A, source, dest, result,
-			(long) BYTE_MASK, 0);
+	utils->cc_update(GEN, UND, CASE_1, UND, N_A, source, dest, result, (long) BYTE_MASK, 0);
 	utils->inc_cyc((inst & 0x0008) ? 18 : 6);
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 //-------------------------------------------------------
@@ -160,6 +159,6 @@ int NBCD() {
 	utils->put(EA1, result, BYTE_MASK);
 	utils->cc_update(GEN, UND, CASE_1, UND, N_A, source, dest, result, BYTE_MASK, 0);
 	utils->inc_cyc((inst & 0x0030) ? 8 : 6);
-	return SUCCESS;
+	return (SUCCESS);
 }
 

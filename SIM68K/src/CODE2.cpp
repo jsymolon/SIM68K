@@ -45,7 +45,7 @@ int32_t EXG() {
 	}
 
 	utils->inc_cyc(6);
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 //------------------------------------------------------------------------
@@ -88,7 +88,7 @@ int32_t LEA() {
 		utils->inc_cyc(12);
 		break;
 	}
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 //----------------------------------------------------------------------------
@@ -132,7 +132,7 @@ int32_t PEA() {
 		utils->inc_cyc(20);
 		break;
 	}
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 //----------------------------------------------------------------------------
@@ -153,7 +153,7 @@ int32_t LINK() {
 
 	utils->inc_cyc(16);
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -169,7 +169,7 @@ int32_t UNLK() {
 
 	utils->inc_cyc(12);
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 

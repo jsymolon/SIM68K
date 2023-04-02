@@ -14,13 +14,13 @@
 bool Memory::isValidByte(char m, char n) {
 	std::size_t found = hexStr.find(m);
 	if (found == std::string::npos) {
-		return false; // char not in list
+		return (false); // char not in list
 	}
 	found = hexStr.find(n);
 	if (found == std::string::npos) {
-		return false; // char not in list
+		return (false); // char not in list
 	}
-	return true;
+	return (true);
 }
 
 //----------------------------------------------------------------------------------
@@ -47,13 +47,13 @@ void Memory::addSourceLine(const std::string_view line, int32_t fileLine) {
 //----------------------------------------------------------------------------------
 std::string_view Memory::getSourceLine(const uint32_t lineIdx) {
 	if (sourceList.size() == 0 || sourceList.size() < lineIdx) {
-		return " ";
+		return (" ");
 	}
-	return sourceList[lineIdx];
+	return (sourceList[lineIdx]);
 }
 //----------------------------------------------------------------------------------
 uint32_t Memory::getNumberOfSourceLines(void) {
-	return sourceList.size();
+	return (sourceList.size());
 }
 
 //----------------------------------------------------------------------------------
@@ -73,7 +73,7 @@ uint8_t Memory::getByte(const std::string_view line, const int32_t idx) {
 		accum <<= 4;
 		accum += x;
 	}
-	return accum;
+	return (accum);
 }
 //----------------------------------------------------------------------------------
 uint32_t Memory::getHexValue(const std::string_view line, int32_t idx, const int32_t length) {
@@ -84,7 +84,7 @@ uint32_t Memory::getHexValue(const std::string_view line, int32_t idx, const int
 		idx += 2;
 		accum += iaccum;
 	}
-	return accum;
+	return (accum);
 }
 
 //----------------------------------------------------------------------------------
@@ -159,10 +159,10 @@ uint32_t Memory::getIndexOfSrcFromAddr(const uint32_t addr) {
 	if (it == addrToSrcLine.end()) {
 		return UINT_MAX;
 	}
-	return it->second;
+	return (it->second);
 }
 
 //----------------------------------------------------------------------------------
 bool Memory::isSourceLoaded(void) {
-	return this->isLoaded;
+	return (this->isLoaded);
 }

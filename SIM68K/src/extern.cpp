@@ -8,37 +8,48 @@
 #include "extern.h"
 
 // problem w/ unique_ptr, SIM68K "new" doesn't recognize ...
-MainFrame* mainframe;
+MainFrame *mainframe;
 
 std::unique_ptr<Memory> memory = std::make_unique<Memory>();
 std::unique_ptr<FileHandling> fileHandling = std::make_unique<FileHandling>();
 std::unique_ptr<UTILS> utils = std::make_unique<UTILS>();
-wxTextCtrl* logWindow;
+wxTextCtrl *logWindow;
 
 // _____________________________________________________________________
 // The following variables must remain together. put() and value_of()
 // check the addresses of these variables to decide if an operation
 // is being performed on a 68000 register or 68000 memory.
 // 68000 registers
-uint32_t D[D_REGS], A[A_REGS];
+uint32_t D[D_REGS];
+uint32_t A[A_REGS];
 uint32_t PC;
 uint16_t SR;
 uint32_t global_temp;	// to hold an immediate data operand
 uint32_t OLD_PC;         // previous PC
-uint32_t *EA1, *EA2;
-uint32_t EV1, EV2;
-uint32_t source, dest;
+uint32_t *EA1;
+uint32_t *EA2;
+uint32_t EV1;
+uint32_t EV2;
+uint32_t source;
+uint32_t dest;
 uint32_t result;
+int32_t sresult;
 uint32_t inst; // get/put memory sus ... with int32_t inst?
 // _____________________________________________________________________
 
 uint32_t cycles;
-int32_t trace, sstep, old_trace, old_sstep, exceptions;
-bool bitfield, simhalt_on;
+int32_t trace;
+int32_t sstep;
+int32_t old_trace;
+int32_t old_sstep;
+int32_t exceptions;
+bool bitfield;
+bool simhalt_on;
 bool halt;                   		// true, halts running program
 bool stopInstruction;        		// true after running stop instruction
 
-char lbuf[SREC_MAX], *wordptr[20]; 	// command buffers
+char lbuf[SREC_MAX];
+char *wordptr[20]; 	// command buffers
 char bpoints = 0;
 uint32_t brkpt[100];
 int32_t wcount;
@@ -124,16 +135,37 @@ char FullScreenDeviceName[32];
 bool dsoundExist;
 
 // Mouse
-int32_t mouseX, mouseY;
-bool mouseLeft, mouseRight, mouseMiddle, mouseDouble;
-bool keyShift, keyAlt, keyCtrl;
+int32_t mouseX;
+int32_t mouseY;
+bool mouseLeft;
+bool mouseRight;
+bool mouseMiddle;
+bool mouseDouble;
+bool keyShift;
+bool keyAlt;
+bool keyCtrl;
 
-int32_t mouseXUp, mouseYUp;
-bool mouseLeftUp, mouseRightUp, mouseMiddleUp, mouseDoubleUp;
-bool keyShiftUp, keyAltUp, keyCtrlUp;
+int32_t mouseXUp;
+int32_t mouseYUp;
+bool mouseLeftUp;
+bool mouseRightUp;
+bool mouseMiddleUp;
+bool mouseDoubleUp;
+bool keyShiftUp;
+bool keyAltUp;
+bool keyCtrlUp;
 
-int32_t mouseXDown, mouseYDown;
-bool mouseLeftDown, mouseRightDown, mouseMiddleDown, mouseDoubleDown;
-bool keyShiftDown, keyAltDown, keyCtrlDown;
-int8_t mouseDownIRQ, mouseUpIRQ, mouseMoveIRQ;
-int8_t keyDownIRQ, keyUpIRQ;
+int32_t mouseXDown;
+int32_t mouseYDown;
+bool mouseLeftDown;
+bool mouseRightDown;
+bool mouseMiddleDown;
+bool mouseDoubleDown;
+bool keyShiftDown;
+bool keyAltDown;
+bool keyCtrlDown;
+int8_t mouseDownIRQ;
+int8_t mouseUpIRQ;
+int8_t mouseMoveIRQ;
+int8_t keyDownIRQ;
+int8_t keyUpIRQ;

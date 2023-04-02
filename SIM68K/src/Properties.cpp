@@ -18,11 +18,11 @@ Properties::~Properties() {
 //----------------------------------------------------------------------------------
 void Properties::load(const std::string_view propertypath) {
 	this->propsPath = propertypath;
-    properties = toml::parseFile(this->propsPath);
-    if (!properties.table) {
-    	std::cerr << "Cannot parse property file " << properties.errmsg;
-    	return;
-    }
+	properties = toml::parseFile(this->propsPath);
+	if (!properties.table) {
+		std::cerr << "Cannot parse property file " << properties.errmsg;
+		return;
+	}
 }
 
 //----------------------------------------------------------------------------------
@@ -34,28 +34,28 @@ void Properties::save(void) {
 std::string Properties::getString(std::string table, std::string key, std::string defaultVal) {
 	auto section = properties.table->getTable(table);
 	if (!section) {
-		return defaultVal;
+		return (defaultVal);
 	}
 	std::string value;
 	bool ok;
 	std::tie(ok, value) = section->getString(key);
 	if (!ok) {
-		return defaultVal;
+		return (defaultVal);
 	}
-	return value;
+	return (value);
 }
 
 //----------------------------------------------------------------------------------
 int Properties::getInt(std::string table, std::string key, int defaultVal) {
 	auto section = properties.table->getTable(table);
 	if (!section) {
-		return defaultVal;
+		return (defaultVal);
 	}
 	int value;
 	bool ok;
 	std::tie(ok, value) = section->getInt(key);
 	if (!ok) {
-		return defaultVal;
+		return (defaultVal);
 	}
-	return value;
+	return (value);
 }

@@ -29,18 +29,24 @@
 #include "MainFrame.h"
 #include "UTILS.h"
 
-extern MainFrame* mainframe;
+extern MainFrame *mainframe;
 extern std::unique_ptr<Memory> memory;
 extern std::unique_ptr<FileHandling> fileHandling;
 extern std::unique_ptr<UTILS> utils;
-extern wxTextCtrl* logWindow;
+extern wxTextCtrl *logWindow;
 
-extern uint32_t D[D_REGS], OLD_D[D_REGS], A[A_REGS], OLD_A[A_REGS];
-extern uint32_t PC, OLD_PC;
-extern uint16_t SR, OLD_SR;
+extern uint32_t D[D_REGS];
+extern uint32_t OLD_D[D_REGS];
+extern uint32_t A[A_REGS];
+extern uint32_t OLD_A[A_REGS];
+extern uint32_t PC;
+extern uint32_t OLD_PC;
+extern uint16_t SR;
+extern uint16_t OLD_SR;
 
 extern char bpoints;
-extern char lbuf[SREC_MAX], *wordptr[20];
+extern char lbuf[SREC_MAX];
+extern char *wordptr[20];
 extern uint32_t cycles;
 extern uint32_t brkpt[100];			// brkpt[i] == addr
 extern uint32_t stepToAddr;             // Step Over stopping address
@@ -52,16 +58,26 @@ extern int32_t wcount;
 extern uint8_t port1[4];
 extern char p1dif;
 extern int32_t errflg;
-extern int32_t trace, sstep, old_trace, old_sstep, exceptions;
-extern bool bitfield, simhalt_on;
+extern int32_t trace;
+extern int32_t sstep;
+extern int32_t old_trace;
+extern int32_t old_sstep;
+extern int32_t exceptions;
+extern bool bitfield;
+extern bool simhalt_on;
 extern bool halt;                   // true, halts running program
 extern bool stopInstruction;        // true after running stop instruction
 
 extern uint32_t inst;
-extern uint32_t *EA1, *EA2;
-extern uint32_t EV1, EV2;
+extern uint32_t *EA1;
+extern uint32_t *EA2;
+extern uint32_t EV1;
+extern uint32_t EV2;
 
-extern uint32_t source, dest, result;
+extern uint32_t source;
+extern uint32_t dest;
+extern uint32_t result;
+extern int32_t sresult;
 
 extern uint32_t global_temp; /* to hold an immediate data operand */
 
@@ -138,27 +154,60 @@ extern char FullScreenDeviceName[32];
 extern bool dsoundExist;
 
 // Mouse
-extern int32_t mouseX, mouseY;
-extern bool mouseLeft, mouseRight, mouseMiddle, mouseDouble;
-extern bool keyShift, keyAlt, keyCtrl;
+extern int32_t mouseX;
+extern int32_t mouseY;
+extern bool mouseLeft;
+extern bool mouseRight;
+extern bool mouseMiddle;
+extern bool mouseDouble;
+extern bool keyShift;
+extern bool keyAlt;
+extern bool keyCtrl;
 
-extern int32_t mouseXUp, mouseYUp;
-extern bool mouseLeftUp, mouseRightUp, mouseMiddleUp, mouseDoubleUp;
-extern bool keyShiftUp, keyAltUp, keyCtrlUp;
+extern int32_t mouseXUp;
+extern int32_t mouseYUp;
+extern bool mouseLeftUp;
+extern bool mouseRightUp;
+extern bool mouseMiddleUp;
+extern bool mouseDoubleUp;
+extern bool keyShiftUp;
+extern bool keyAltUp;
+extern bool keyCtrlUp;
 
-extern int32_t mouseXDown, mouseYDown;
-extern bool mouseLeftDown, mouseRightDown, mouseMiddleDown, mouseDoubleDown;
-extern bool keyShiftDown, keyAltDown, keyCtrlDown;
-extern int8_t mouseDownIRQ, mouseUpIRQ, mouseMoveIRQ;
-extern int8_t keyDownIRQ, keyUpIRQ;
+extern int32_t mouseXDown;
+extern int32_t mouseYDown;
+extern bool mouseLeftDown;
+extern bool mouseRightDown;
+extern bool mouseMiddleDown;
+extern bool mouseDoubleDown;
+extern bool keyShiftDown;
+extern bool keyAltDown;
+extern bool keyCtrlDown;
+extern int8_t mouseDownIRQ;
+extern int8_t mouseUpIRQ;
+extern int8_t mouseMoveIRQ;
+extern int8_t keyDownIRQ;
+extern int8_t keyUpIRQ;
 
-extern int32_t seg7loc, LEDloc, switchLoc, pbLoc;
+extern int32_t seg7loc;
+extern int32_t LEDloc;
+extern int32_t switchLoc;
+extern int32_t pbLoc;
 extern bool pbInit;
 extern bool autoIRQ;
 extern bool hardwareEnabled;
-extern int32_t ROMStart, ROMEnd, ReadStart, ReadEnd;
-extern int32_t ProtectedStart, ProtectedEnd, InvalidStart, InvalidEnd;
-extern bool ROMMap, ReadMap, ProtectedMap, InvalidMap;
+extern int32_t ROMStart;
+extern int32_t ROMEnd;
+extern int32_t ReadStart;
+extern int32_t ReadEnd;
+extern int32_t ProtectedStart;
+extern int32_t ProtectedEnd;
+extern int32_t InvalidStart;
+extern int32_t InvalidEnd;
+extern bool ROMMap;
+extern bool ReadMap;
+extern bool ProtectedMap;
+extern bool InvalidMap;
 
 extern uint8_t keyDownCode;       // defined in simIOu, used by Trap #15,19
 extern uint8_t keyUpCode;         // "

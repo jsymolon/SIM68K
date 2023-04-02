@@ -41,7 +41,7 @@ int32_t BCC() {
 		// Else, branch not taken
 		utils->inc_cyc((inst & 0xff) ? 8 : 12); // if short branch utils->inc_cyc(8)
 
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 //-------------------------------------------------------------------------
@@ -70,7 +70,7 @@ int32_t DBCC() {
 		}
 	}
 
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 int32_t SCC() {
@@ -78,7 +78,7 @@ int32_t SCC() {
 
 	int32_t error = eff_addr(BYTE_MASK, DATA_ALT_ADDR, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return (error) code
 
 	/* perform the SCC operation */
 	condition = (inst >> 8) & 0x0f;
@@ -92,7 +92,7 @@ int32_t SCC() {
 	else
 		utils->inc_cyc(8);
 
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 //-------------------------------------------------------------------------
@@ -112,7 +112,7 @@ int32_t BRA() {
 	// displacement is relative to the end of the instructin word
 
 	utils->inc_cyc(10);
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 int32_t BSR() {
@@ -139,16 +139,16 @@ int32_t BSR() {
 	// displacement is relative to the end of the instruction word
 
 	utils->inc_cyc(18);
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 int32_t JMP() {
 	int32_t error = eff_addr(WORD_MASK, CONTROL_ADDR, false);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return (error) code
 
 	/* perform the JMP operation */
-	PC = (EA1 - (uint32_t*)&memory->memory[0]);
+	PC = (EA1 - (uint32_t*) &memory->memory[0]);
 
 	switch (utils->eff_addr_code(inst, 0)) {
 	case 0x02:
@@ -176,18 +176,18 @@ int32_t JMP() {
 		break;
 	}
 
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 int32_t JSR() {
 	int32_t error = eff_addr(WORD_MASK, CONTROL_ADDR, false);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return (error) code
 
 	// push the longword address immediately following PC on the system stack
 	// then change the PC
 	A[utils->a_reg(7)] -= 4;
-	utils->put((uint32_t*)&memory->memory[A[utils->a_reg(7)]], PC, LONG_MASK);
+	utils->put((uint32_t*) &memory->memory[A[utils->a_reg(7)]], PC, LONG_MASK);
 
 	// set address to stop program execution if user selects "Step Over"
 	if (sstep && stepToAddr == 0) {  // if "Step Over" mode
@@ -195,7 +195,7 @@ int32_t JSR() {
 		stepToAddr = PC;
 	}
 
-	PC = (EA1 - (uint32_t*)&memory->memory[0]);
+	PC = (EA1 - (uint32_t*) &memory->memory[0]);
 
 	switch (utils->eff_addr_code(inst, 0)) {
 	case 0x02:
@@ -223,7 +223,7 @@ int32_t JSR() {
 		break;
 	}
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -239,7 +239,7 @@ int32_t RTE() {
 
 	utils->inc_cyc(20);
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -253,7 +253,7 @@ int32_t RTR() {
 
 	utils->inc_cyc(20);
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -263,7 +263,7 @@ int32_t RTS() {
 
 	utils->inc_cyc(16);
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -271,6 +271,6 @@ int32_t NOP() {
 
 	utils->inc_cyc(4);
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }

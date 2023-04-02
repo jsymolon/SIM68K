@@ -20,8 +20,8 @@ SIM68K::~SIM68K() {
 }
 
 bool SIM68K::OnInit() {
-	mainframe = new MainFrame(_("SIM68K"), wxDefaultPosition, wxSize(400,600), this);
+	mainframe = new MainFrame(_("SIM68K"), wxDefaultPosition, wxSize(400, 600), this);
 	mainframe->Show(true); // show the window
 	SetTopWindow(mainframe); // and finally, set it as the main window
-	return true;
+	return (true);
 }

@@ -24,8 +24,7 @@
 #include "MemoryDialog.h"
 #include "UTILS.h"
 
-BEGIN_EVENT_TABLE ( MainFrame, wxFrame )
-EVT_MENU(ID_Open, MainFrame::OnOpen)
+BEGIN_EVENT_TABLE ( MainFrame, wxFrame ) EVT_MENU(ID_Open, MainFrame::OnOpen)
 EVT_MENU(ID_Open_Data, MainFrame::OnOpenData)
 EVT_MENU(ID_Close, MainFrame::OnClose)
 EVT_MENU(ID_Printer_Setup, MainFrame::OnPrinterSetup)
@@ -69,8 +68,7 @@ MainFrame::~MainFrame() {
 }
 
 // ------------------------------------------------------------------------------------------------
-MainFrame::MainFrame(const wxString &title, const wxPoint &pos,
-		const wxSize &size, SIM68K *sim68k) :
+MainFrame::MainFrame(const wxString &title, const wxPoint &pos, const wxSize &size, SIM68K *sim68k) :
 		wxFrame((wxFrame*) NULL, -1, title, pos, size) {
 	this->sim68k = sim68k;
 	// normally we would initialize objects such as buttons and textboxes here
@@ -82,7 +80,7 @@ MainFrame::MainFrame(const wxString &title, const wxPoint &pos,
 }
 
 // ------------------------------------------------------------------------------------------------
-void MainFrame::AddImageToBar(wxToolBar* toolbar, int toolid, wxString path, wxString filename, wxString label) {
+void MainFrame::AddImageToBar(wxToolBar *toolbar, int toolid, wxString path, wxString filename, wxString label) {
 	wxString b1 = path.Append(filename);
 	wxBitmap p1(b1, wxBITMAP_TYPE_XPM);
 	toolbar->AddTool(toolid, label, p1);
@@ -98,8 +96,7 @@ void MainFrame::BuildToolbar() {
 	path = path.Append("/src/bitmaps/");
 	//wxImage::AddHandler(new wxXPMHandler);
 	wxInitAllImageHandlers();
-	toolbar = new wxToolBar(this, wxID_ANY, wxDefaultPosition, wxDefaultSize,
-			wxTB_FLAT | wxTB_NODIVIDER | wxTB_TEXT);
+	toolbar = new wxToolBar(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTB_FLAT | wxTB_NODIVIDER | wxTB_TEXT);
 	toolbar->SetToolBitmapSize(wxSize(32, 32));
 	//open, run, run2cursor, autotrace, step over, trace into, pause, rewind, reload, log start, log stop
 	AddImageToBar(toolbar, ID_Open, path, "icon32x32.xpm", wxT("Open"));
@@ -174,12 +171,10 @@ void MainFrame::BuildMenu() {
 	optionsMenu->AppendSeparator();
 	optionsMenu->Append(ID_Fullscreen_Options, "Fullscreen Options", "");
 	optionsMenu->AppendSeparator();
-	optionsMenu->Append(ID_Enable_Bit_Field_Options,
-			"Enable Bit Field Instructions", "");
+	optionsMenu->Append(ID_Enable_Bit_Field_Options, "Enable Bit Field Instructions", "");
 	optionsMenu->AppendSeparator();
 	optionsMenu->Append(ID_Output_Window_Size, "Output Window Font Size", "");
-	optionsMenu->Append(ID_Output_Window_Text_Wrap, "Output Window Text Wrap",
-			"");
+	optionsMenu->Append(ID_Output_Window_Text_Wrap, "Output Window Text Wrap", "");
 	mainMenu->Append(optionsMenu, "&Options");
 
 	helpMenu = new wxMenu();
@@ -190,14 +185,11 @@ void MainFrame::BuildMenu() {
 }
 
 // ------------------------------------------------------------------------------------------------
-void MainFrame::CreateBoxTxtEntry(std::string label, wxBoxSizer *rgrid,
-		wxTextCtrl *tc) {
+void MainFrame::CreateBoxTxtEntry(std::string label, wxBoxSizer *rgrid, wxTextCtrl *tc) {
 	wxBoxSizer *rd0sz = new wxBoxSizer(wxHORIZONTAL);
-	wxPanel *rd0p = new wxPanel(this, wxID_ANY, wxDefaultPosition,
-			wxDefaultSize);
+	wxPanel *rd0p = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize);
 	if (label.length() > 0) {
-		new wxStaticText(rd0p, wxID_ANY, label.c_str(), wxDefaultPosition,
-				wxDefaultSize, wxALIGN_LEFT);
+		new wxStaticText(rd0p, wxID_ANY, label.c_str(), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT);
 		rd0sz->Add(rd0p);
 	}
 	rd0sz->Add(tc, wxEXPAND, 0);
@@ -205,14 +197,11 @@ void MainFrame::CreateBoxTxtEntry(std::string label, wxBoxSizer *rgrid,
 }
 
 // ------------------------------------------------------------------------------------------------
-void MainFrame::CreateLabTxtEntry(std::string label, wxFlexGridSizer *rgrid,
-		wxTextCtrl *tc) {
+void MainFrame::CreateLabTxtEntry(std::string label, wxFlexGridSizer *rgrid, wxTextCtrl *tc) {
 	wxBoxSizer *rd0sz = new wxBoxSizer(wxHORIZONTAL);
-	wxPanel *rd0p = new wxPanel(this, wxID_ANY, wxDefaultPosition,
-			wxDefaultSize);
+	wxPanel *rd0p = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize);
 	if (label.length() > 0) {
-		new wxStaticText(rd0p, wxID_ANY, label.c_str(), wxDefaultPosition,
-				wxDefaultSize, wxALIGN_LEFT);
+		new wxStaticText(rd0p, wxID_ANY, label.c_str(), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT);
 		rd0sz->Add(rd0p);
 	}
 	rd0sz->Add(tc, wxEXPAND, 0);
@@ -223,10 +212,8 @@ void MainFrame::CreateLabTxtEntry(std::string label, wxFlexGridSizer *rgrid,
 // Build the Register group
 void MainFrame::BuildRegisterFrame(wxBoxSizer *topsizer) {
 	// add the register group (static box)
-	wxPanel *panel = new wxPanel(this, wxID_ANY, wxDefaultPosition,
-			wxDefaultSize, wxTAB_TRAVERSAL);
-	wxStaticBoxSizer *registerbox = new wxStaticBoxSizer(wxVERTICAL, panel,
-			wxT("")); // TODO: fix registers - "reg" only shows
+	wxPanel *panel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL);
+	wxStaticBoxSizer *registerbox = new wxStaticBoxSizer(wxVERTICAL, panel, wxT("")); // TODO: fix registers - "reg" only shows
 
 	wxBoxSizer *bx = new wxBoxSizer(wxVERTICAL);
 
@@ -239,21 +226,21 @@ void MainFrame::BuildRegisterFrame(wxBoxSizer *topsizer) {
 
 	// add the small sizer, label and textbox
 	tcD0 = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize,
-			wxHSCROLL);
+	wxHSCROLL);
 	tcD1 = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize,
-			wxHSCROLL);
+	wxHSCROLL);
 	tcD2 = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize,
-			wxHSCROLL);
+	wxHSCROLL);
 	tcD3 = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize,
-			wxHSCROLL);
+	wxHSCROLL);
 	tcD4 = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize,
-			wxHSCROLL);
+	wxHSCROLL);
 	tcD5 = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize,
-			wxHSCROLL);
+	wxHSCROLL);
 	tcD6 = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize,
-			wxHSCROLL);
+	wxHSCROLL);
 	tcD7 = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize,
-			wxHSCROLL);
+	wxHSCROLL);
 	CreateLabTxtEntry("D0", rgrid, tcD0);
 	CreateLabTxtEntry("D1", rgrid, tcD1);
 	CreateLabTxtEntry("D2", rgrid, tcD2);
@@ -264,21 +251,21 @@ void MainFrame::BuildRegisterFrame(wxBoxSizer *topsizer) {
 	CreateLabTxtEntry("D7", rgrid, tcD7);
 
 	tcA0 = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize,
-			wxHSCROLL);
+	wxHSCROLL);
 	tcA1 = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize,
-			wxHSCROLL);
+	wxHSCROLL);
 	tcA2 = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize,
-			wxHSCROLL);
+	wxHSCROLL);
 	tcA3 = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize,
-			wxHSCROLL);
+	wxHSCROLL);
 	tcA4 = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize,
-			wxHSCROLL);
+	wxHSCROLL);
 	tcA5 = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize,
-			wxHSCROLL);
+	wxHSCROLL);
 	tcA6 = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize,
-			wxHSCROLL);
+	wxHSCROLL);
 	tcA7 = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize,
-			wxHSCROLL);
+	wxHSCROLL);
 	CreateLabTxtEntry("A0", rgrid, tcA0);
 	CreateLabTxtEntry("A1", rgrid, tcA1);
 	CreateLabTxtEntry("A2", rgrid, tcA2);
@@ -293,11 +280,11 @@ void MainFrame::BuildRegisterFrame(wxBoxSizer *topsizer) {
 
 	// US, SS, PC, Flags
 	tcUS = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize,
-			wxHSCROLL);
+	wxHSCROLL);
 	tcSS = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize,
-			wxHSCROLL);
+	wxHSCROLL);
 	tcPC = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize,
-			wxHSCROLL);
+	wxHSCROLL);
 	CreateLabTxtEntry("US", rgrid, tcUS);
 	CreateLabTxtEntry("SS", rgrid, tcSS);
 	CreateLabTxtEntry("PC", rgrid, tcPC);
@@ -306,21 +293,18 @@ void MainFrame::BuildRegisterFrame(wxBoxSizer *topsizer) {
 
 	wxBoxSizer *othersz = new wxBoxSizer(wxHORIZONTAL);
 
-	tcFlags = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition,
-			wxSize(125, -1), wxHSCROLL);
+	tcFlags = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxSize(125, -1), wxHSCROLL);
 	wxBoxSizer *fsz = new wxBoxSizer(wxHORIZONTAL);
 	CreateBoxTxtEntry("Flags", fsz, tcFlags);
 	othersz->Add(fsz, 0, wxEXPAND);
 
 	// cycles,cycles button
-	tcCycles = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition,
-			wxSize(125, -1), wxHSCROLL);
+	tcCycles = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxSize(125, -1), wxHSCROLL);
 	wxBoxSizer *csz = new wxBoxSizer(wxHORIZONTAL);
 	CreateBoxTxtEntry("Cycles", csz, tcCycles);
 	othersz->Add(csz, 0, wxEXPAND);
 
-	bCycles = new wxButton(this, wxID_ANY, _T("Clear Cycles"),
-			wxDefaultPosition, wxDefaultSize, 0);
+	bCycles = new wxButton(this, wxID_ANY, _T("Clear Cycles"), wxDefaultPosition, wxDefaultSize, 0);
 	othersz->Add(bCycles, 0, wxEXPAND);
 
 	bx->Add(othersz, 0, wxEXPAND);
@@ -365,8 +349,7 @@ void MainFrame::EnableDisableFunctions(bool flag) { // no source / source loaded
 // ------------------------------------------------------------------------------------------------
 void MainFrame::OnOpen(wxCommandEvent &event) {
 	//TODO: why everything vs only S68
-	wxFileDialog openDialog = new wxFileDialog(this, _("Choose a file to open"),
-			"", "", _("Code Files (*.S68)|*.S68"),
+	wxFileDialog openDialog = new wxFileDialog(this, _("Choose a file to open"), "", "", _("Code Files (*.S68)|*.S68"),
 			wxFD_MULTIPLE);
 	if (openDialog.ShowModal() == wxID_CANCEL) {
 		return;
@@ -453,7 +436,7 @@ void MainFrame::OnOutputWindow(wxCommandEvent &event) {
 // ------------------------------------------------------------------------------------------------
 void MainFrame::OnMemoryWindow(wxCommandEvent &event) {
 	if (memoryDialog == nullptr) {
-		memoryDialog = new MemoryDialog("68000 Memory", wxPoint(1,1), wxSize(350, 250), sim68k);
+		memoryDialog = new MemoryDialog("68000 Memory", wxPoint(1, 1), wxSize(350, 250), sim68k);
 	}
 }
 // ------------------------------------------------------------------------------------------------
@@ -542,72 +525,72 @@ void MainFrame::updateRegisters(void) {
 	tcSS->SetValue(u.vformat("%08lX", A[8])); // SUP is stored in 8
 	tcPC->SetValue(u.vformat("%08lX", PC));
 
-	if (cycles > 0xFFFFFFFFFFFF)
+	if (cycles > 0xFFFFFFFF)
 		tcCycles->SetValue("Overflow");
 	else
 		tcCycles->SetValue(u.vformat("%u", cycles));
 
 	// print each bit of SR
 	std::string str = "";
-	if (SR & 0x1000000000000000)
+	if (SR & 0b1000000000000000)
 		str += "T";
 	else
 		str += "t";
 	str += "0"; //t0 is 0 < 68020
 	//         ttsm0iii000xnzvc
-	if (SR & 0x0010000000000000)
+	if (SR & 0b0010000000000000)
 		str += "S";
 	else
 		str += "s";
 	//         ttsm0iii000xnzvc
-	if (SR & 0x0001000000000000)
+	if (SR & 0b0001000000000000)
 		str += "M";
 	else
 		str += "m";
 	str += "0";
 	//         ttsm0iii000xnzvc
-	if (SR & 0x0000010000000000)
+	if (SR & 0b0000010000000000)
 		str += "I";
 	else
 		str += "i";
 	//         ttsm0iii000xnzvc
-	if (SR & 0x0000001000000000)
+	if (SR & 0b0000001000000000)
 		str += "I";
 	else
 		str += "i";
 	//         ttsm0iii000xnzvc
-	if (SR & 0x0000000100000000)
+	if (SR & 0b0000000100000000)
 		str += "I";
 	else
 		str += "i";
 	str += "000";
 	//         ttsm0iii000xnzvc
-	if (SR & 0x0000000000010000)
+	if (SR & 0b0000000000010000)
 		str += "X";
 	else
 		str += "x";
 	//         ttsm0iii000xnzvc
-	if (SR & 0x0000000000010000)
+	if (SR & 0b0000000000010000)
 		str += "X";
 	else
 		str += "x";
 	//         ttsm0iii000xnzvc
-	if (SR & 0x0000000000001000)
+	if (SR & 0b0000000000001000)
 		str += "N";
 	else
 		str += "n";
 	//         ttsm0iii000xnzvc
-	if (SR & 0x0000000000000100)
+	if (SR & 0b0000000000000100)
 		str += "Z";
 	else
 		str += "z";
 	//         ttsm0iii000xnzvc
-	if (SR & 0x0000000000000010)
+	if (SR & 0b0000000000000010)
 		str += "V";
 	else
 		str += "v";
 	//         ttsm0iii000xnzvc
-	if (SR & 0x0000000000010001)
+	if (SR & 0b0000000000010001)
 		str += "C";
 	else
 		str += "c";
@@ -637,7 +620,7 @@ void MainFrame::updateUI(void) {
 }
 
 // ------------------------------------------------------------------------------------------------
-void MainFrame::logMsg(const std::string& msg) {
+void MainFrame::logMsg(const std::string &msg) {
 	logWindow->SetInsertionPointEnd();
 	logWindow->AppendText(msg);
 	logWindow->SetInsertionPointEnd();
@@ -645,7 +628,7 @@ void MainFrame::logMsg(const std::string& msg) {
 }
 
 // ------------------------------------------------------------------------------------------------
-void MainFrame::logMsg(const char* msg) {
+void MainFrame::logMsg(const char *msg) {
 	logWindow->SetInsertionPointEnd();
 	std::string msgr;
 	msgr.append(msg);

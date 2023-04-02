@@ -57,9 +57,9 @@ int32_t decode_size(int32_t *result) {
 	}
 
 	if (*result != 0)       // ck 1-06-2006
-		return SUCCESS;
+		return (SUCCESS);
 	else
-		return FAILURE;
+		return (FAILURE);
 }
 
 /**************************** int32_t eff_addr() *******************************
@@ -81,8 +81,7 @@ int32_t eff_addr(int32_t size, int32_t mask, bool add_times) {
 	uint32_t ext;
 	int32_t inc_size, ind_reg, disp;
 
-	if ((((inst & 0xf000) == 0x1000) || ((inst & 0xf000) == 0x2000)
-			|| ((inst & 0xf000) == 0x3000)) && (mask == DATA_ALT_ADDR))
+	if ((((inst & 0xf000) == 0x1000) || ((inst & 0xf000) == 0x2000) || ((inst & 0xf000) == 0x3000)) && (mask == DATA_ALT_ADDR))
 		move_operation = true;    // move destination address
 	else
 		move_operation = false; // other effective address or move source address
@@ -132,10 +131,10 @@ int32_t eff_addr(int32_t size, int32_t mask, bool add_times) {
 		if (mask & bit_3) {
 			reg = utils->a_reg(reg);
 			if (move_operation) { // choose EA2 in case of MOVE dest effective address
-				EA2 = (uint32_t*)&memory->memory[A[reg] & ADDRMASK];
+				EA2 = (uint32_t*) &memory->memory[A[reg] & ADDRMASK];
 				error = utils->mem_req(A[reg], size, &EV2);
 			} else {
-				EA1 = (uint32_t*)&memory->memory[A[reg] & ADDRMASK];
+				EA1 = (uint32_t*) &memory->memory[A[reg] & ADDRMASK];
 				error = utils->mem_req(A[reg], size, &EV1);
 			}
 			bwinc = 4;
@@ -197,7 +196,7 @@ int32_t eff_addr(int32_t size, int32_t mask, bool add_times) {
 		if (mask & bit_6) {
 			reg = utils->a_reg(reg);
 			utils->mem_request(&PC, WORD_MASK, &ext);
-			utils->from_2s_comp(ext, WORD_MASK, (uint32_t *)&ext);
+			utils->from_2s_comp(ext, WORD_MASK, (uint32_t*) &ext);
 			if (move_operation) { // choose EA2 in case of MOVE dest effective address
 				EA2 = (uint32_t*) &memory->memory[(A[reg] + ext) & ADDRMASK];
 				error = utils->mem_req(A[reg] + ext, size, &EV2);
@@ -216,8 +215,8 @@ int32_t eff_addr(int32_t size, int32_t mask, bool add_times) {
 			// fetch extension word
 			utils->mem_request(&PC, WORD_MASK, &ext);
 			disp = ext & 0xff;
-			utils->sign_extend(disp, BYTE_MASK, (uint32_t*)&disp);
-			utils->from_2s_comp(disp, WORD_MASK, (uint32_t*)&disp);
+			utils->sign_extend(disp, BYTE_MASK, (uint32_t*) &disp);
+			utils->from_2s_comp(disp, WORD_MASK, (uint32_t*) &disp);
 			// get index register value
 			if (ext & 0x8000)
 				ind_reg = A[utils->a_reg((ext & 0x7000) >> 12)];
@@ -225,8 +224,8 @@ int32_t eff_addr(int32_t size, int32_t mask, bool add_times) {
 				ind_reg = D[(ext & 0x7000) >> 12];
 			// get correct length for index register
 			if (!(ext & 0x0800)) {
-				utils->sign_extend(ind_reg, WORD_MASK, (uint32_t*)&ind_reg);
-				utils->from_2s_comp(ind_reg, LONG_MASK, (uint32_t*)&ind_reg);
+				utils->sign_extend(ind_reg, WORD_MASK, (uint32_t*) &ind_reg);
+				utils->from_2s_comp(ind_reg, LONG_MASK, (uint32_t*) &ind_reg);
 			}
 			if (move_operation) { // choose EA2 in case of MOVE dest effective address
 				EA2 = (uint32_t*) &memory->memory[(A[reg] + disp + ind_reg) & ADDRMASK];
@@ -277,7 +276,7 @@ int32_t eff_addr(int32_t size, int32_t mask, bool add_times) {
 		case 2:                                // d[PC]
 			if (mask & bit_10) {
 				utils->mem_request(&PC, WORD_MASK, &ext);
-				utils->from_2s_comp(ext, WORD_MASK, (uint32_t*)&ext);
+				utils->from_2s_comp(ext, WORD_MASK, (uint32_t*) &ext);
 				if (move_operation) { // choose EA2 in case of MOVE dest effective address
 					EA2 = (uint32_t*) &memory->memory[(PC + ext - 2) & ADDRMASK];
 					error = utils->mem_req(PC + ext - 2, size, &EV2);
@@ -295,8 +294,8 @@ int32_t eff_addr(int32_t size, int32_t mask, bool add_times) {
 				// fetch extension word
 				utils->mem_request(&PC, WORD_MASK, &ext);
 				disp = ext & 0xff;
-				utils->sign_extend(disp, BYTE_MASK, (uint32_t*)&disp);
-				utils->from_2s_comp(disp, WORD_MASK, (uint32_t*)&disp);
+				utils->sign_extend(disp, BYTE_MASK, (uint32_t*) &disp);
+				utils->from_2s_comp(disp, WORD_MASK, (uint32_t*) &disp);
 				// get index register value
 				if (ext & 0x8000)
 					ind_reg = A[utils->a_reg((ext & 0x7000) >> 12)];
@@ -304,8 +303,8 @@ int32_t eff_addr(int32_t size, int32_t mask, bool add_times) {
 					ind_reg = D[(ext & 0x7000) >> 12];
 				// get correct length for index register
 				if (!(ext & 0x0800)) {
-					utils->sign_extend(ind_reg, WORD_MASK, (uint32_t*)&ind_reg);
-					utils->from_2s_comp(ind_reg, LONG_MASK, (uint32_t*)&ind_reg);
+					utils->sign_extend(ind_reg, WORD_MASK, (uint32_t*) &ind_reg);
+					utils->from_2s_comp(ind_reg, LONG_MASK, (uint32_t*) &ind_reg);
 				}
 				ext = ext & 0x00ff;
 				if (move_operation) { // choose EA2 in case of MOVE dest effective address
@@ -351,8 +350,8 @@ int32_t eff_addr(int32_t size, int32_t mask, bool add_times) {
 				utils->inc_cyc(linc);
 		}
 	} else
-		return BAD_INST;    // ILLEGAL instruction
-	return error;         // return error code
+		return (BAD_INST);    // ILLEGAL instruction
+	return (error);         // return (error) code
 }
 
 /**************************** int32_t eff_addr_noread() ***************************
@@ -372,8 +371,7 @@ int32_t eff_addr_noread(int32_t size, int32_t mask, bool add_times) {
 	int32_t bwinc, linc;
 	uint32_t ext, inc_size, ind_reg, *value, disp;
 
-	if ((((inst & 0xf000) == 0x1000) || ((inst & 0xf000) == 0x2000)
-			|| ((inst & 0xf000) == 0x3000)) && (mask == DATA_ALT_ADDR))
+	if ((((inst & 0xf000) == 0x1000) || ((inst & 0xf000) == 0x2000) || ((inst & 0xf000) == 0x3000)) && (mask == DATA_ALT_ADDR))
 		move_operation = true;
 	else
 		move_operation = false;
@@ -459,7 +457,7 @@ int32_t eff_addr_noread(int32_t size, int32_t mask, bool add_times) {
 		if (mask & bit_6) {
 			reg = utils->a_reg(reg);
 			utils->mem_request(&PC, WORD_MASK, &ext);
-			utils->from_2s_comp(ext, WORD_MASK, (uint32_t*)&ext);
+			utils->from_2s_comp(ext, WORD_MASK, (uint32_t*) &ext);
 			value = (uint32_t*) &memory->memory[(A[reg] + ext) & ADDRMASK];
 			bwinc = 8;
 			linc = 12;
@@ -472,8 +470,8 @@ int32_t eff_addr_noread(int32_t size, int32_t mask, bool add_times) {
 			// fetch extension word
 			utils->mem_request(&PC, WORD_MASK, &ext);
 			disp = ext & 0xff;
-			utils->sign_extend(disp, BYTE_MASK, (uint32_t*)&disp);
-			utils->from_2s_comp(disp, WORD_MASK, (uint32_t*)&disp);
+			utils->sign_extend(disp, BYTE_MASK, (uint32_t*) &disp);
+			utils->from_2s_comp(disp, WORD_MASK, (uint32_t*) &disp);
 			// get index register value
 			if (ext & 0x8000)
 				ind_reg = A[utils->a_reg((ext & 0x7000) >> 12)];
@@ -481,8 +479,8 @@ int32_t eff_addr_noread(int32_t size, int32_t mask, bool add_times) {
 				ind_reg = D[(ext & 0x7000) >> 12];
 			// get correct length for index register
 			if (!(ext & 0x0800)) {
-				utils->sign_extend(ind_reg, WORD_MASK, (uint32_t*)&ind_reg);
-				utils->from_2s_comp(ind_reg, LONG_MASK, (uint32_t*)&ind_reg);
+				utils->sign_extend(ind_reg, WORD_MASK, (uint32_t*) &ind_reg);
+				utils->from_2s_comp(ind_reg, LONG_MASK, (uint32_t*) &ind_reg);
 			}
 			value = (uint32_t*) (&memory->memory[(A[reg] + disp + ind_reg) & ADDRMASK]);
 			bwinc = 10;
@@ -513,7 +511,7 @@ int32_t eff_addr_noread(int32_t size, int32_t mask, bool add_times) {
 		case 2:                                // d[PC]
 			if (mask & bit_10) {
 				utils->mem_request(&PC, WORD_MASK, &ext);
-				utils->from_2s_comp(ext, WORD_MASK, (uint32_t*)&ext);
+				utils->from_2s_comp(ext, WORD_MASK, (uint32_t*) &ext);
 				value = (uint32_t*) &memory->memory[(PC + ext - 2) & ADDRMASK];
 				bwinc = 8;
 				linc = 12;
@@ -525,8 +523,8 @@ int32_t eff_addr_noread(int32_t size, int32_t mask, bool add_times) {
 				// fetch extension word
 				utils->mem_request(&PC, WORD_MASK, &ext);
 				disp = ext & 0xff;
-				utils->sign_extend(disp, BYTE_MASK, (uint32_t*)&disp);
-				utils->from_2s_comp(disp, WORD_MASK, (uint32_t*)&disp);
+				utils->sign_extend(disp, BYTE_MASK, (uint32_t*) &disp);
+				utils->from_2s_comp(disp, WORD_MASK, (uint32_t*) &disp);
 				// get index register value
 				if (ext & 0x8000)
 					ind_reg = A[utils->a_reg((ext & 0x7000) >> 12)];
@@ -534,8 +532,8 @@ int32_t eff_addr_noread(int32_t size, int32_t mask, bool add_times) {
 					ind_reg = D[(ext & 0x7000) >> 12];
 				// get correct length for index register
 				if (!(ext & 0x0800)) {
-					utils->sign_extend(ind_reg, WORD_MASK, (uint32_t*)&ind_reg);
-					utils->from_2s_comp(ind_reg, LONG_MASK, (uint32_t*)&ind_reg);
+					utils->sign_extend(ind_reg, WORD_MASK, (uint32_t*) &ind_reg);
+					utils->from_2s_comp(ind_reg, LONG_MASK, (uint32_t*) &ind_reg);
 				}
 				ext = ext & 0x00ff;
 				value = (uint32_t*) (&memory->memory[(PC - 2 + disp + ind_reg) & ADDRMASK]);
@@ -551,7 +549,7 @@ int32_t eff_addr_noread(int32_t size, int32_t mask, bool add_times) {
 				else
 					utils->mem_request(&PC, LONG_MASK, &ext);
 				global_temp = ext;
-				value = (uint32_t*)&global_temp;
+				value = (uint32_t*) &global_temp;
 				bwinc = 4;
 				linc = 8;
 				legal = true;
@@ -573,9 +571,9 @@ int32_t eff_addr_noread(int32_t size, int32_t mask, bool add_times) {
 		} else {
 			EA1 = value;
 		}
-		return SUCCESS;
+		return (SUCCESS);
 	} else
-		return FAILURE;       // return FAILURE if illegal addressing mode
+		return (FAILURE);       // return (FAILURE) if illegal addressing mode
 }
 
 /**************************** int32_t runprog() *******************************
@@ -589,7 +587,8 @@ int32_t eff_addr_noread(int32_t size, int32_t mask, bool add_times) {
  ****************************************************************************/
 int32_t runprog() {
 	int32_t i;
-	char ch, *pc_str;
+	char ch;
+	char *pc_str;
 
 	halt = false;
 	exec_inst();          // execute an instruction
@@ -693,8 +692,7 @@ void logMemory() {
 				if (addr + i >= MEMSIZE) // if invalid address
 					fprintf(ElogFile, "xx "); // is this necessary?
 				else
-					fprintf(ElogFile, "%02hX ",
-							(unsigned char) memory->memory[(addr + i) & ADDRMASK]);
+					fprintf(ElogFile, "%02hX ", (unsigned char) memory->memory[(addr + i) & ADDRMASK]);
 			}
 			// display 16 bytes as ASCII
 			for (int32_t i = 0; i < 16; i++) {
@@ -702,8 +700,7 @@ void logMemory() {
 					fprintf(ElogFile, "-"); // is this necessary?
 				else {
 					if (memory->memory[(addr + i) & ADDRMASK] >= ' ') // if displayable char
-						fprintf(ElogFile, "%c",
-								memory->memory[(addr + i) & ADDRMASK]);
+						fprintf(ElogFile, "%c", memory->memory[(addr + i) & ADDRMASK]);
 					else
 						fprintf(ElogFile, "-");
 				}
@@ -717,28 +714,19 @@ void logMemory() {
 // -----------------------------------------------------------------------
 void logRegisters() {
 	// ----- if logging registers -----
-	if (ElogFlag == REGISTERS
-			|| ElogFlag == INST_REG_MEM) {
+	if (ElogFlag == REGISTERS || ElogFlag == INST_REG_MEM) {
 		fprintf(ElogFile, "\n");
 		// output registers to log file
-		fprintf(ElogFile,
-				"D0=%08X D4=%08X A0=%08X A4=%08X    T_S__INT___XNZVC\n",
-				D[0], D[4], A[0], A[4]);
-		fprintf(ElogFile,
-				"D1=%08X D5=%08X A1=%08X A5=%08X SR=",
-				D[1], D[5], A[1], A[5]);
+		fprintf(ElogFile, "D0=%08X D4=%08X A0=%08X A4=%08X    T_S__INT___XNZVC\n", D[0], D[4], A[0], A[4]);
+		fprintf(ElogFile, "D1=%08X D5=%08X A1=%08X A5=%08X SR=", D[1], D[5], A[1], A[5]);
 		for (int32_t j = 0; j < 16; j++) { // display each bit of SR
 			if ((0x8000 >> j) & SR)
 				fprintf(ElogFile, "1");
 			else
 				fprintf(ElogFile, "0");
 		}
-		fprintf(ElogFile,
-				"\nD2=%08X D6=%08X A2=%08X A6=%08X US=%08X\n",
-				D[2], D[6], A[2], A[6], A[7]);
-		fprintf(ElogFile,
-				"D3=%08X D7=%08X A3=%08X A7=%08X SS=%08X\n",
-				D[3], D[7], A[3], A[utils->a_reg(7)], A[8]);
+		fprintf(ElogFile, "\nD2=%08X D6=%08X A2=%08X A6=%08X US=%08X\n", D[2], D[6], A[2], A[6], A[7]);
+		fprintf(ElogFile, "D3=%08X D7=%08X A3=%08X A7=%08X SS=%08X\n", D[3], D[7], A[3], A[utils->a_reg(7)], A[8]);
 	}
 }
 
@@ -1090,7 +1078,7 @@ void exceptionHandler(int32_t clas, uint32_t loc, int32_t r_w) {
 
 //---------------------------------------------------------
 void irqHandler() {
-	exceptionHandler(2, (uint32_t)0, READ);
+	exceptionHandler(2, (uint32_t) 0, READ);
 	SR &= 0xF8FF;                 // clear irq priority bits
 	if (irq & 0x40) {             // if IRQ 7
 		SR = SR | 0x700;	        // set priority level

@@ -33,7 +33,7 @@ int32_t ADD() {
 
 	error = eff_addr(size, addr_modes_mask, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return error code
 
 	reg = (inst >> 9) & 0x0007; /* get data register number */
 
@@ -58,9 +58,9 @@ int32_t ADD() {
 	/* now update the cycle counter appropriately depending on the instruction */
 	/* size and the instruction format */
 	if (inst & 0x0100) {          // if (<ea>)+(<Dn>) --> <ea>
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 12 : 8);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 12 : 8);
 	} else {
-		if ((uint32_t)size == LONG_MASK) {
+		if ((uint32_t) size == LONG_MASK) {
 			if ((!(inst & 0x0030)) || ((inst & 0x003f) == 0x003c))
 				utils->inc_cyc(8);
 			else
@@ -71,7 +71,7 @@ int32_t ADD() {
 	}
 
 	/* return 'success' */
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -86,7 +86,7 @@ int32_t ADDA() {
 
 	int32_t error = eff_addr(size, ALL_ADDR, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return error code
 
 	reg = (inst >> 9) & 0x0007;
 
@@ -99,7 +99,7 @@ int32_t ADDA() {
 	//put (&A[utils->a_reg(reg)], source + dest, size);    CK 11/6/2002
 	utils->put(&A[utils->a_reg(reg)], source + dest, LONG_MASK); // always uses 32bits of Areg
 
-	if ((uint32_t)size == LONG_MASK) {
+	if ((uint32_t) size == LONG_MASK) {
 		if ((!(inst & 0x0030)) || ((inst & 0x003f) == 0x003c))
 			utils->inc_cyc(8);
 		else
@@ -107,7 +107,7 @@ int32_t ADDA() {
 	} else
 		utils->inc_cyc(8);
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -122,7 +122,7 @@ int32_t ADDI() {
 
 	int32_t error = eff_addr(size, DATA_ALT_ADDR, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return error code
 
 	dest = EV1;
 	utils->put(EA1, source + dest, size);
@@ -130,11 +130,11 @@ int32_t ADDI() {
 	utils->cc_update(GEN, GEN, GEN, CASE_1, CASE_5, source, dest, result, size, 0);
 
 	if (inst & 0x0038) {
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 20 : 12);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 20 : 12);
 	} else {
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 16 : 8);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 16 : 8);
 	}
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 //----------------------------------------------------------------------------
@@ -149,7 +149,7 @@ int32_t ADDQ() {
 
 	int32_t error = eff_addr(size, ALTERABLE_ADDR, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return error code
 
 	source = ((inst >> 9) & 0x07);
 	if (source == 0) /* if source is '0', that corresponds to '8' */
@@ -165,24 +165,26 @@ int32_t ADDQ() {
 
 	switch (inst & 0x0038) {
 	case 0x0:
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 8 : 4);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 8 : 4);
 		break;
 	case 0x8:
 		utils->inc_cyc(8);        // CK 12-17-2005
 		break;
 	default:
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 12 : 8);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 12 : 8);
 		break;
 	}
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
 //----------------------------------------------------------------------------
 int32_t ADDX() {
 	int32_t size;
-	int32_t Rx, Ry, decrement = 1;
+	int32_t Rx;
+	int32_t Ry;
+	int32_t decrement = 1;
 
 	if (decode_size(&size))
 		return (BAD_INST);
@@ -196,16 +198,16 @@ int32_t ADDX() {
 		Ry = utils->a_reg(Ry);
 		if (size == WORD_MASK)
 			decrement = 2;
-		if ((uint32_t)size == LONG_MASK)
+		if ((uint32_t) size == LONG_MASK)
 			decrement = 4;
 		A[Ry] -= decrement;
-		utils->mem_req( A[Ry], size, &source);
+		utils->mem_req(A[Ry], size, &source);
 		A[Rx] -= decrement;
-		if (utils->mem_req( A[Rx], size, &dest) == BUS_ERROR)
+		if (utils->mem_req(A[Rx], size, &dest) == BUS_ERROR)
 			A[Rx] += decrement; // Bus Error on destination does not decrement An
 		else {
 			utils->put((uint32_t*) &memory->memory[A[Rx]], source + dest + ((SR & xbit) >> 4), size);
-			utils->mem_req( A[Rx], size, &result);
+			utils->mem_req(A[Rx], size, &result);
 		}
 	} else        // Dy,Dx addressing mode
 	{
@@ -217,17 +219,18 @@ int32_t ADDX() {
 
 	utils->cc_update(GEN, GEN, CASE_1, CASE_1, CASE_5, source, dest, result, size, 0);
 
-	if ((uint32_t)size == LONG_MASK)
+	if ((uint32_t) size == LONG_MASK)
 		utils->inc_cyc((inst & 0x0008) ? 30 : 8);
 	else
 		utils->inc_cyc((inst & 0x0008) ? 18 : 4);
 
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 //----------------------------------------------------------------------------
 int32_t SUB() {
-	int32_t addr_modes_mask, reg;
+	int32_t addr_modes_mask;
+	int32_t reg;
 	int32_t size;
 
 	addr_modes_mask = (inst & 0x0100) ? MEM_ALT_ADDR : ALL_ADDR;
@@ -237,7 +240,7 @@ int32_t SUB() {
 
 	int32_t error = eff_addr(size, addr_modes_mask, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return error code
 
 	reg = (inst >> 9) & 0x0007;
 
@@ -256,9 +259,9 @@ int32_t SUB() {
 	utils->cc_update(GEN, GEN, GEN, CASE_2, CASE_6, source, dest, result, size, 0);
 
 	if (inst & 0x0100) {
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 12 : 8);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 12 : 8);
 	} else {
-		if ((uint32_t)size == LONG_MASK) {
+		if ((uint32_t) size == LONG_MASK) {
 			if ((!(inst & 0x0030)) || ((inst & 0x003f) == 0x003c))
 				utils->inc_cyc(8);
 			else
@@ -268,7 +271,7 @@ int32_t SUB() {
 		}
 	}
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -284,7 +287,7 @@ int32_t SUBA() {
 
 	int32_t error = eff_addr(size, ALL_ADDR, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return error code
 
 	reg = (inst >> 9) & 0x0007;
 
@@ -296,7 +299,7 @@ int32_t SUBA() {
 
 	utils->put(&A[utils->a_reg(reg)], dest - source, LONG_MASK); // always uses 32bits of Areg
 
-	if ((uint32_t)size == LONG_MASK) {
+	if ((uint32_t) size == LONG_MASK) {
 		if ((!(inst & 0x0030)) || ((inst & 0x003f) == 0x003c))
 			utils->inc_cyc(8);
 		else
@@ -304,7 +307,7 @@ int32_t SUBA() {
 	} else
 		utils->inc_cyc(8);
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -319,7 +322,7 @@ int32_t SUBI() {
 
 	int32_t error = eff_addr(size, DATA_ALT_ADDR, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return error code
 
 	dest = EV1;
 
@@ -329,12 +332,12 @@ int32_t SUBI() {
 	utils->cc_update(GEN, GEN, GEN, CASE_2, CASE_6, source, dest, result, size, 0);
 
 	if (inst & 0x0038) {
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 20 : 12);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 20 : 12);
 	} else {
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 16 : 8);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 16 : 8);
 	}
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -350,7 +353,7 @@ int32_t SUBQ() {
 
 	int32_t error = eff_addr(size, ALTERABLE_ADDR, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return error code
 
 	source = ((inst >> 9) & 0x07);
 	if (source == 0) /* if source is '0', that corresponds to '8' */
@@ -366,17 +369,17 @@ int32_t SUBQ() {
 
 	switch (inst & 0x0038) {
 	case 0x0:
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 8 : 4);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 8 : 4);
 		break;
 	case 0x8:
 		utils->inc_cyc(8);        // CK 12-17-2005
 		break;
 	default:
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 12 : 8);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 12 : 8);
 		break;
 	}
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -397,16 +400,16 @@ int32_t SUBX() {
 		Ry = utils->a_reg(Ry);
 		if (size == WORD_MASK)
 			decrement = 2;
-		if ((uint32_t)size == LONG_MASK)
+		if ((uint32_t) size == LONG_MASK)
 			decrement = 4;
 		A[Ry] -= decrement;
 		utils->mem_req(A[Ry], size, &source);
 		A[Rx] -= decrement;
-		if (utils->mem_req( A[Rx], size, &dest) == BUS_ERROR)
+		if (utils->mem_req(A[Rx], size, &dest) == BUS_ERROR)
 			A[Rx] += decrement; // Bus Error on destination does not decrement An
 		else {
-			utils->put((uint32_t*)&memory->memory[A[Rx]], dest - source - ((SR & xbit) >> 4), size);
-			utils->mem_req( A[Rx], size, &result);
+			utils->put((uint32_t*) &memory->memory[A[Rx]], dest - source - ((SR & xbit) >> 4), size);
+			utils->mem_req(A[Rx], size, &result);
 		}
 	} else {      // Dy,Dx addressing mode
 		source = D[Ry] & size;
@@ -417,11 +420,11 @@ int32_t SUBX() {
 
 	utils->cc_update(GEN, GEN, CASE_1, CASE_2, CASE_6, source, dest, result, size, 0);
 
-	if ((uint32_t)size == LONG_MASK)
+	if ((uint32_t) size == LONG_MASK)
 		utils->inc_cyc((inst & 0x0008) ? 30 : 8);
 	else
 		utils->inc_cyc((inst & 0x0008) ? 18 : 4);
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }

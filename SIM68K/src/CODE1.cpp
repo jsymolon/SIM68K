@@ -20,21 +20,15 @@
 /* the following two arrays specify the execution times of the MOVE
  instruction, for BYTE_MASK/WORD_MASK operands and for int32_t operands */
 
-int32_t move_bw_times[12][9] = { 4, 4, 8, 8, 8, 12, 14, 12, 16, 4, 4, 8, 8, 8, 12,
-		14, 12, 16, 8, 8, 12, 12, 12, 16, 18, 16, 20, 8, 8, 12, 12, 12, 16, 18,
-		16, 20, 10, 10, 14, 14, 14, 18, 20, 18, 22, 12, 12, 16, 16, 16, 20, 22,
-		20, 24, 14, 14, 18, 18, 18, 22, 24, 22, 26, 12, 12, 16, 16, 16, 20, 22,
-		20, 24, 16, 16, 20, 20, 20, 24, 26, 24, 28, 12, 12, 16, 16, 16, 20, 22,
-		20, 24, 14, 14, 18, 18, 18, 22, 24, 22, 26, 8, 8, 12, 12, 12, 16, 18,
-		16, 20 };
+int32_t move_bw_times[12][9] = { 4, 4, 8, 8, 8, 12, 14, 12, 16, 4, 4, 8, 8, 8, 12, 14, 12, 16, 8, 8, 12, 12, 12, 16, 18, 16, 20, 8,
+		8, 12, 12, 12, 16, 18, 16, 20, 10, 10, 14, 14, 14, 18, 20, 18, 22, 12, 12, 16, 16, 16, 20, 22, 20, 24, 14, 14, 18, 18, 18, 22,
+		24, 22, 26, 12, 12, 16, 16, 16, 20, 22, 20, 24, 16, 16, 20, 20, 20, 24, 26, 24, 28, 12, 12, 16, 16, 16, 20, 22, 20, 24, 14,
+		14, 18, 18, 18, 22, 24, 22, 26, 8, 8, 12, 12, 12, 16, 18, 16, 20 };
 
-int32_t move_l_times[12][9] = { 4, 4, 12, 12, 12, 16, 18, 16, 20, 4, 4, 12, 12, 12,
-		16, 18, 16, 20, 12, 12, 20, 20, 20, 24, 26, 24, 28, 12, 12, 20, 20, 20,
-		24, 26, 24, 28, 14, 14, 22, 22, 22, 26, 28, 26, 30, 16, 16, 24, 24, 24,
-		28, 30, 28, 32, 18, 18, 26, 26, 26, 30, 32, 30, 34, 16, 16, 24, 24, 24,
-		28, 30, 28, 32, 20, 20, 28, 28, 28, 32, 34, 32, 36, 16, 16, 24, 24, 24,
-		28, 30, 28, 32, 18, 18, 26, 26, 26, 30, 32, 30, 34, 12, 12, 20, 20, 20,
-		24, 26, 24, 28 };
+int32_t move_l_times[12][9] = { 4, 4, 12, 12, 12, 16, 18, 16, 20, 4, 4, 12, 12, 12, 16, 18, 16, 20, 12, 12, 20, 20, 20, 24, 26, 24,
+		28, 12, 12, 20, 20, 20, 24, 26, 24, 28, 14, 14, 22, 22, 22, 26, 28, 26, 30, 16, 16, 24, 24, 24, 28, 30, 28, 32, 18, 18, 26,
+		26, 26, 30, 32, 30, 34, 16, 16, 24, 24, 24, 28, 30, 28, 32, 20, 20, 28, 28, 28, 32, 34, 32, 36, 16, 16, 24, 24, 24, 28, 30,
+		28, 32, 18, 18, 26, 26, 26, 30, 32, 30, 34, 12, 12, 20, 20, 20, 24, 26, 24, 28 };
 
 /* the following two arrays specify the instruction execution times
  for the MOVEM instruction for memory-to-reg and reg-to-memory cases */
@@ -46,7 +40,8 @@ int32_t mover_t_m_times[11] = { 0, 0, 8, 0, 8, 12, 14, 12, 16, 0, 0 };
 //----------------------------------------------------------------------------
 int32_t MOVE() {
 	int32_t size; /* 'size' holds the instruction size */
-	int32_t src, dst; /* 'src' and 'dst' hold the addressing mode codes */
+	int32_t src;
+	int32_t dst; /* 'src' and 'dst' hold the addressing mode codes */
 	/* for instruction execution time computation */
 
 	/* MOVE has a different format for size field than all other instructions */
@@ -68,11 +63,11 @@ int32_t MOVE() {
 // the following gets the effective addresses for the source and destination operands
 	int32_t error = eff_addr(size, ALL_ADDR, false);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return (error) code
 
 	error = eff_addr(size, DATA_ALT_ADDR, false);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return (error) code
 
 	dest = EV2; /* set 'dest' for use in 'cc_update' */
 
@@ -82,7 +77,7 @@ int32_t MOVE() {
 	src = utils->eff_addr_code(inst, 0); /* get the addressing mode codes */
 	dst = utils->eff_addr_code(inst, 6);
 
-	if ((uint32_t)size == LONG_MASK) /* use the codes in instruction time computation */
+	if (static_cast<uint32_t>(size) == LONG_MASK) /* use the codes in instruction time computation */
 		utils->inc_cyc(move_l_times[src][dst]);
 	else
 		utils->inc_cyc(move_bw_times[src][dst]);
@@ -91,12 +86,17 @@ int32_t MOVE() {
 	utils->cc_update(N_A, GEN, GEN, ZER, ZER, EV1, dest, EV2, size, 0);
 
 	/* return the value for 'success' */
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 //----------------------------------------------------------------------------
 int32_t MOVEP() {
-	int32_t address, Dx, disp, count, direction, reg;
+	int32_t address;
+	int32_t Dx;
+	int32_t disp;
+	int32_t count;
+	int32_t direction;
+	int32_t reg;
 	uint32_t temp;
 	int32_t size;
 
@@ -124,7 +124,7 @@ int32_t MOVEP() {
 	for (; count > 0; count--) {
 		disp = 8 * (count - 1);
 		if (direction)
-			utils->mem_put( ((Dx >> disp) & BYTE_MASK), address, BYTE_MASK);
+			utils->mem_put(((Dx >> disp) & BYTE_MASK), address, BYTE_MASK);
 		else {
 			utils->mem_req(address, BYTE_MASK, &temp);
 			switch (count) {
@@ -145,8 +145,8 @@ int32_t MOVEP() {
 		address += 2;
 	}
 
-	utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 24 : 16);
-	return SUCCESS;
+	utils->inc_cyc((static_cast<uint32_t>(size) == LONG_MASK) ? 24 : 16);
+	return (SUCCESS);
 }
 
 //----------------------------------------------------------------------------
@@ -167,39 +167,39 @@ int32_t MOVEA() {
 
 	int32_t error = eff_addr(size, ALL_ADDR, false);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return (error) code
 
 	if (size == WORD_MASK)
 		utils->sign_extend(EV1, WORD_MASK, &EV1);
 
 	A[utils->a_reg((inst >> 9) & 0x07)] = EV1;
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
 //----------------------------------------------------------------------------
 int32_t MOVE_FR_SR() {
 
-	int32_t error = eff_addr( WORD_MASK, DATA_ALT_ADDR, true);
+	int32_t error = eff_addr(WORD_MASK, DATA_ALT_ADDR, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return (error) code
 
 	utils->put(EA1, SR, WORD_MASK);
 	utils->inc_cyc((inst & 0x0030) ? 8 : 6);
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 //----------------------------------------------------------------------------
 int32_t MOVE_TO_CCR() {
-	int32_t error = eff_addr( WORD_MASK, DATA_ADDR, true);
+	int32_t error = eff_addr(WORD_MASK, DATA_ADDR, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return (error) code
 
-	utils->put( (uint32_t*)&SR, EV1, BYTE_MASK);
+	utils->put((uint32_t*) &SR, EV1, BYTE_MASK);
 	utils->inc_cyc(12);
 
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 //----------------------------------------------------------------------------
@@ -207,22 +207,29 @@ int32_t MOVE_TO_SR() {
 	if (!(SR & sbit))
 		return (NO_PRIVILEGE);
 
-	int32_t error = eff_addr( WORD_MASK, DATA_ADDR, true);
+	int32_t error = eff_addr(WORD_MASK, DATA_ADDR, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return (error) code
 
-	utils->put((uint32_t*)&SR, EV1, WORD_MASK);
+	utils->put((uint32_t*) &SR, EV1, WORD_MASK);
 	utils->inc_cyc(12);
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 //------------------------------------------------------------------
 // ck April 15, 2002 Fixed bug in MOVEM.L (A7)+/Dn-Dn
 // CK 5-1-2007 bug fix when destination An is included in register list
 int32_t MOVEM() {
-	int32_t direction, addr_modes_mask, counter, addr_mode;
-	int32_t displacement, address, total_displacement;
-	uint32_t size, mask_list, temp;
+	int32_t direction;
+	int32_t addr_modes_mask;
+	int32_t counter;
+	int32_t addr_mode;
+	int32_t displacement;
+	int32_t address;
+	int32_t total_displacement;
+	uint32_t size;
+	uint32_t mask_list;
+	uint32_t temp;
 	uint saveAn = A[utils->a_reg(inst & 0x7)]; // save possible destination (CK 5-1-2007)
 
 	utils->mem_request(&PC, WORD_MASK, &mask_list);
@@ -239,9 +246,9 @@ int32_t MOVEM() {
 
 	int32_t error = eff_addr(size, addr_modes_mask, false);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return (error) code
 
-	address = ( EA1 - (uint32_t*)&memory->memory[0]);
+	address = (EA1 - (uint32_t*) &memory->memory[0]);
 	total_displacement = address;
 
 	if ((inst & 0x0038) != 0x20) {
@@ -272,7 +279,7 @@ int32_t MOVEM() {
 			if (direction) {                          // if memory to registers
 				if (size == WORD_MASK) { // if size is WORD_MASK then sign-extend
 					utils->mem_req(address, WORD_MASK, &temp);
-					utils->sign_extend( temp, WORD_MASK, &temp);   // ck 8-10-2005
+					utils->sign_extend(temp, WORD_MASK, &temp);   // ck 8-10-2005
 				} else
 					// ck added this mem_req
 					utils->mem_req(address, LONG_MASK, &temp);
@@ -308,7 +315,7 @@ int32_t MOVEM() {
 		A[utils->a_reg(inst & 0x7)] = saveAn; // restore incase it was also destination
 		A[utils->a_reg(inst & 0x7)] += total_displacement;
 	}
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -330,7 +337,7 @@ int32_t MOVE_USP() {
 
 	utils->inc_cyc(4);
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -348,6 +355,6 @@ int32_t MOVEQ() {
 
 	utils->cc_update(N_A, GEN, GEN, ZER, ZER, source, dest, D[reg], LONG_MASK, 0);
 	utils->inc_cyc(4);
-	return SUCCESS;
+	return (SUCCESS);
 
 }

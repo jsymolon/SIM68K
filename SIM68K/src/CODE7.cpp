@@ -26,7 +26,7 @@ int32_t SHIFT_ROT() {
 	if ((inst & 0xc0) == 0xc0) {
 		int32_t error = eff_addr(WORD_MASK, MEM_ALT_ADDR, true);
 		if (error)              // if address error
-			return error;         // return error code
+			return (error);         // return error code
 
 		size = WORD_MASK;
 		shift_count = 1;
@@ -48,13 +48,13 @@ int32_t SHIFT_ROT() {
 		type = (inst & 0x18) >> 3;
 		EA1 = &D[reg];
 		utils->value_of(EA1, &EV1, size);
-		if ((uint32_t)size == LONG_MASK)
+		if ((uint32_t) size == LONG_MASK)
 			utils->inc_cyc(8 + 2 * shift_count);
 		else
 			utils->inc_cyc(6 + 2 * shift_count);
 	}
 	direction = inst & 0x100;
-	if ((uint32_t)size == LONG_MASK)
+	if ((uint32_t) size == LONG_MASK)
 		shift_size = 31;
 	else if (size == WORD_MASK)
 		shift_size = 15;
@@ -63,12 +63,10 @@ int32_t SHIFT_ROT() {
 
 	if (shift_count == 0) {               // if shift count is 0
 		if (type == 2)                      // if ROXL or ROXR
-			utils->cc_update(N_A, GEN, GEN, ZER, CASE_1, source, dest, EV1, size,
-					shift_count);
+			utils->cc_update(N_A, GEN, GEN, ZER, CASE_1, source, dest, EV1, size, shift_count);
 		else
 			// all others
-			utils->cc_update(N_A, GEN, GEN, ZER, ZER, source, dest, EV1, size,
-					shift_count);
+			utils->cc_update(N_A, GEN, GEN, ZER, ZER, source, dest, EV1, size, shift_count);
 	} else {                                // else shift count NOT zero
 		switch (type) {
 		case 0:                          // Arithmetic shift
@@ -96,8 +94,7 @@ int32_t SHIFT_ROT() {
 						utils->put(EA1, EV1 & (~(1 << shift_size)), size);
 					utils->value_of(EA1, &EV1, size);
 				}
-				utils->cc_update(GEN, GEN, GEN, ZER, CASE_7, source, dest, EV1, size,
-						shift_count);
+				utils->cc_update(GEN, GEN, GEN, ZER, CASE_7, source, dest, EV1, size, shift_count);
 			}
 			break;
 		case 1:                          // Logical shift
@@ -152,8 +149,7 @@ int32_t SHIFT_ROT() {
 					SR = SR | xbit;
 				else
 					SR = SR & ~xbit;
-				utils->cc_update(N_A, GEN, GEN, ZER, CASE_1, source, dest, EV1, size,
-						shift_count);
+				utils->cc_update(N_A, GEN, GEN, ZER, CASE_1, source, dest, EV1, size, shift_count);
 			} else {                        // else ROXR
 				uint cmask = 1 << shift_size;
 				xflag = (SR & xbit) >> 4;
@@ -170,8 +166,7 @@ int32_t SHIFT_ROT() {
 					SR = SR | xbit;
 				else
 					SR = SR & ~xbit;
-				utils->cc_update(N_A, GEN, GEN, ZER, CASE_1, source, dest, EV1, size,
-						shift_count);
+				utils->cc_update(N_A, GEN, GEN, ZER, CASE_1, source, dest, EV1, size, shift_count);
 			}
 			break;
 		case 3: 	                        // Rotate
@@ -186,8 +181,7 @@ int32_t SHIFT_ROT() {
 						utils->put(EA1, EV1 & ~1, size);
 					utils->value_of(EA1, &EV1, size);
 				}
-				utils->cc_update(N_A, GEN, GEN, ZER, CASE_3, source, dest, EV1, size,
-						shift_count);
+				utils->cc_update(N_A, GEN, GEN, ZER, CASE_3, source, dest, EV1, size, shift_count);
 			} else {		                // else ROR
 				for (counter = 1; counter <= shift_count; counter++) {
 					temp_bit = EV1 & 1;
@@ -199,13 +193,12 @@ int32_t SHIFT_ROT() {
 						utils->put(EA1, EV1 & (~(1 << shift_size)), size);
 					utils->value_of(EA1, &EV1, size);
 				}
-				utils->cc_update(N_A, GEN, GEN, ZER, CASE_2, source, dest, EV1, size,
-						shift_count);
+				utils->cc_update(N_A, GEN, GEN, ZER, CASE_2, source, dest, EV1, size, shift_count);
 			}
 			break;
 		}
 	}
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 //-------------------------------------------------------------------------
@@ -215,14 +208,13 @@ int32_t SWAP() {
 	reg = inst & 0x07;
 
 	/* perform the SWAP operation */
-	D[reg] = ((D[reg] & WORD_MASK) * 0x10000)
-			| ((D[reg] & 0xffff0000) / 0x10000);
+	D[reg] = ((D[reg] & WORD_MASK) * 0x10000) | ((D[reg] & 0xffff0000) / 0x10000);
 
 	utils->cc_update(N_A, GEN, GEN, ZER, ZER, source, dest, D[reg], LONG_MASK, 0);
 
 	utils->inc_cyc(4);
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -251,7 +243,7 @@ int32_t BIT_OP() {
 
 	int32_t error = eff_addr(size, DATA_ADDR, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return error code
 
 	if ((EV1 >> bit_no) & 1)
 		SR = SR & (~zbit);
@@ -288,7 +280,7 @@ int32_t BIT_OP() {
 	if (mem_reg)
 		utils->inc_cyc(4);
 
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 //--------------------------------------------------------------------------
@@ -296,7 +288,7 @@ int32_t BIT_OP() {
 int32_t TAS() {
 	int32_t error = eff_addr(BYTE_MASK, DATA_ALT_ADDR, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return error code
 
 	/* perform the TAS operation */
 	/* first set the condition codes according to *EA1 */
@@ -307,7 +299,7 @@ int32_t TAS() {
 
 	utils->inc_cyc((inst & 0x30) ? 10 : 4);
 
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 //--------------------------------------------------------------------------
@@ -318,8 +310,7 @@ int32_t BIT_FIELD() {
 	int32_t width, destAddr, error = SUCCESS;
 	int32_t x_bit, n_bit, z_bit, v_bit, c_bit;
 	uint offset, tmp;
-	const int32_t BFTST = 0, BFEXTU = 1, BFCHG = 2, BFEXTS = 3, BFCLR = 4,
-			BFFF0 = 5;
+	const int32_t BFTST = 0, BFEXTU = 1, BFCHG = 2, BFEXTS = 3, BFCLR = 4, BFFF0 = 5;
 	const int32_t BFSET = 6, BFINS = 7;
 	int32_t cycles;
 
@@ -343,24 +334,24 @@ int32_t BIT_FIELD() {
 	} else {
 		error = eff_addr(BYTE_MASK, CONTROL_ADDR, true);
 		if (error)              // if address error
-			return error;         // return error code
-		destAddr = (EA1 - (uint32_t*)&memory->memory[0]); // destination address
+			return (error);         // return error code
+		destAddr = (EA1 - (uint32_t*) &memory->memory[0]); // destination address
 		destAddr += (offset >> 3) | (offset & 0x80000000 ? ~0x1fffffff : 0); // add offset
 		error = utils->mem_req(destAddr, BYTE_MASK, &bf0); // get 5 bytes from memory
 		if (error)
-			return error;
+			return (error);
 		error = utils->mem_req(destAddr + 1, BYTE_MASK, &bf1);
 		if (error)
-			return error;
+			return (error);
 		error = utils->mem_req(destAddr + 2, BYTE_MASK, &bf2);
 		if (error)
-			return error;
+			return (error);
 		error = utils->mem_req(destAddr + 3, BYTE_MASK, &bf3);
 		if (error)
-			return error;
+			return (error);
 		error = utils->mem_req(destAddr + 4, BYTE_MASK, &bf4);
 		if (error)
-			return error;
+			return (error);
 		bf0 = bf0 << 24 | bf1 << 16 | bf2 << 8 | bf3;
 		tmp = (bf0 << (offset & 7)) | (bf4 >> (8 - (offset & 7))); // 32 bits of potential data
 		if (((offset & 7) + width) > 32)
@@ -476,34 +467,21 @@ int32_t BIT_FIELD() {
 	case BFINS:
 		tmp <<= (32 - width);
 		if ((inst & 0x0038) == 0) {               // if ea is data register
-			D[inst & 7] = (D[inst & 7]
-					& ((offset & 0x1f) == 0 ?
-							0 : (0xffffffff << (32 - (offset & 0x1f)))))
+			D[inst & 7] = (D[inst & 7] & ((offset & 0x1f) == 0 ? 0 : (0xffffffff << (32 - (offset & 0x1f)))))
 					| (tmp >> (offset & 0x1f))
-					| (((offset & 0x1f) + width) >= 32 ?
-							0 :
-							(D[inst & 7]
-									& ((uint) 0xffffffff
-											>> ((offset & 0x1f) + width))));
+					| (((offset & 0x1f) + width) >= 32 ? 0 : (D[inst & 7] & ((uint) 0xffffffff >> ((offset & 0x1f) + width))));
 		} else {
-			bf0 =
-					(bf0 & (0xff000000 << (8 - (offset & 7))))
-							| (tmp >> (offset & 7))
-							| (((offset & 7) + width) >= 32 ?
-									0 :
-									(bf0
-											& ((uint) 0xffffffff
-													>> ((offset & 7) + width))));
+			bf0 = (bf0 & (0xff000000 << (8 - (offset & 7)))) | (tmp >> (offset & 7))
+					| (((offset & 7) + width) >= 32 ? 0 : (bf0 & ((uint) 0xffffffff >> ((offset & 7) + width))));
 			utils->mem_put(bf0 >> 24, destAddr, BYTE_MASK);
 			utils->mem_put(bf0 >> 16, destAddr + 1, BYTE_MASK);
 			utils->mem_put(bf0 >> 8, destAddr + 2, BYTE_MASK);
 			utils->mem_put(bf0, destAddr + 3, BYTE_MASK);
 			if (((offset & 7) + width) > 32) {
-				bf4 = (bf4 & (0xff >> (width - 32 + (offset & 7))))
-						| (tmp << (8 - (offset & 7)));
+				bf4 = (bf4 & (0xff >> (width - 32 + (offset & 7)))) | (tmp << (8 - (offset & 7)));
 				utils->mem_put(bf1, destAddr + 4, BYTE_MASK);
 			}
 		}
 	}
-	return error;
+	return (error);
 }

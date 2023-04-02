@@ -143,7 +143,7 @@ int32_t CHK() {
 
 	int32_t error = eff_addr(WORD_MASK, DATA_ADDR, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return error code
 
 	utils->from_2s_comp(EV1, WORD_MASK, &source);
 	dest = D[reg] & WORD_MASK;
@@ -156,7 +156,7 @@ int32_t CHK() {
 
 	utils->inc_cyc(10);
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -176,7 +176,7 @@ int32_t RESET() {
 
 	utils->inc_cyc(132);
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -725,7 +725,7 @@ int32_t TRAP() {
 			// check memory map
 			code = utils->memoryMapCheck(Invalid, (A[1] & ADDRMASK), strlen(inStr));
 			if (code == BUS_ERROR)        // if bus error caused by memory map
-				return code;
+				return (code);
 
 //TODO:			if ((char) D[0])                 // if D0.B = 1
 //				simIO->textOut(buf);          // display string without CRLF
@@ -775,7 +775,7 @@ int32_t TRAP() {
 			// check memory map
 			code = utils->memoryMapCheck(Invalid, (A[1] & ADDRMASK), strlen(inStr));
 			if (code == BUS_ERROR)        // if bus error caused by memory map
-				return code;
+				return (code);
 //			while (*inStr)
 //				printChar(*inStr++);
 			break;
@@ -799,7 +799,7 @@ int32_t TRAP() {
 			// check memory map
 			code = utils->memoryMapCheck(Invalid, (A[1] & ADDRMASK), strlen(inStr));
 			if (code == BUS_ERROR)        // if bus error caused by memory map
-				return code;
+				return (code);
 //			if ((char) D[0] == 14)             // if D0.B = 14
 //				simIO->textOut(inStr);        // display string without CRLF
 //			else
@@ -830,7 +830,7 @@ int32_t TRAP() {
 			// check memory map
 			code = utils->memoryMapCheck(Invalid, (A[1] & ADDRMASK), strlen(inStr));
 			if (code == BUS_ERROR)        // if bus error caused by memory map
-				return code;
+				return (code);
 //			simIO->textOut(inStr);    // display string without CRLF
 //			itoa(D[1], buf, 10);      // convert D1.L to string, put in buf
 //			simIO->textOut(buf);      // display number without CRLF
@@ -842,7 +842,7 @@ int32_t TRAP() {
 			// check memory map
 			code = utils->memoryMapCheck(Invalid, (A[1] & ADDRMASK), strlen(inStr));
 			if (code == BUS_ERROR)        // if bus error caused by memory map
-				return code;
+				return (code);
 //			simIO->textOut(inStr);    // display string without CRLF
 //			simIO->textIn(inputBuf, &inputSize, &D[1]); // read number to D1
 			break;
@@ -948,18 +948,18 @@ int32_t TRAP() {
 			// check memory map
 			code = utils->memoryMapCheck(Invalid, (A[1] & ADDRMASK), strlen(buf));
 			if (code == BUS_ERROR)        // if bus error caused by memory map
-				return code;
-			cid = (unsigned int32_t) D[0];
+				return (code);
+			cid = (uint32_t) D[0];
 			cid = cid >> 16;
 //			simIO->initComm(cid, buf, (short*) &D[0]);
 			break;
 		case 41:                  // if Set Port Parameters
-			cid = (unsigned int32_t) D[0];
+			cid = (uint32_t) D[0];
 			cid = cid >> 16;
 //			simIO->setCommParams(cid, D[1], (short*) &D[0]);
 			break;
 		case 42:                  // if Read String
-			cid = (unsigned int32_t) D[0];
+			cid = (uint32_t) D[0];
 			cid = cid >> 16;
 //			simIO->readComm(cid, (uchar*) &D[1], &memory[A[1] & ADDRMASK],
 //					(short*) &D[0]);
@@ -970,7 +970,7 @@ int32_t TRAP() {
 			// check memory map
 			code = utils->memoryMapCheck(Invalid, (A[1] & ADDRMASK), (uint8_t) D[1]);
 			if (code == BUS_ERROR)        // if bus error caused by memory map
-				return code;
+				return (code);
 //			simIO->sendComm(cid, (uchar*) &D[1], &memory[A[1] & ADDRMASK],
 //					(short*) &D[0]);
 			break;
@@ -986,7 +986,7 @@ int32_t TRAP() {
 			// check memory map
 			code = utils->memoryMapCheck(Invalid, (A[1] & ADDRMASK), strlen(inStr));
 			if (code == BUS_ERROR)        // if bus error caused by memory map
-				return code;
+				return (code);
 //			openFile(&D[1], buf, (short*) &D[0]);
 			break;
 		case 52:                          // OPEN NEW FILE.
@@ -996,7 +996,7 @@ int32_t TRAP() {
 			// check memory map
 			code = utils->memoryMapCheck(Invalid, (A[1] & ADDRMASK), strlen(inStr));
 			if (code == BUS_ERROR)        // if bus error caused by memory map
-				return code;
+				return (code);
 //			newFile(&D[1], buf, (short*) &D[0]);
 			break;
 		case 53:                          // READ FILE.
@@ -1008,7 +1008,7 @@ int32_t TRAP() {
 				// check memory map
 				code = utils->memoryMapCheck((maptype) (Invalid | Read | Rom), (A[1] & ADDRMASK), D[2]);
 				if (code == BUS_ERROR)      // if bus error caused by memory map
-					return code;
+					return (code);
 //			    if (code == SUCCESS)
 //					readFile(D[1], &memory[A[1] & ADDRMASK],
 //							(unsigned int32_t*) &D[2], (short*) &D[0]);
@@ -1023,7 +1023,7 @@ int32_t TRAP() {
 				code = utils->memoryMapCheck(Invalid, (A[1] & ADDRMASK),
 						(unsigned int32_t) D[2]);
 				if (code == BUS_ERROR)      // if bus error caused by memory map
-					return code;
+					return (code);
 //				writeFile(D[1], &memory[A[1] & ADDRMASK], (unsigned int32_t) D[2],
 //						(short*) &D[0]);
 			}
@@ -1041,7 +1041,7 @@ int32_t TRAP() {
 			// check memory map
 			code = utils->memoryMapCheck(Invalid, (A[1] & ADDRMASK), strlen(inStr));
 			if (code == BUS_ERROR)        // if bus error caused by memory map
-				return code;
+				return (code);
 //			deleteFile(buf, (short*) &D[0]);
 			break;
 		case 58:                          // DISPLAY FILE DIALOG.
@@ -1054,7 +1054,7 @@ int32_t TRAP() {
 			// check memory map
 			code = utils->memoryMapCheck(Invalid, (A[1] & ADDRMASK), strlen(inStr));
 			if (code == BUS_ERROR)        // if bus error caused by memory map
-				return code;
+				return (code);
 //			fileOp(&D[1], buf, (short*) &D[0]);
 			break;
 
@@ -1141,7 +1141,7 @@ int32_t TRAP() {
 			// check memory map
 			code = utils->memoryMapCheck(Invalid, (A[1] & ADDRMASK), strlen(inStr));
 			if (code == BUS_ERROR)        // if bus error caused by memory map
-				return code;
+				return (code);
 //			simIO->playSound(buf, (short*) &D[0]);
 			break;
 		case 71:                  // if load WAV file
@@ -1151,7 +1151,7 @@ int32_t TRAP() {
 			// check memory map
 			code = utils->memoryMapCheck(Invalid, (A[1] & ADDRMASK), strlen(inStr));
 			if (code == BUS_ERROR)        // if bus error caused by memory map
-				return code;
+				return (code);
 //			simIO->loadSound(buf, (unsigned char) D[1]);
 			break;
 		case 72:                  // if play WAV from memory
@@ -1164,7 +1164,7 @@ int32_t TRAP() {
 			// check memory map
 			code = utils->memoryMapCheck(Invalid, (A[1] & ADDRMASK), strlen(inStr));
 			if (code == BUS_ERROR)        // if bus error caused by memory map
-				return code;
+				return (code);
 //			simIO->playSoundDX(buf, (short*) &D[0]);
 			break;
 		case 74:                  // if load WAV file into DirectX memory
@@ -1174,7 +1174,7 @@ int32_t TRAP() {
 			// check memory map
 			code = utils->memoryMapCheck(Invalid, (A[1] & ADDRMASK), strlen(inStr));
 			if (code == BUS_ERROR)        // if bus error caused by memory map
-				return code;
+				return (code);
 //			simIO->loadSoundDX(buf, (unsigned char) D[1], (short*) &D[0]);
 			break;
 		case 75:                  // if play WAV from DirectX memory
@@ -1244,7 +1244,7 @@ int32_t TRAP() {
 			// check memory map
 			code = utils->memoryMapCheck(Invalid, (A[1] & ADDRMASK), strlen(inStr));
 			if (code == BUS_ERROR)        // if bus error caused by memory map
-				return code;
+				return (code);
 //			simIO->drawText(inStr, (short) D[1], (short) D[2]); // display string
 			break;
 		case 96:               // Get X,Y pen position where D1.W = X & D2.W = Y
@@ -1283,7 +1283,7 @@ int32_t TRAP() {
 		default:
 			return (TRAP_TRAP);
 		} // switch
-		return SUCCESS;
+		return (SUCCESS);
 	} else
 		return (TRAP_TRAP);
 }
@@ -1295,12 +1295,12 @@ int32_t TRAPV() {
 
 	utils->inc_cyc(4);
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
 int32_t LINE1010() {
-	return LINE_1010;
+	return (LINE_1010);
 }
 
 // Fxxx instruction.
@@ -1316,7 +1316,7 @@ int32_t LINE1111() {
 		halt = true;
 //		Hardware->disable();
 //		Log->stopLogWithAnnounce();
-		return SUCCESS;
+		return (SUCCESS);
 	}
-	return LINE_1111;
+	return (LINE_1111);
 }

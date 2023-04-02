@@ -19,7 +19,8 @@
 #include "PROTO.H"
 
 int32_t AND() {
-	int32_t addr_modes_mask, reg;
+	int32_t addr_modes_mask;
+	int32_t reg;
 	int32_t size;
 
 	addr_modes_mask = (inst & 0x0100) ? MEM_ALT_ADDR : DATA_ADDR;
@@ -29,7 +30,7 @@ int32_t AND() {
 
 	int32_t error = eff_addr(size, addr_modes_mask, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return (error) code
 
 	reg = (inst >> 9) & 0x0007;
 
@@ -48,9 +49,9 @@ int32_t AND() {
 	utils->cc_update(N_A, GEN, GEN, ZER, ZER, source, dest, result, size, 0);
 
 	if (inst & 0x0100)
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 12 : 8);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 12 : 8);
 	else {
-		if ((uint32_t)size == LONG_MASK) {
+		if ((uint32_t) size == LONG_MASK) {
 			if ((!(inst & 0x0030)) || ((inst & 0x003f) == 0x003c))
 				utils->inc_cyc(8);
 			else
@@ -60,7 +61,7 @@ int32_t AND() {
 		}
 	}
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -74,7 +75,7 @@ int32_t ANDI() {
 
 	int32_t error = eff_addr(size, DATA_ALT_ADDR, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return (error) code
 
 	dest = EV1 & size;
 
@@ -84,11 +85,11 @@ int32_t ANDI() {
 	utils->cc_update(N_A, GEN, GEN, ZER, ZER, source, dest, result, size, 0);
 
 	if (inst & 0x0038)
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 20 : 12);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 20 : 12);
 	else
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 16 : 8);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 16 : 8);
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -101,7 +102,7 @@ int32_t ANDI_TO_CCR() {
 
 	utils->inc_cyc(20);
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -116,7 +117,7 @@ int32_t ANDI_TO_SR() {
 
 	utils->inc_cyc(20);
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -131,7 +132,7 @@ int32_t OR() {
 
 	int32_t error = eff_addr(size, mask, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return (error) code
 
 	reg = (inst >> 9) & 0x0007;
 
@@ -150,9 +151,9 @@ int32_t OR() {
 	utils->cc_update(N_A, GEN, GEN, ZER, ZER, source, dest, result, size, 0);
 
 	if (inst & 0x0100)
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 12 : 8);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 12 : 8);
 	else {
-		if ((uint32_t)size == LONG_MASK) {
+		if ((uint32_t) size == LONG_MASK) {
 			if ((!(inst & 0x0030)) || ((inst & 0x003f) == 0x003c))
 				utils->inc_cyc(8);
 			else
@@ -161,7 +162,7 @@ int32_t OR() {
 			utils->inc_cyc(4);
 	}
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -177,7 +178,7 @@ int32_t ORI() {
 
 	error = eff_addr(size, DATA_ALT_ADDR, true);
 	if (error)
-		return (error);			// return error code
+		return (error);			// return (error) code
 
 	dest = EV1 & size;
 
@@ -187,12 +188,12 @@ int32_t ORI() {
 	utils->cc_update(N_A, GEN, GEN, ZER, ZER, source, dest, result, size, 0);
 
 	if (inst & 0x0038) {
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 20 : 12);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 20 : 12);
 	} else {
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 16 : 8);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 16 : 8);
 	}
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -205,7 +206,7 @@ int32_t ORI_TO_CCR() {
 
 	utils->inc_cyc(20);
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -220,7 +221,7 @@ int32_t ORI_TO_SR() {
 
 	utils->inc_cyc(20);
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -233,7 +234,7 @@ int32_t EOR() {
 
 	int32_t error = eff_addr(size, DATA_ALT_ADDR, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return (error) code
 
 	reg = (inst >> 9) & 0x0007;
 
@@ -246,11 +247,11 @@ int32_t EOR() {
 	utils->cc_update(N_A, GEN, GEN, ZER, ZER, source, dest, result, size, 0);
 
 	if (inst & 0x0038)
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 12 : 8);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 12 : 8);
 	else
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 8 : 4);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 8 : 4);
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -264,7 +265,7 @@ int32_t EORI() {
 
 	int32_t error = eff_addr(size, DATA_ALT_ADDR, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return (error) code
 
 	dest = EV1 & size;
 
@@ -274,12 +275,12 @@ int32_t EORI() {
 	utils->cc_update(N_A, GEN, GEN, ZER, ZER, source, dest, result, size, 0);
 
 	if (inst & 0x0038) {
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 20 : 12);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 20 : 12);
 	} else {
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 16 : 8);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 16 : 8);
 	}
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -292,7 +293,7 @@ int32_t EORI_TO_CCR() {
 
 	utils->inc_cyc(20);
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -307,7 +308,7 @@ int32_t EORI_TO_SR() {
 
 	utils->inc_cyc(20);
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -319,7 +320,7 @@ int32_t NOT() {
 
 	int32_t error = eff_addr(size, DATA_ALT_ADDR, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return (error) code
 
 	source = dest = EV1 & size;
 
@@ -330,12 +331,12 @@ int32_t NOT() {
 	utils->cc_update(N_A, GEN, GEN, ZER, ZER, source, dest, result, size, 0);
 
 	if (inst & 0x0030) {
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 12 : 8);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 12 : 8);
 	} else {
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 6 : 4);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 6 : 4);
 	}
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 

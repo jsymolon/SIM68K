@@ -18,7 +18,7 @@
 
 class MemoryCtrl: public wxPanel {
 private:
-	wxScrolledWindow* internal;
+	wxScrolledWindow *internal;
 	wxFont m_font;
 	wxColour m_backgroundColour = wxColour("WHITE");
 	wxColour m_fontColour = wxColour("BLACK");
@@ -40,14 +40,15 @@ private:
 
 public:
 	MemoryCtrl(void); // for testing
-	MemoryCtrl(wxWindow *parent, wxWindowID id) : wxPanel(parent, wxID_ANY) {
+	MemoryCtrl(wxWindow *parent, wxWindowID id) :
+			wxPanel(parent, wxID_ANY) {
 //		//m_colour = wxColour("WHITE");
 		wxFont m_font(10, wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
 		fontPixelSize = m_font.GetPixelSize();
 		this->SetBackColour(*wxRED);
 		this->SetBackgroundColour(*wxRED);
 
-		wxBoxSizer *topSizer = new wxBoxSizer( wxVERTICAL );
+		wxBoxSizer *topSizer = new wxBoxSizer(wxVERTICAL);
 		internal = new wxScrolledWindow(this, id, wxDefaultPosition, wxDefaultSize, wxEXPAND);
 		//		internal->SetFont(m_font);
 		//		internal->SetScrollRate(fontPixelSize.x, fontPixelSize.y);
@@ -61,14 +62,13 @@ public:
 //		wxALL, // and make border all around
 //		10 );
 
-
 		SetSizer(topSizer);
 		topSizer->Fit(this);
 		topSizer->SetSizeHints(this);
 	}
 
 	const wxFont& GetTextFont() const {
-		return m_font;
+		return (m_font);
 	}
 	void SetTextFont(const wxFont &font) {
 		m_font = font;
@@ -78,21 +78,21 @@ public:
 	}
 
 	const wxColour& GetBackColour() const {
-		return m_backgroundColour;
+		return (m_backgroundColour);
 	}
 	void SetBackColour(const wxColour &colour) {
 		m_backgroundColour = colour;
 	}
 
 	const wxColour& GetFontColour() const {
-		return m_fontColour;
+		return (m_fontColour);
 	}
 	void SetFontColour(const wxColour &colour) {
 		m_fontColour = colour;
 	}
 
 	const wxColour& GetGutterColour() const {
-		return m_gutterColour;
+		return (m_gutterColour);
 	}
 	void SetGutterColour(const wxColour &colour) {
 		m_gutterColour = colour;
@@ -112,7 +112,7 @@ public:
 	void OnEraseBackGround(wxEraseEvent &event);
 	std::string buildDataLine(unsigned long addr);
 
-	DECLARE_EVENT_TABLE()
+DECLARE_EVENT_TABLE()
 };
 
 #endif /* MEMORYCTRL_H_ */

@@ -34,7 +34,6 @@ static inline const std::string SOURCE_BP_ACTIVE = "bp_active";
 static inline const std::string SOURCE_BP_INACTIVE = "bp_inactive";
 static inline const std::string SOURCE_CODE_HIGHLIGHT = "code_highlight";
 }
-;
 
 class Properties {
 protected:

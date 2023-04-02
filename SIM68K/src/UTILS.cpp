@@ -41,7 +41,7 @@ const std::string UTILS::vformat(const char *const zcFormat, ...) {
 	std::vector<char> zc(iLen + 1);
 	std::vsnprintf(zc.data(), zc.size(), zcFormat, vaArgs);
 	va_end(vaArgs);
-	return std::string(zc.data(), iLen);
+	return (std::string(zc.data(), iLen));
 }
 
 /**************************** int32_t to_2s_comp () ****************************
@@ -53,7 +53,7 @@ const std::string UTILS::vformat(const char *const zcFormat, ...) {
  ****************************************************************************/
 int32_t UTILS::to_2s_comp(uint32_t number, int32_t size, uint32_t *result) {
 
-	if ((uint32_t)size == LONG_MASK) {
+	if ((uint32_t) size == LONG_MASK) {
 		if (number < 0)
 			*result = ~number - 1;
 		else
@@ -71,7 +71,7 @@ int32_t UTILS::to_2s_comp(uint32_t number, int32_t size, uint32_t *result) {
 		else
 			*result = number;
 	}
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 /**************************** int32_t from_2s_comp () **************************
@@ -85,7 +85,7 @@ int32_t UTILS::to_2s_comp(uint32_t number, int32_t size, uint32_t *result) {
  ****************************************************************************/
 int32_t UTILS::from_2s_comp(uint32_t number, int32_t size, uint32_t *result) {
 
-	if ((uint32_t)size == LONG_MASK) {
+	if ((uint32_t) size == LONG_MASK) {
 		if (number & 0x80000000) {
 			*result = ~number + 1;
 			*result = -*result;
@@ -106,7 +106,7 @@ int32_t UTILS::from_2s_comp(uint32_t number, int32_t size, uint32_t *result) {
 		} else
 			*result = number;
 	}
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 /**************************** int32_t sign_extend () ***************************
@@ -124,7 +124,7 @@ int32_t UTILS::sign_extend(int32_t number, int32_t size_from, uint32_t *result) 
 		*result |= 0xffff0000;
 	if ((size_from == BYTE_MASK) && (number & 0x80))
 		*result |= 0xff00;
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 /**************************** int32_t inc_cyc () *******************************
@@ -172,7 +172,7 @@ int32_t UTILS::eff_addr_code(int32_t inst, int32_t start) {
 	case 0x04:
 		return (11);
 	}
-	return 12;
+	return (12);
 }
 
 /**************************** int32_t a_reg () *********************************
@@ -185,9 +185,9 @@ int32_t UTILS::eff_addr_code(int32_t inst, int32_t start) {
  ****************************************************************************/
 int32_t UTILS::a_reg(int32_t reg_num) {
 	if ((reg_num == 7) && (SR & sbit))
-		return 8;
+		return (8);
 	else
-		return reg_num;
+		return (reg_num);
 }
 
 //--------------------------------------------------------------------------
@@ -200,9 +200,8 @@ int32_t UTILS::memoryMapCheck(maptype mapt, uint32_t loc, int32_t bytes) {
 	std::string str;
 
 	// if hardware access (hardware access always permitted)
-	if (((loc >= seg7loc && loc <= (seg7loc + 15)) || loc == LEDloc
-			|| loc == switchLoc || loc == pbLoc))
-		return SUCCESS;
+	if (((loc >= seg7loc && loc <= (seg7loc + 15)) || loc == LEDloc || loc == switchLoc || loc == pbLoc))
+		return (SUCCESS);
 
 	// if access outside valid 68000 memory map
 	if (loc < 0 || loc > MEMSIZE - 1) {               // if Invalid memory area
@@ -218,7 +217,7 @@ int32_t UTILS::memoryMapCheck(maptype mapt, uint32_t loc, int32_t bytes) {
 //							"Bus Error: Instruction at %4x accessing address %4x",
 //							OLD_PC, loc));
 		}
-		return BUS_ERROR;
+		return (BUS_ERROR);
 	}
 
 	// Check for access to areas of memory defined in the Memory Map of the
@@ -229,7 +228,7 @@ int32_t UTILS::memoryMapCheck(maptype mapt, uint32_t loc, int32_t bytes) {
 			if (exceptions) {
 				mem_req(0x8, LONG_MASK, &PC);        // get bus error vector
 				//TODO: exceptionHandler
-	//				exceptionHandler(0, (int32_t) loc, WRITE);
+				//				exceptionHandler(0, (int32_t) loc, WRITE);
 			} else {
 				haltSimulator();
 				// TODO: Form1 message
@@ -238,13 +237,13 @@ int32_t UTILS::memoryMapCheck(maptype mapt, uint32_t loc, int32_t bytes) {
 //								"Bus Error: Instruction at %4x accessing address %4x",
 //								OLD_PC, loc));
 			}
-			return BUS_ERROR;
+			return (BUS_ERROR);
 		}
 	}
 
 	if (ProtectedMap && (mapt & Protected)) { // if Protected map (bus error if not supervisor mode)
 		if (loc + bytes - 1 >= ProtectedStart && loc <= ProtectedEnd) { // if Protected memory area
-			// TODO: Form1 message
+		// TODO: Form1 message
 //			if (Form1->regSR->EditText[3] == '0') {    // if not Supervisor mode
 //				if (exceptions) {
 //					mem_req(0x8, LONG_MASK, &PC);        // get bus error vector
@@ -266,7 +265,7 @@ int32_t UTILS::memoryMapCheck(maptype mapt, uint32_t loc, int32_t bytes) {
 			if (exceptions) {
 				mem_req(0x8, LONG_MASK, &PC);        // get bus error vector
 				//TODO: exceptionHandler
-	//				exceptionHandler(0, (int32_t) loc, WRITE);
+				//				exceptionHandler(0, (int32_t) loc, WRITE);
 			} else {
 				haltSimulator();
 				// TODO: Form1 message
@@ -275,16 +274,16 @@ int32_t UTILS::memoryMapCheck(maptype mapt, uint32_t loc, int32_t bytes) {
 //								"Bus Error: Instruction at %4x accessing address %4x",
 //								OLD_PC, loc));
 			}
-			return BUS_ERROR;
+			return (BUS_ERROR);
 		}
 	}
 
 	if (ROMMap && (mapt & Rom)) { // if ROM map, must be checked last, (writes are ignored)
 		if (loc + bytes - 1 >= ROMStart && loc <= ROMEnd) // if ROM memory area
-			return ROM_MAP;                      // writes are ignored
+			return (ROM_MAP);                      // writes are ignored
 	}
 
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 /**************************** int32_t mem_put() ********************************
@@ -307,7 +306,7 @@ int32_t UTILS::mem_put(int32_t data, uint32_t loc, int32_t size) {
 
 	if (size == WORD_MASK)
 		bytes = 2;
-	else if ((uint32_t)size == LONG_MASK)
+	else if ((uint32_t) size == LONG_MASK)
 		bytes = 4;
 
 	// check for odd location reference on word and longword writes
@@ -335,11 +334,11 @@ int32_t UTILS::mem_put(int32_t data, uint32_t loc, int32_t size) {
 	loc = loc & ADDRMASK;      // strip upper byte (24 bit address bus on 68000)
 
 	// check memory map
-	code = memoryMapCheck((maptype)(Invalid | Protected | Read | Rom), loc, bytes);
+	code = memoryMapCheck((maptype) (Invalid | Protected | Read | Rom), loc, bytes);
 	if (code == BUS_ERROR)        // if bus error caused by memory map
-		return code;
+		return (code);
 	if (code == ROM_MAP)          // if ROM map, writes are ignored
-		return SUCCESS;
+		return (SUCCESS);
 
 	// if everything is okay then perform the write according to size
 	if (size == BYTE_MASK)
@@ -347,7 +346,7 @@ int32_t UTILS::mem_put(int32_t data, uint32_t loc, int32_t size) {
 	else if (size == WORD_MASK) {
 		memory->memory[loc] = (data >> 8) & BYTE_MASK;
 		memory->memory[loc + 1] = data & BYTE_MASK;
-	} else if ((uint32_t)size == LONG_MASK) {
+	} else if ((uint32_t) size == LONG_MASK) {
 		memory->memory[loc] = (data >> 24) & BYTE_MASK;
 		memory->memory[loc + 1] = (data >> 16) & BYTE_MASK;
 		memory->memory[loc + 2] = (data >> 8) & BYTE_MASK;
@@ -360,7 +359,7 @@ int32_t UTILS::mem_put(int32_t data, uint32_t loc, int32_t size) {
 	//Hardware->updateIfNeeded(loc);        // update hardware display
 	// TODO: memory form
 	//MemoryFrm->LivePaint(loc);            // update memory display
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 /**************************** int32_t mem_req() ********************************
@@ -408,8 +407,7 @@ int32_t UTILS::mem_req(uint32_t loc, int32_t size, uint32_t *result) {
 	loc = loc & ADDRMASK;      // strip upper byte (24 bit address bus on 68000)
 
 	// if not hardware access
-	if (!((loc >= seg7loc && loc <= seg7loc + 15) || loc == LEDloc
-			|| loc == switchLoc || loc == pbLoc)) {
+	if (!((loc >= seg7loc && loc <= seg7loc + 15) || loc == LEDloc || loc == switchLoc || loc == pbLoc)) {
 		// Check for access to areas of memory defined in the Memory Map of the
 		// hardware window.
 		if (InvalidMap) {      // bus error on access
@@ -417,7 +415,7 @@ int32_t UTILS::mem_req(uint32_t loc, int32_t size, uint32_t *result) {
 				if (exceptions) {
 					mem_req(0x8, LONG_MASK, &PC);        // get bus error vector
 					//TODO: exceptionHandler
-		//					exceptionHandler(0, (int32_t) loc, WRITE);
+					//					exceptionHandler(0, (int32_t) loc, WRITE);
 				} else {
 					haltSimulator();
 					// TODO: Form1 message
@@ -462,7 +460,7 @@ int32_t UTILS::mem_req(uint32_t loc, int32_t size, uint32_t *result) {
 
 	readEA = (uint32_t*) &memory->memory[loc];
 	bpRead = true;
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 /**************************** int32_t mem_request() ****************************
@@ -488,7 +486,7 @@ int32_t UTILS::mem_req(uint32_t loc, int32_t size, uint32_t *result) {
 int32_t UTILS::mem_request(uint32_t *loc, int32_t size, uint32_t *result) {
 	int32_t req_result;
 
-	if ((uint32_t)size == LONG_MASK)
+	if ((uint32_t) size == LONG_MASK)
 		req_result = mem_req(*loc, LONG_MASK, result);
 	else
 		req_result = mem_req(*loc, (int32_t) WORD_MASK, result);
@@ -497,12 +495,12 @@ int32_t UTILS::mem_request(uint32_t *loc, int32_t size, uint32_t *result) {
 		*result = *result & 0xff;
 
 	if (!req_result) {
-		if ((uint32_t)size == LONG_MASK)
+		if ((uint32_t) size == LONG_MASK)
 			*loc += 4;
 		else
 			*loc += 2;
 	}
-	return req_result;
+	return (req_result);
 }
 
 /**************************** int32_t put() ************************************
@@ -530,11 +528,11 @@ int32_t UTILS::mem_request(uint32_t *loc, int32_t size, uint32_t *result) {
  ****************************************************************************/
 void UTILS::put(uint32_t *dest, int32_t source, int32_t size) {
 	// if dest is register (note the allocation is contiguous, thus the < &inst)
-	if ((dest >= &D[0]) && ( dest < &inst))
+	if ((dest >= &D[0]) && (dest < &inst))
 		*dest = (source & size) | (*dest & ~size);
 	else {
 		// else dest is memory ( dest ptr - base "0" = offset into array)
-		uint32_t loc = ( (uint8_t*)dest - &memory->memory[0]);
+		uint32_t loc = ((uint8_t*) dest - &memory->memory[0]);
 		//mem_put(source, ( dest - (uint32_t*)&memory->memory[0]), size);
 		mem_put(source, loc, size);
 	}
@@ -555,11 +553,11 @@ void UTILS::put(uint32_t *dest, int32_t source, int32_t size) {
  ****************************************************************************/
 void UTILS::value_of(uint32_t *EA, uint32_t *EV, int32_t size) {
 	// if EA is register
-	if (( EA >= &D[0]) && ( EA <  &inst))
+	if ((EA >= &D[0]) && (EA < &inst))
 		*EV = *EA & size;
 	else
 		// else EA is memory
-		mem_req( ( EA - (uint32_t*) &memory->memory[0]), size, EV);
+		mem_req((EA - (uint32_t*) &memory->memory[0]), size, EV);
 }
 
 /**************************** int32_t cc_update() *****************************
@@ -589,8 +587,8 @@ void UTILS::value_of(uint32_t *EA, uint32_t *EV, int32_t size) {
 
  ****************************************************************************/
 
-int32_t UTILS::cc_update(int32_t x, int32_t n, int32_t z, int32_t v, int32_t c, int32_t source, int32_t dest,
-		int32_t result, int32_t sizeMask, int32_t shiftCount) {
+int32_t UTILS::cc_update(int32_t x, int32_t n, int32_t z, int32_t v, int32_t c, int32_t source, int32_t dest, int32_t result,
+		int32_t sizeMask, int32_t shiftCount) {
 	int32_t x_bit, n_bit, z_bit, v_bit, c_bit, mask;
 	int32_t Rm, Dm, Sm;
 	int32_t size;
@@ -618,7 +616,7 @@ int32_t UTILS::cc_update(int32_t x, int32_t n, int32_t z, int32_t v, int32_t c, 
 		Rm = result & 0x8000;
 		Dm = dest & 0x8000;
 	}
-	if ((uint32_t)sizeMask == LONG_MASK) {
+	if ((uint32_t) sizeMask == LONG_MASK) {
 		size = 32;
 		Sm = source & 0x80000000;
 		Rm = result & 0x80000000;
@@ -672,12 +670,11 @@ int32_t UTILS::cc_update(int32_t x, int32_t n, int32_t z, int32_t v, int32_t c, 
 		v_bit = (Dm && Rm) ? true : false;
 		break;
 	case CASE_4:
-		mask = (~( sizeMask >> (shiftCount + 1))) & sizeMask; // ASL v bit  //CK 10-11-2007
+		mask = (~(sizeMask >> (shiftCount + 1))) & sizeMask; // ASL v bit  //CK 10-11-2007
 		if (shiftCount > ((size - 1) & source))       // CK 1-25-2008
 			v_bit = true;
 		else
-			v_bit = (((mask & source) == 0) || ((mask & ~source) == 0)) ?
-					false : true;
+			v_bit = (((mask & source) == 0) || ((mask & ~source) == 0)) ? false : true;
 		break;
 	}
 	switch (c) {
@@ -754,7 +751,7 @@ int32_t UTILS::cc_update(int32_t x, int32_t n, int32_t z, int32_t v, int32_t c, 
 	if (c_bit)
 		SR = SR | cbit;
 
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 /**************************** int32_t check_condition() ************************
@@ -817,23 +814,22 @@ int32_t UTILS::check_condition(int32_t condition) {
 		|| (!(SR & nbit) && (SR & vbit));
 		break;
 	case COND_GT:
-		result = ((SR & nbit) && (SR & vbit) && !(SR & zbit))
-				|| (!(SR & nbit) && !(SR & vbit) && !(SR & zbit)); /* greater than */
+		result = ((SR & nbit) && (SR & vbit) && !(SR & zbit)) || (!(SR & nbit) && !(SR & vbit) && !(SR & zbit)); /* greater than */
 		break;
 	case COND_LE:
 		result = ((SR & nbit) && !(SR & vbit)) /* less or equal */
 		|| (!(SR & nbit) && (SR & vbit)) || (SR & zbit);
 		break;
 	}
-	return result;
+	return (result);
 
 }
 
 uint8_t UTILS::flip(uint8_t *n) {
-	uint8_t* b = n;
-	return b[0] << 8 | b[1];
+	uint8_t *b = n;
+	return (b[0] << 8 | b[1]);
 }
 
 uint8_t UTILS::flip(uint8_t &n) {
-	return flip(&n);
+	return (flip(&n));
 }

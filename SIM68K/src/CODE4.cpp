@@ -83,11 +83,11 @@ uint32_t getDivu68kCycles(DWORD dividend, WORD divisor) {
 	int32_t i;
 
 	if ((WORD) divisor == 0)
-		return 0;
+		return (0);
 
 	// Overflow
 	if ((dividend >> 16) >= (DWORD) divisor)
-		return (mcycles = 5) * 2;
+		return ((mcycles = 5) * 2);
 
 	mcycles = 38;
 	hdivisor = ((DWORD) divisor) << 16;
@@ -112,7 +112,7 @@ uint32_t getDivu68kCycles(DWORD dividend, WORD divisor) {
 		}
 	}
 
-	return mcycles * 2;
+	return (mcycles * 2);
 }
 
 //
@@ -126,7 +126,7 @@ uint32_t getDivs68kCycles(LONG dividend, SHORT divisor) {
 	int32_t i;
 
 	if ((SHORT) divisor == 0)
-		return 0;
+		return (0);
 
 	mcycles = 6;
 
@@ -135,7 +135,7 @@ uint32_t getDivs68kCycles(LONG dividend, SHORT divisor) {
 
 	// Check for absolute overflow
 	if (((DWORD) abs(dividend) >> 16) >= (DWORD) abs(divisor)) {
-		return (mcycles + 2) * 2;
+		return ((mcycles + 2) * 2);
 	}
 
 	// Absolute quotient
@@ -158,7 +158,7 @@ uint32_t getDivs68kCycles(LONG dividend, SHORT divisor) {
 		aquot <<= 1;
 	}
 
-	return mcycles * 2;
+	return (mcycles * 2);
 }
 
 // -----------------------------------------------
@@ -169,7 +169,7 @@ int32_t DIVS() {
 
 	int error = eff_addr(WORD_MASK, DATA_ADDR, true);
 	if (error)            // if address error
-		return error;       // return error code
+		return (error);       // return error code
 
 	reg = (inst >> 9) & 0x0007;
 
@@ -190,7 +190,7 @@ int32_t DIVS() {
 		utils->cc_update(N_A, GEN, GEN, N_A, ZER, source, dest, result, WORD_MASK, 0);
 	}
 	utils->inc_cyc(getDivs68kCycles((LONG) dest, (SHORT) source));
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 //------------------------------------------------
@@ -213,7 +213,7 @@ int32_t DIVU() {
 
 	int32_t error = eff_addr(WORD_MASK, DATA_ADDR, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return error code
 
 	reg = (inst >> 9) & 0x0007;
 
@@ -232,7 +232,7 @@ int32_t DIVU() {
 	}
 
 	utils->inc_cyc(getDivu68kCycles((DWORD) dest, (WORD) source));
-	return SUCCESS;
+	return (SUCCESS);
 }
 
 //------------------------------------------------
@@ -241,7 +241,7 @@ int32_t MULS() {
 
 	int32_t error = eff_addr(WORD_MASK, DATA_ADDR, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return error code
 
 	reg = (inst >> 9) & 0x0007;
 
@@ -266,7 +266,7 @@ int32_t MULS() {
 	}
 	utils->inc_cyc(38 + (2 * n));
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -276,7 +276,7 @@ int32_t MULU() {
 
 	int32_t error = eff_addr(WORD_MASK, DATA_ADDR, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return error code
 
 	reg = (inst >> 9) & 0x0007;
 
@@ -298,7 +298,7 @@ int32_t MULU() {
 	}
 	utils->inc_cyc(38 + (2 * n));
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -311,7 +311,7 @@ int32_t NEG() {
 
 	int32_t error = eff_addr(size, DATA_ALT_ADDR, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return error code
 
 	source = dest = EV1 & size;
 
@@ -322,11 +322,11 @@ int32_t NEG() {
 	utils->cc_update(GEN, GEN, GEN, CASE_3, CASE_4, source, dest, result, size, 0);
 
 	if (inst & 0x0030)
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 12 : 8);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 12 : 8);
 	else
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 6 : 4);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 6 : 4);
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -339,7 +339,7 @@ int32_t NEGX() {
 
 	int32_t error = eff_addr(size, DATA_ALT_ADDR, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return error code
 
 	dest = dest + (EV1 & size);
 
@@ -350,12 +350,12 @@ int32_t NEGX() {
 	utils->cc_update(GEN, GEN, CASE_1, CASE_3, CASE_4, source, dest, result, size, 0);
 
 	if (inst & 0x0030) {
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 12 : 8);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 12 : 8);
 	} else {
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 6 : 4);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 6 : 4);
 	}
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -369,7 +369,7 @@ int32_t CMP() {
 
 	int32_t error = eff_addr(size, ALL_ADDR, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return error code
 
 	reg = (inst >> 9) & 0x0007;
 
@@ -381,9 +381,9 @@ int32_t CMP() {
 	/* now set the condition codes */
 	utils->cc_update(N_A, GEN, GEN, CASE_2, CASE_6, source, dest, result, size, 0);
 
-	utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 6 : 4);
+	utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 6 : 4);
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -399,7 +399,7 @@ int32_t CMPA() {
 
 	int32_t error = eff_addr(size, ALL_ADDR, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return error code
 
 	reg = utils->a_reg((inst >> 9) & 0x0007);
 
@@ -415,7 +415,7 @@ int32_t CMPA() {
 
 	utils->inc_cyc(6);
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -430,7 +430,7 @@ int32_t CMPI() {
 
 	int32_t error = eff_addr(size, DATA_ALT_ADDR, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return error code
 
 	dest = EV1 & size;
 
@@ -439,12 +439,12 @@ int32_t CMPI() {
 	utils->cc_update(N_A, GEN, GEN, CASE_2, CASE_6, source, dest, result, size, 0);
 
 	if (inst & 0x0038) {
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 12 : 8);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 12 : 8);
 	} else {
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 14 : 8);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 14 : 8);
 	}
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -461,10 +461,10 @@ int32_t CMPM()          // (Ay)+,(Ax)+
 	Rx = utils->a_reg((inst >> 9) & 0x07);     // destination
 	if (size == WORD_MASK)
 		increment = 2;          // 2 bytes
-	if ((uint32_t)size == LONG_MASK)
+	if ((uint32_t) size == LONG_MASK)
 		increment = 4;          // 4 bytes
 
-	utils->mem_req(A[Ry], (uint32_t)size, &source);      // get source
+	utils->mem_req(A[Ry], (uint32_t) size, &source);      // get source
 	A[Ry] += increment;
 	if (utils->mem_req(A[Rx], size, &dest) != BUS_ERROR) {
 		// get destination
@@ -474,8 +474,8 @@ int32_t CMPM()          // (Ay)+,(Ax)+
 
 	// now set the condition codes according to the result
 	utils->cc_update(N_A, GEN, GEN, CASE_2, CASE_6, source, dest, result, size, 0);
-	utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 20 : 12);
-	return SUCCESS;
+	utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 20 : 12);
+	return (SUCCESS);
 }
 
 //------------------------------------------------
@@ -487,7 +487,7 @@ int32_t TST() {
 
 	int32_t error = eff_addr(size, DATA_ALT_ADDR, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return error code
 
 	utils->value_of(EA1, &dest, size);
 
@@ -495,12 +495,12 @@ int32_t TST() {
 	utils->cc_update(N_A, GEN, GEN, ZER, ZER, source, dest, dest, size, 0);
 
 	if (inst & 0x0030) {
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 4 : 4);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 4 : 4);
 	} else {
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 4 : 4);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 4 : 4);
 	}
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -513,7 +513,7 @@ int32_t CLR() {
 
 	int32_t error = eff_addr(size, DATA_ALT_ADDR, true);
 	if (error)              // if address error
-		return error;         // return error code
+		return (error);         // return error code
 
 	source = dest = EV1 & size;
 
@@ -524,12 +524,12 @@ int32_t CLR() {
 	utils->cc_update(N_A, ZER, GEN, ZER, ZER, source, dest, result, size, 0);
 
 	if (inst & 0x0030) {
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 12 : 8);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 12 : 8);
 	} else {
-		utils->inc_cyc(((uint32_t)size == LONG_MASK) ? 6 : 4);
+		utils->inc_cyc(((uint32_t) size == LONG_MASK) ? 6 : 4);
 	}
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
@@ -556,7 +556,7 @@ int32_t EXT() {
 
 	utils->inc_cyc(4);
 
-	return SUCCESS;
+	return (SUCCESS);
 
 }
 
