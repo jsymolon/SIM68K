@@ -1,4 +1,5 @@
 #include "CLogger.h"
+#include <ctime>
 #include <time.h>
 #include <stdio.h>
 #include <stdarg.h>
@@ -14,10 +15,10 @@ CLogger::CLogger() {
 
 //--------------------------------------------------------------------------------
 const std::string CLogger::CurrentDateTime() {
-	//time_t now = time(NULL);
+	time_t now = time(NULL);
 	struct tm tstruct;
 	char buf[LOGLINEMAX];
-	//localtime_r(&tstruct, &now);
+	localtime_r(&now, &tstruct);
 	strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
 	return (buf);
 }

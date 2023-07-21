@@ -934,7 +934,7 @@ int32_t TRAP() {
 			} else if (D[1]) {       // if set size
 //				simIO->setWindowSize((short) (D[1] >> 16), (short) D[1]);
 			} else {                // get size
-				ushort width, height;
+				ushort width = 10, height = 10;
 //				simIO->getWindowSize(width, height);
 				D[1] = (width << 16) + height;
 			}
@@ -1001,8 +1001,7 @@ int32_t TRAP() {
 			break;
 		case 53:                          // READ FILE.
 			// if data would overflow 68000 memory space
-			if ((unsigned int32_t) ((A[1] & ADDRMASK) + (unsigned int32_t) D[2])
-			> MEMSIZE)
+			if ((uint32_t) ((A[1] & ADDRMASK) + (uint32_t) D[2]) > MEMSIZE)
 				D[0] = (D[0] & 0xFFFF0000) | F_ERROR; // set error code
 			else {
 				// check memory map
@@ -1011,20 +1010,19 @@ int32_t TRAP() {
 					return (code);
 //			    if (code == SUCCESS)
 //					readFile(D[1], &memory[A[1] & ADDRMASK],
-//							(unsigned int32_t*) &D[2], (short*) &D[0]);
+//							(uint32_t*) &D[2], (short*) &D[0]);
 			}
 			break;
 		case 54:                          // WRITE FILE.
 			// if write size goes beyond end of 68000 memory space
-			if ((unsigned int32_t) ((A[1] & ADDRMASK) + (unsigned int32_t) D[2]) > MEMSIZE)
+			if ((uint32_t) ((A[1] & ADDRMASK) + (uint32_t) D[2]) > MEMSIZE)
 				D[0] = (D[0] & 0xFFFF0000) | F_ERROR; // set error code
 			else {
 				// check memory map
-				code = utils->memoryMapCheck(Invalid, (A[1] & ADDRMASK),
-						(unsigned int32_t) D[2]);
+				code = utils->memoryMapCheck(Invalid, (A[1] & ADDRMASK), (uint32_t) D[2]);
 				if (code == BUS_ERROR)      // if bus error caused by memory map
 					return (code);
-//				writeFile(D[1], &memory[A[1] & ADDRMASK], (unsigned int32_t) D[2],
+//				writeFile(D[1], &memory[A[1] & ADDRMASK], (uint32_t) D[2],
 //						(short*) &D[0]);
 			}
 			break;
@@ -1181,11 +1179,11 @@ int32_t TRAP() {
 //			simIO->playSoundMemDX((unsigned char) D[1], (short*) &D[0]);
 			break;
 		case 76:                  // control standard player
-//			simIO->controlSound((unsigned int32_t) D[2], (unsigned char) D[1],
+//			simIO->controlSound((uint32_t) D[2], (unsigned char) D[1],
 //					(short*) &D[0]);
 			break;
 		case 77:                  // control DirectX player
-//			simIO->controlSoundDX((unsigned int32_t) D[2], (unsigned char) D[1],
+//			simIO->controlSoundDX((uint32_t) D[2], (unsigned char) D[1],
 //					(short*) &D[0]);
 			break;
 

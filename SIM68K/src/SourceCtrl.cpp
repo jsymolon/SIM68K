@@ -74,8 +74,8 @@ void SourceCtrl::adjustScrollPos(void) {
 				Scroll(0, moveScrollPos);
 			}
 			this->GetParent()->Layout();
-			std::cout << "Scroll: PC:" << PC << " PC l:"<< yPtPC << " sp:" << sp << " s:" << vpstart << " m:" << vpmid << " e:" << vpend
-					<< " moveScroll:" << moveScrollPos << " pixsz:" << fontPixelSize.y << "\n";
+			std::cout << "Scroll: PC:" << PC << " PC l:" << yPtPC << " sp:" << sp << " s:" << vpstart << " m:" << vpmid << " e:"
+					<< vpend << " moveScroll:" << moveScrollPos << " pixsz:" << fontPixelSize.y << "\n";
 		}
 	}
 }
@@ -147,6 +147,8 @@ void SourceCtrl::paintRect(wxDC &dc) {
 			dc.SetBrush(emptyBP);
 			dc.DrawCircle(0 + halfFont + 1, y + halfFont + 2, halfFont);
 			// is this line ... PC hightlight ?
+			std::cout << "iter 2nd = " << iter->second << " PC = " << PC << "\n";
+			std::cout << "updateRect.width = " << updateRect.width << " updateRect.height = " << updateRect.height << "\n";
 			if (iter->second == PC) {
 				dc.SetBrush(wxBrush(m_highlightColour));
 				dc.SetPen(wxPen(m_highlightColour));

@@ -58,7 +58,7 @@ uint32_t runToAddr;              // runToCursor stopping address
 
 int32_t errflg;
 
-/* port structure is :{control,trans data,status,recieve data} */
+/* port structure is :{control,trans data,status,receive data} */
 uint8_t port1[4] = { 0x00, 0, 0x82, 0 }; /* simulated 6850 port */
 char p1dif = 0;
 

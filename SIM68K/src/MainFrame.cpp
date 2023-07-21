@@ -293,7 +293,7 @@ void MainFrame::BuildRegisterFrame(wxBoxSizer *topsizer) {
 
 	wxBoxSizer *othersz = new wxBoxSizer(wxHORIZONTAL);
 
-	tcFlags = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxSize(125, -1), wxHSCROLL);
+	tcFlags = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxSize(150, -1), wxHSCROLL);
 	wxBoxSizer *fsz = new wxBoxSizer(wxHORIZONTAL);
 	CreateBoxTxtEntry("Flags", fsz, tcFlags);
 	othersz->Add(fsz, 0, wxEXPAND);

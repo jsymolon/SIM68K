@@ -39,20 +39,24 @@
 
 class Memory {
 protected:
-	std::vector<std::string>sourceList; // holds the source listing (by line#)
-	std::map<uint32_t, int32_t>addrToSrcLine; // holds the address that the source reps
+	std::vector<std::string> sourceList; // holds the source listing (by line#)
+	std::map<uint32_t, int32_t> addrToSrcLine; // holds the address that the source reps
 	bool isLoaded = false;
 	// c++20 constexpr std::string hexStr = "0123456789ABCDEF";
 	static constexpr std::string_view hexStr = "0123456789ABCDEF";
 
 public:
 //	uint8_t memory[1024*1024*1]; // 0x007fffff
-	uint8_t memory[32768]; // 0x007fffff
-	std::map<int32_t, uint32_t>srcLineToAddr; // holds the filesrcline to address - allows ident of lines that breakpoints can be used
+	uint8_t memory[16777215]; // 0x00ffffff
+	std::map<int32_t, uint32_t> srcLineToAddr; // holds the filesrcline to address - allows ident of lines that breakpoints can be used
 
 public:
-	Memory() {};
-	~Memory() {};
+	Memory() {
+	}
+	;
+	~Memory() {
+	}
+	;
 
 	bool isValidByte(char m, char n);
 	uint8_t getByte(const std::string_view line, const int32_t idx);

@@ -16,7 +16,7 @@ private:
 	wxColour m_breakTranColour = wxColour(0, 255, 0, wxALPHA_TRANSPARENT);
 	wxColour m_fontColour = wxColour(0, 0, 0, wxALPHA_OPAQUE);
 	wxColour m_gutterColour = wxColour("GREY");
-	wxColour m_highlightColour = wxColour(0, 192, 255, wxALPHA_TRANSPARENT);
+	wxColour m_highlightColour = wxColour(0, 192, 255, wxALPHA_OPAQUE);
 	int gutterWidth = 20; // how wide the gutter or breakpoint ind areas is
 	int halfGutterWidth = 10; // 1/2 of above
 	int halfFont = 5;
