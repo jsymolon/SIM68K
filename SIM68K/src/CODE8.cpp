@@ -127,7 +127,7 @@ int32_t BSR() {
 
 	// perform the BSR operation
 	A[utils->a_reg(7)] -= 4;
-	utils->put((uint32_t*) &memory->memory[A[utils->a_reg(7)]], PC, LONG_MASK);
+	utils->put(reinterpret_cast<uint32_t*>(&memory->memory[A[utils->a_reg(7)]]), PC, LONG_MASK);
 
 	// set address to stop program execution if user selects "Step Over"
 	if (sstep && stepToAddr == 0) {  // if "Step Over" mode
@@ -148,7 +148,7 @@ int32_t JMP() {
 		return (error);         // return (error) code
 
 	/* perform the JMP operation */
-	PC = (EA1 - (uint32_t*) &memory->memory[0]);
+	PC = (EA1 - reinterpret_cast<uint32_t*>(&memory->memory[0]));
 
 	switch (utils->eff_addr_code(inst, 0)) {
 	case 0x02:
@@ -187,7 +187,7 @@ int32_t JSR() {
 	// push the longword address immediately following PC on the system stack
 	// then change the PC
 	A[utils->a_reg(7)] -= 4;
-	utils->put((uint32_t*) &memory->memory[A[utils->a_reg(7)]], PC, LONG_MASK);
+	utils->put(reinterpret_cast<uint32_t*>(&memory->memory[A[utils->a_reg(7)]]), PC, LONG_MASK);
 
 	// set address to stop program execution if user selects "Step Over"
 	if (sstep && stepToAddr == 0) {  // if "Step Over" mode
@@ -195,7 +195,7 @@ int32_t JSR() {
 		stepToAddr = PC;
 	}
 
-	PC = (EA1 - (uint32_t*) &memory->memory[0]);
+	PC = (EA1 - reinterpret_cast<uint32_t*>(&memory->memory[0]));
 
 	switch (utils->eff_addr_code(inst, 0)) {
 	case 0x02:

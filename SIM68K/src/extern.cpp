@@ -13,7 +13,8 @@ MainFrame *mainframe;
 std::unique_ptr<Memory> memory = std::make_unique<Memory>();
 std::unique_ptr<FileHandling> fileHandling = std::make_unique<FileHandling>();
 std::unique_ptr<UTILS> utils = std::make_unique<UTILS>();
-wxTextCtrl *logWindow;
+//wxTextCtrl *logWindow;
+LogCtrl *logWindow;
 
 // _____________________________________________________________________
 // The following variables must remain together. put() and value_of()

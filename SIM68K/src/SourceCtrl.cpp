@@ -52,32 +52,32 @@ void SourceCtrl::OnEraseBackGround(wxEraseEvent &event) {
 // we repaint in drawing, don't need to have separate one
 void SourceCtrl::adjustScrollPos(void) {
 	// Figure out if the PC is w/in Viewport (if running)
-	if (mainframe->isTracing()) {
-		wxSize sz = GetClientSize();
-		int vpstart = viewStartY / fontPixelSize.y;
-		int vpend = (sz.y / fontPixelSize.y) + vpstart;
-		int vpmid = vpend / 2;
-		int sp = this->GetScrollPos(wxVERTICAL);
-		int yPtPC = memory->getIndexOfSrcFromAddr(PC);
-		if (yPtPC > 0) {
-			// scroll window to put hightlight in middle, w/ little fuzz to
-			// prevent scroll ALL the time, 1 big scroll once, vs little ones
-			// every time
-			//int moveScrollPos = (yPtPC - vpmid) / 2; // cut sensitivity "vibration"
-			int moveScrollPos = sp;
-			// check for the PC line outsize of the viewport, force scroll
-			if (yPtPC < vpstart && vpstart > 0 && moveScrollPos > adjScrollPos)
-				moveScrollPos -= adjScrollPos;
-			if (yPtPC >= vpend)
-				moveScrollPos += adjScrollPos;
-			if (moveScrollPos != sp) {
-				Scroll(0, moveScrollPos);
-			}
-			this->GetParent()->Layout();
-			std::cout << "Scroll: PC:" << PC << " PC l:" << yPtPC << " sp:" << sp << " s:" << vpstart << " m:" << vpmid << " e:"
-					<< vpend << " moveScroll:" << moveScrollPos << " pixsz:" << fontPixelSize.y << "\n";
+//	if (mainframe->isTracing()) {
+	wxSize sz = GetClientSize();
+	int vpstart = viewStartY / fontPixelSize.y;
+	int vpend = (sz.y / fontPixelSize.y) + vpstart;
+	int vpmid = vpend / 2;
+	int sp = this->GetScrollPos(wxVERTICAL);
+	int yPtPC = memory->getIndexOfSrcFromAddr(PC);
+	if (yPtPC > 0) {
+		// scroll window to put hightlight in middle, w/ little fuzz to
+		// prevent scroll ALL the time, 1 big scroll once, vs little ones
+		// every time
+		//int moveScrollPos = (yPtPC - vpmid) / 2; // cut sensitivity "vibration"
+		int moveScrollPos = sp;
+		// check for the PC line outsize of the viewport, force scroll
+		if (yPtPC < vpstart && vpstart > 0 && moveScrollPos > adjScrollPos)
+			moveScrollPos -= adjScrollPos;
+		if (yPtPC >= vpend)
+			moveScrollPos += adjScrollPos;
+		if (moveScrollPos != sp) {
+			Scroll(0, moveScrollPos);
 		}
+		this->GetParent()->Layout();
+		std::cout << "Scroll: PC:" << PC << " PC l:" << yPtPC << " sp:" << sp << " s:" << vpstart << " m:" << vpmid << " e:" << vpend
+				<< " moveScroll:" << moveScrollPos << " pixsz:" << fontPixelSize.y << "\n";
 	}
+//	}
 }
 
 //----------------------------------------------------------------------------------
@@ -93,7 +93,8 @@ void SourceCtrl::paintEvent(wxPaintEvent &evt) {
 	GetViewStart(&viewStartX, &viewStartY);
 
 	// Find out how much the scrollbar moves each unit in pixels
-	int xUnit = 0, yUnit = 0;
+	int xUnit = 0;
+	int yUnit = 0;
 	GetScrollPixelsPerUnit(&xUnit, &yUnit);
 	viewStartX *= xUnit;
 	viewStartY *= yUnit;
@@ -159,7 +160,7 @@ void SourceCtrl::paintRect(wxDC &dc) {
 		dc.SetBrush(fontB);
 		dc.SetTextForeground(m_fontColour);
 		dc.DrawText(std::string(line).data(), x, y);
-		dc.DrawLine(0, y, 50, y);
+		//dc.DrawLine(0, y, 50, y);
 		y += fontPixelSize.y;
 	}
 }

@@ -15,6 +15,20 @@
 #include <map>
 #include <array>
 
+const int32_t LIST_BYTE_START = 11;
+const int8_t HEX_VAL_9 = 9;
+const int8_t HEX_VAL_16 = 16;
+const int8_t HEX_GAP_9TOA = 7;
+const int8_t HEX_GAP_aTOA = 32;
+const int8_t HEX_NIBBLE = 4;
+const int8_t HEX_BYTE = 8;
+const int8_t SREC_BiADDR = 4;
+const int8_t SREC_CiADDR = 8;
+const int8_t SREC_B3ADDR = 3;
+const int8_t SREC_C3ADDR = 6;
+const int8_t SREC_B2ADDR = 2;
+const int8_t SREC_C2ADDR = 4;
+
 // S rec
 // +-------------------------//--------------------------//-----------------------+
 // | type(2) | count(2) | address(4, 6, 8) |            data           | checksum |
@@ -36,7 +50,7 @@
 // S7 Record. type 'S7' (0x5337). The address field contains the starting execution address and is intrepreted as 4-byte address. There is no data field.
 // S8 Record. type 'S8' (0x5338). The address field contains the starting execution address and is intrepreted as 3-byte address. There is no data field.
 // S9 Record. type 'S9' (0x5339). The address field contains the starting execution address and is intrepreted as 2-byte address. There is no data field.
-
+const uint32_t MEM_SIZE = 1024 * 1024 * 16 - 1;
 class Memory {
 protected:
 	std::vector<std::string> sourceList; // holds the source listing (by line#)
@@ -46,17 +60,10 @@ protected:
 	static constexpr std::string_view hexStr = "0123456789ABCDEF";
 
 public:
-//	uint8_t memory[1024*1024*1]; // 0x007fffff
-	uint8_t memory[16777215]; // 0x00ffffff
+	uint8_t memory[MEM_SIZE]; // 0x00ffffff
 	std::map<int32_t, uint32_t> srcLineToAddr; // holds the filesrcline to address - allows ident of lines that breakpoints can be used
 
 public:
-	Memory() {
-	}
-	;
-	~Memory() {
-	}
-	;
 
 	bool isValidByte(char m, char n);
 	uint8_t getByte(const std::string_view line, const int32_t idx);
@@ -70,6 +77,8 @@ public:
 	uint32_t getIndexOfSrcFromAddr(const uint32_t addr);
 
 	bool isSourceLoaded(void);
+
+	void clearSource(void);
 };
 
 #endif /* MEMORY_H_ */

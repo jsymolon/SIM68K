@@ -29,7 +29,7 @@ void Memory::addSourceLine(const std::string_view line, int32_t fileLine) {
 	std::string s { line };
 	size_t lastidx = s.size();
 	sourceList.push_back(s);
-	if (lastidx > 11) {
+	if (lastidx > LIST_BYTE_START) {
 		// get address - 1st 8 chars
 		std::string addrStr = "0x" + s.substr(0, 8);
 		// code ... only register line if "code" there, 12 bytes+
@@ -64,13 +64,13 @@ uint8_t Memory::getByte(const std::string_view line, const int32_t idx) {
 	for (int i = idx; i <= idx + 1; i++) {
 		c = line[i];
 		x = c - '0';
-		if (x > 9) {
-			x -= 7;  // gap of A to 9
-			if (x > 16) {
-				x -= 32; // gap of a to A
+		if (x > HEX_VAL_9) {
+			x -= HEX_GAP_9TOA;  // gap of A to 9
+			if (x > HEX_VAL_16) {
+				x -= HEX_GAP_aTOA; // gap of a to A
 			}
 		}
-		accum <<= 4;
+		accum <<= HEX_NIBBLE;
 		accum += x;
 	}
 	return (accum);
@@ -79,7 +79,7 @@ uint8_t Memory::getByte(const std::string_view line, const int32_t idx) {
 uint32_t Memory::getHexValue(const std::string_view line, int32_t idx, const int32_t length) {
 	uint32_t accum = 0;
 	for (int i = 1; i <= length; i++) {
-		accum = accum << 8;
+		accum = accum << HEX_BYTE;
 		unsigned short iaccum = getByte(line, idx);
 		idx += 2;
 		accum += iaccum;
@@ -104,29 +104,29 @@ void Memory::addSRec(const std::string_view line) {
 		break;
 	case '1': // addr 2 byte
 		addr = getHexValue(line, idx, 2);
-		idx += 4;
+		idx += SREC_C2ADDR;
 		break;
 	case '2': // addr 3 byte
-		addr = getHexValue(line, idx, 3);
-		idx += 6;
+		addr = getHexValue(line, idx, SREC_B3ADDR);
+		idx += SREC_C3ADDR;
 		break;
 	case '3': // addr 4 byte
-		addr = getHexValue(line, idx, 4);
-		idx += 8;
+		addr = getHexValue(line, idx, SREC_BiADDR);
+		idx += SREC_CiADDR;
 		break;
 	case '5': // addr 2 byte, count of S1, S2, & S3 previously. no data
 		addr = getHexValue(line, idx, 2);
-		idx += 4;
+		idx += SREC_C2ADDR;
 		break;
 	case '7': // starting exec addr 4 byte
-		addr = getHexValue(line, idx, 4);
-		idx += 8;
+		addr = getHexValue(line, idx, SREC_BiADDR);
+		idx += SREC_CiADDR;
 		count = 0; // skip
 		PC = addr;
 		break;
 	case '8': // starting exec addr 3 byte
-		addr = getHexValue(line, idx, 3);
-		idx += 6;
+		addr = getHexValue(line, idx, SREC_B3ADDR);
+		idx += SREC_C3ADDR;
 		count = 0; // skip
 		PC = addr;
 		break;
@@ -165,4 +165,12 @@ uint32_t Memory::getIndexOfSrcFromAddr(const uint32_t addr) {
 //----------------------------------------------------------------------------------
 bool Memory::isSourceLoaded(void) {
 	return (this->isLoaded);
+}
+
+//----------------------------------------------------------------------------------
+void Memory::clearSource(void) {
+	isLoaded = false;
+	sourceList.clear();
+	addrToSrcLine.clear();
+	srcLineToAddr.clear();
 }

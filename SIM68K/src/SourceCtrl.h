@@ -7,6 +7,7 @@
 #endif
 
 #include <wx/scrolwin.h>
+const uint8_t LINE_LEN = 50;
 
 class SourceCtrl: public wxScrolled<wxWindow> {
 private:

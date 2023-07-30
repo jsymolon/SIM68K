@@ -21,22 +21,43 @@
 
 #include <string>
 #include "SourceCtrl.h"
+#include "LogCtrl.h"
+#include "Properties.h"
 
 class SIM68K;
 class MemoryDialog;
 
+const uint16_t SR_TRACE = 0b1000000000000000;
+const uint16_t SR_SUPER = 0b0010000000000000;
+const uint16_t SR_MINT = 0b0001000000000000;
+const uint16_t SR_INTPM1 = 0b0000010000000000;
+const uint16_t SR_INTPM2 = 0b0000001000000000;
+const uint16_t SR_INTPM3 = 0b0000000100000000;
+const uint16_t SR_EXT = 0b0000000000010000;
+const uint16_t SR_NEG = 0b0000000000001000;
+const uint16_t SR_ZERO = 0b0000000000000100;
+const uint16_t SR_OVER = 0b0000000000000010;
+const uint16_t SR_CARRY = 0b0000000000000001;
+
+const int16_t ICON_SIZE = 32;
+
 class MainFrame: public wxFrame {
 public:
 
-	MainFrame(const wxString &title, const wxPoint &pos, const wxSize &size, SIM68K* sim68k);
+	MainFrame(const wxString &title, const wxPoint &pos, const wxSize &size, SIM68K *sim68k);
 	virtual ~MainFrame();
 
 	void BuildToolbar();
 	void BuildMenu();
 	void CreateBoxTxtEntry(std::string label, wxBoxSizer *rgrid, wxTextCtrl *tc);
-	void CreateLabTxtEntry(std::string label, wxFlexGridSizer* rgrid, wxTextCtrl* tc);
+	void CreateLabTxtEntry(std::string label, wxFlexGridSizer *rgrid, wxTextCtrl *tc);
 	void BuildRegisterFrame(wxBoxSizer *topsizer);
 	void BuildFrame();
+
+	void ChangeFont(wxControl *control, const Properties *const props);
+	void ChangeFont(wxPanel *panel, const Properties *const props);
+	void ChangeFont(wxPanel *panel, wxFont font);
+
 	void EnableDisableFunctions(bool flag); // no source / source loaded
 
 	// File
@@ -89,14 +110,16 @@ public:
 	void updateSource(void);
 	void updateUI(void);
 
-	void logMsg(const std::string& msg);
-	void logMsg(const char* msg);
+	void logMsg(const std::string &msg);
+	void logMsg(const char *msg);
+	void setStatusMsg(const std::string &msg);
 
 	bool isTracing(void);
 
 protected:
-	SIM68K* sim68k;
+	SIM68K *sim68k;
 	SourceCtrl *sourceCodeCtrl;
+	LogCtrl *logCtrl;
 
 	wxMenuBar *mainMenu;
 	wxMenu *fileMenu;
@@ -108,35 +131,38 @@ protected:
 
 	wxToolBar *toolbar;
 
-	wxTextCtrl* tcD0;
-	wxTextCtrl* tcD1;
-	wxTextCtrl* tcD2;
-	wxTextCtrl* tcD3;
-	wxTextCtrl* tcD4;
-	wxTextCtrl* tcD5;
-	wxTextCtrl* tcD6;
-	wxTextCtrl* tcD7;
+	wxStatusBar *statusBar;
+	Properties *props = new Properties();
 
-	wxTextCtrl* tcA0;
-	wxTextCtrl* tcA1;
-	wxTextCtrl* tcA2;
-	wxTextCtrl* tcA3;
-	wxTextCtrl* tcA4;
-	wxTextCtrl* tcA5;
-	wxTextCtrl* tcA6;
-	wxTextCtrl* tcA7;
+	wxTextCtrl *tcD0;
+	wxTextCtrl *tcD1;
+	wxTextCtrl *tcD2;
+	wxTextCtrl *tcD3;
+	wxTextCtrl *tcD4;
+	wxTextCtrl *tcD5;
+	wxTextCtrl *tcD6;
+	wxTextCtrl *tcD7;
 
-	wxTextCtrl* tcUS;
-	wxTextCtrl* tcSS;
-	wxTextCtrl* tcPC;
-	wxTextCtrl* tcFlags;
+	wxTextCtrl *tcA0;
+	wxTextCtrl *tcA1;
+	wxTextCtrl *tcA2;
+	wxTextCtrl *tcA3;
+	wxTextCtrl *tcA4;
+	wxTextCtrl *tcA5;
+	wxTextCtrl *tcA6;
+	wxTextCtrl *tcA7;
 
-	wxTextCtrl* tcCycles;
-	wxButton* bCycles;
+	wxTextCtrl *tcUS;
+	wxTextCtrl *tcSS;
+	wxTextCtrl *tcPC;
+	wxTextCtrl *tcFlags;
 
-	void AddImageToBar(wxToolBar* toolbar, int toolid, wxString path, wxString filename, wxString label);
+	wxTextCtrl *tcCycles;
+	wxButton *bCycles;
 
-	MemoryDialog* memoryDialog = nullptr;
+	void AddImageToBar(wxToolBar *toolbar, int toolid, wxString path, wxString filename, wxString label);
+
+	MemoryDialog *memoryDialog = nullptr;
 
 DECLARE_EVENT_TABLE()
 
@@ -168,21 +194,15 @@ private:
 	static inline const std::string menu_breakpoints_window = "Breakpoints";
 	static inline const std::string menu_easybin = "EASyBIN";
 	static inline const std::string menu_options = "Options";
-	static inline const std::string menu_source_window_font =
-			"Source Window Font";
-	static inline const std::string menu_output_window_font =
-			"Output Window Font";
+	static inline const std::string menu_source_window_font = "Source Window Font";
+	static inline const std::string menu_output_window_font = "Output Window Font";
 	static inline const std::string menu_printer_font = "Printer Font";
 	static inline const std::string menu_log_output = "Log Output";
 	static inline const std::string menu_auto_trace_output = "Auto Trace Output";
-	static inline const std::string menu_fullscreen_options =
-			"Fullscreen Options";
-	static inline const std::string menu_enable_bit_field =
-			"Enable Bit Field Options";
-	static inline const std::string menu_output_window_text_size =
-			"Output Window Size";
-	static inline const std::string menu_output_window_text_wrap =
-			"Output Window Text Wrap";
+	static inline const std::string menu_fullscreen_options = "Fullscreen Options";
+	static inline const std::string menu_enable_bit_field = "Enable Bit Field Options";
+	static inline const std::string menu_output_window_text_size = "Output Window Size";
+	static inline const std::string menu_output_window_text_wrap = "Output Window Text Wrap";
 	static inline const std::string menu_help = "Help";
 	static inline const std::string menu_help_sim68k = "Help SIM68K";
 	static inline const std::string menu_about = "About";
@@ -271,7 +291,6 @@ enum {
 	ID_TEST_FRAME = 200,
 	ID_WINDOW_TOP,
 	ID_WINDOW_BOTTOM,
-
 
 };
 

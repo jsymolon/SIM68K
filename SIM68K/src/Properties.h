@@ -10,16 +10,8 @@
 #ifndef PROPERTIES_H_
 #define PROPERTIES_H_
 
-#include <utility>
 #include <string>
-#include <vector>
-#include <memory>
-#include <iostream>
 #include <map>
-#include <string>
-#include <tuple>
-
-#include "tomlcpp.h"
 
 namespace PROPERTIES {
 static inline const std::string TABLE_SOURCE = "source";
@@ -37,17 +29,23 @@ static inline const std::string SOURCE_CODE_HIGHLIGHT = "code_highlight";
 
 class Properties {
 protected:
-	toml::Result properties;
-	std::string propsPath;
+	// per https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard
+	std::string propsFolder = "SIM68K/";
+	std::string propsFileName = "SIM68K.properties";
+	std::map<std::string, std::string> properties;
+
+	typedef std::map<std::string, std::string>::iterator map_iterator;
 
 public:
-	Properties();
-	virtual ~Properties();
+	//Properties(){ std::map<std::string, std::string> properties; };
+	//virtual ~Properties();
+	//Properties(const Properties& other) {};
+	//Properties& operator=(const Properties& other);
 
 	void load(const std::string_view propertypath);
 	void save(void);
-	std::string getString(std::string tableKey, std::string key, std::string defaultVal);
-	int getInt(std::string tableKey, std::string key, int defaultVal);
+	std::string getString(std::string key, std::string defaultVal);
+	int getInt(std::string key, int defaultVal);
 };
 
 #endif /* PROPERTIES_H_ */

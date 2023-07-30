@@ -25,15 +25,17 @@
 #include "BPointExpr.h"
 #include "def.h"
 #include "FileHandling.h"
-#include "Memory.h"
+#include "LogCtrl.h"
 #include "MainFrame.h"
+#include "Memory.h"
 #include "UTILS.h"
 
 extern MainFrame *mainframe;
 extern std::unique_ptr<Memory> memory;
 extern std::unique_ptr<FileHandling> fileHandling;
 extern std::unique_ptr<UTILS> utils;
-extern wxTextCtrl *logWindow;
+//extern wxTextCtrl *logWindow;
+extern LogCtrl *logWindow;
 
 extern uint32_t D[D_REGS];
 extern uint32_t OLD_D[D_REGS];

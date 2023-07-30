@@ -12,6 +12,7 @@
 #include "SourceCtrl.h"
 
 #include <wx/filename.h>
+#include <wx/font.h>
 #include <wx/log.h>
 #include <wx/splitter.h>
 #include <wx/stdpaths.h>
@@ -69,8 +70,9 @@ MainFrame::~MainFrame() {
 
 // ------------------------------------------------------------------------------------------------
 MainFrame::MainFrame(const wxString &title, const wxPoint &pos, const wxSize &size, SIM68K *sim68k) :
-		wxFrame((wxFrame*) NULL, -1, title, pos, size) {
+		wxFrame(reinterpret_cast<wxFrame*>( NULL), -1, title, pos, size) {
 	this->sim68k = sim68k;
+	props->load("");
 	// normally we would initialize objects such as buttons and textboxes here
 	BuildMenu();
 	BuildFrame();
@@ -97,19 +99,19 @@ void MainFrame::BuildToolbar() {
 	//wxImage::AddHandler(new wxXPMHandler);
 	wxInitAllImageHandlers();
 	toolbar = new wxToolBar(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTB_FLAT | wxTB_NODIVIDER | wxTB_TEXT);
-	toolbar->SetToolBitmapSize(wxSize(32, 32));
+	toolbar->SetToolBitmapSize(wxSize(ICON_SIZE, ICON_SIZE));
 	//open, run, run2cursor, autotrace, step over, trace into, pause, rewind, reload, log start, log stop
-	AddImageToBar(toolbar, ID_Open, path, "icon32x32.xpm", wxT("Open"));
-	AddImageToBar(toolbar, ID_Run, path, "icon32x32.xpm", wxT("Run"));
-	AddImageToBar(toolbar, ID_Run_To_Cursor, path, "icon32x32.xpm", wxT("Run To"));
-	AddImageToBar(toolbar, ID_Auto_Trace, path, "icon32x32.xpm", wxT("Trace"));
-	AddImageToBar(toolbar, ID_Step_Over, path, "icon32x32.xpm", wxT("Over"));
+	AddImageToBar(toolbar, ID_Open, path, "open32x32.xpm", wxT("Open"));
+	AddImageToBar(toolbar, ID_Run, path, "run32x32.xpm", wxT("Run"));
+	AddImageToBar(toolbar, ID_Run_To_Cursor, path, "runto32x32.xpm", wxT("Run To"));
+	AddImageToBar(toolbar, ID_Auto_Trace, path, "trace32x32.xpm", wxT("Trace"));
+	AddImageToBar(toolbar, ID_Step_Over, path, "stepover32x32.xpm", wxT("Over"));
 	AddImageToBar(toolbar, ID_Trace_Into, path, "stepinto32x32.xpm", wxT("Into"));
-	AddImageToBar(toolbar, ID_Pause, path, "icon32x32.xpm", wxT("Pause"));
-	AddImageToBar(toolbar, ID_Rewind_Program, path, "icon32x32.xpm", wxT("Rewind"));
-	AddImageToBar(toolbar, ID_Reload_Program, path, "icon32x32.xpm", wxT("Reload"));
-	AddImageToBar(toolbar, ID_Log_Start, path, "icon32x32.xpm", wxT("Log Start"));
-	AddImageToBar(toolbar, ID_Log_Stop, path, "icon32x32.xpm", wxT("Log Stop"));
+	AddImageToBar(toolbar, ID_Pause, path, "pause32x32.xpm", wxT("Pause"));
+	AddImageToBar(toolbar, ID_Rewind_Program, path, "rewind32x32.xpm", wxT("Rewind"));
+	AddImageToBar(toolbar, ID_Reload_Program, path, "reload32x32.xpm", wxT("Reload"));
+	AddImageToBar(toolbar, ID_Log_Start, path, "logon32x32.xpm", wxT("Log Start"));
+	AddImageToBar(toolbar, ID_Log_Stop, path, "logoff32x32.xpm", wxT("Log Stop"));
 
 	toolbar->Realize();
 	SetToolBar(toolbar);
@@ -319,23 +321,36 @@ void MainFrame::BuildFrame() {
 	wxSplitterWindow *splittermain = new wxSplitterWindow(this, wxID_ANY);
 	splittermain->SetSashGravity(0.5);
 	splittermain->SetMinimumPaneSize(20); // Smallest size the
+	// splittermain - top is source, bottom is log
 
-	wxPanel *pnl1 = new wxPanel(splittermain, wxID_ANY);
-	pnl1->SetBackgroundColour(wxColour("WHITE"));
-
-	logWindow = new wxTextCtrl(pnl1, wxID_ANY);
-	//std::unique_ptr<wxTextCtrl>logWindow = std::make_unique<wxTextCtrl>(pnl1, wxID_ANY);
-	wxBoxSizer *txt1sizer = new wxBoxSizer(wxVERTICAL);
-	txt1sizer->Add(logWindow, 1, wxEXPAND | wxALL, 2);
-	//txt1sizer->Add(logWindow.get(), 1, wxEXPAND | wxALL, 2);
-	pnl1->SetSizerAndFit(txt1sizer);
+//	wxBoxSizer *txt1sizer = new wxBoxSizer(wxVERTICAL);
+	logWindow = new LogCtrl(splittermain);
+//	txt1sizer->Add(logWindow, 1, wxEXPAND | wxALL, 2);
 
 	sourceCodeCtrl = new SourceCtrl(splittermain);
-
-	splittermain->SplitVertically(sourceCodeCtrl, pnl1);
-	splittermain->SetSashPosition(200);
+	ChangeFont(reinterpret_cast<wxPanel*>(sourceCodeCtrl), props);
+	splittermain->SplitHorizontally(sourceCodeCtrl, logWindow);
+	splittermain->SetSashGravity(.9);  // top resize more
+	splittermain->SetSashPosition(900);
 	topsizer->Add(splittermain, 1, wxEXPAND);
 	SetSizerAndFit(topsizer);
+
+	statusBar = new wxStatusBar(this, wxID_ANY, wxST_SIZEGRIP);
+	this->SetStatusBar(statusBar);
+	//int widths[] = { 60, 60, -1 };
+	//statusBar->SetFieldWidths(WXSIZEOF(widths), widths);
+	statusBar->SetStatusText(wxT("Ready"), 0);
+}
+
+// ------------------------------------------------------------------------------------------------
+void MainFrame::ChangeFont(wxControl *control, const Properties *const props) {
+	wxFont font(wxFontInfo(12).FaceName("Liberation Mono").Italic());
+	control->SetFont(font);
+}
+
+void MainFrame::ChangeFont(wxPanel *panel, const Properties *const props) {
+	wxFont font(wxFontInfo(12).FaceName("Liberation Mono").Italic());
+	panel->SetFont(font);
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -355,12 +370,13 @@ void MainFrame::OnOpen(wxCommandEvent &event) {
 		return;
 	}
 	std::string filePath = std::string(openDialog.GetPath());
+	memory->clearSource();
 	fileHandling->loadProgramFile(filePath, memory);
 	sourceCodeCtrl->SetScrollAndSize(memory->getNumberOfSourceLines());
 	sourceCodeCtrl->Refresh();
 	updateRegisters();
 	std::string msg("Loaded " + filePath);
-	logMsg(msg);
+	setStatusMsg(msg);
 }
 // ------------------------------------------------------------------------------------------------
 void MainFrame::OnOpenData(wxCommandEvent &event) {
@@ -532,65 +548,60 @@ void MainFrame::updateRegisters(void) {
 
 	// print each bit of SR
 	std::string str = "";
-	if (SR & 0b1000000000000000)
+	if (SR & SR_TRACE)
 		str += "T";
 	else
 		str += "t";
 	str += "0"; //t0 is 0 < 68020
 	//         ttsm0iii000xnzvc
-	if (SR & 0b0010000000000000)
+	if (SR & SR_SUPER)
 		str += "S";
 	else
 		str += "s";
 	//         ttsm0iii000xnzvc
-	if (SR & 0b0001000000000000)
+	if (SR & SR_MINT)
 		str += "M";
 	else
 		str += "m";
 	str += "0";
 	//         ttsm0iii000xnzvc
-	if (SR & 0b0000010000000000)
+	if (SR & SR_INTPM1)
 		str += "I";
 	else
 		str += "i";
 	//         ttsm0iii000xnzvc
-	if (SR & 0b0000001000000000)
+	if (SR & SR_INTPM2)
 		str += "I";
 	else
 		str += "i";
 	//         ttsm0iii000xnzvc
-	if (SR & 0b0000000100000000)
+	if (SR & SR_INTPM3)
 		str += "I";
 	else
 		str += "i";
 	str += "000";
 	//         ttsm0iii000xnzvc
-	if (SR & 0b0000000000010000)
+	if (SR & SR_EXT)
 		str += "X";
 	else
 		str += "x";
 	//         ttsm0iii000xnzvc
-	if (SR & 0b0000000000010000)
-		str += "X";
-	else
-		str += "x";
-	//         ttsm0iii000xnzvc
-	if (SR & 0b0000000000001000)
+	if (SR & SR_NEG)
 		str += "N";
 	else
 		str += "n";
 	//         ttsm0iii000xnzvc
-	if (SR & 0b0000000000000100)
+	if (SR & SR_ZERO)
 		str += "Z";
 	else
 		str += "z";
 	//         ttsm0iii000xnzvc
-	if (SR & 0b0000000000000010)
+	if (SR & SR_OVER)
 		str += "V";
 	else
 		str += "v";
 	//         ttsm0iii000xnzvc
-	if (SR & 0b0000000000010001)
+	if (SR & SR_CARRY)
 		str += "C";
 	else
 		str += "c";
@@ -621,19 +632,20 @@ void MainFrame::updateUI(void) {
 
 // ------------------------------------------------------------------------------------------------
 void MainFrame::logMsg(const std::string &msg) {
-	logWindow->SetInsertionPointEnd();
-	logWindow->AppendText(msg);
-	logWindow->SetInsertionPointEnd();
-	logWindow->AppendText(wxT("\n"));
+	logWindow->logMsg(msg);
 }
 
 // ------------------------------------------------------------------------------------------------
 void MainFrame::logMsg(const char *msg) {
-	logWindow->SetInsertionPointEnd();
-	std::string msgr;
-	msgr.append(msg);
-	msgr.append("\n");
-	logWindow->AppendText(msgr);
+	logWindow->logMsg(msg);
+}
+
+// ------------------------------------------------------------------------------------------------
+// USE:
+//MainFrame *topwin = reinterpret_cast<MainFrame*>(wxApp::GetMainTopWindow());
+//topwin->setStatusMsg("Cannot create properties dir ");
+void MainFrame::setStatusMsg(const std::string &msg) {
+	statusBar->SetStatusText(msg);
 }
 
 // ------------------------------------------------------------------------------------------------
