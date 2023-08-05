@@ -123,18 +123,21 @@ void Memory::addSRec(const std::string_view line) {
 		idx += SREC_CiADDR;
 		count = 0; // skip
 		PC = addr;
+		startPC = addr;
 		break;
 	case '8': // starting exec addr 3 byte
 		addr = getHexValue(line, idx, SREC_B3ADDR);
 		idx += SREC_C3ADDR;
 		count = 0; // skip
 		PC = addr;
+		startPC = addr;
 		break;
 	case '9': // starting exec addr 2 byte
 		addr = getHexValue(line, idx, 2);
 		idx += 2;
 		count = 0; // skip
 		PC = addr;
+		startPC = addr;
 		break;
 	default:
 		count = 0; // skip

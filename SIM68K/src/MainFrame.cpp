@@ -59,7 +59,7 @@ EVT_MENU(ID_Output_Window_Size, MainFrame::OnOutputWindowSize)
 EVT_MENU(ID_Output_Window_Text_Wrap, MainFrame::OnOutputWindowTextWrap)
 EVT_MENU(ID_Help, MainFrame::OnHelp)
 EVT_MENU(ID_About, MainFrame::OnAbout)
-END_EVENT_TABLE() // The button is pressed
+END_EVENT_TABLE()
 
 // ------------------------------------------------------------------------------------------------
 MainFrame::~MainFrame() {
@@ -423,6 +423,7 @@ void MainFrame::OnStepOver(wxCommandEvent &event) {
 }
 // ------------------------------------------------------------------------------------------------
 void MainFrame::OnTraceInto(wxCommandEvent &event) {
+	trace = true;
 	runprog();
 }
 // ------------------------------------------------------------------------------------------------
@@ -431,7 +432,8 @@ void MainFrame::OnPause(wxCommandEvent &event) {
 }
 // ------------------------------------------------------------------------------------------------
 void MainFrame::OnRewindProgram(wxCommandEvent &event) {
-	// TODO: OnRewindProgram
+	PC = memory->startPC;
+	OLD_PC = memory->startPC;
 }
 // ------------------------------------------------------------------------------------------------
 void MainFrame::OnReloadProgram(wxCommandEvent &event) {

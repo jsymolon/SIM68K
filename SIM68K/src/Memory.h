@@ -62,6 +62,7 @@ protected:
 public:
 	uint8_t memory[MEM_SIZE]; // 0x00ffffff
 	std::map<int32_t, uint32_t> srcLineToAddr; // holds the filesrcline to address - allows ident of lines that breakpoints can be used
+	uint32_t startPC = 0;
 
 public:
 

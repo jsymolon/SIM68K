@@ -76,10 +76,17 @@ int32_t decode_size(int32_t *result) {
 
 int32_t eff_addr(int32_t size, int32_t mask, bool add_times) {
 	bool legal = false;
-	int32_t error = SUCCESS, mode, reg, addr, move_operation;
-	int32_t bwinc, linc;
+	int32_t error = SUCCESS;
+	int32_t mode;
+	int32_t reg;
+	int32_t addr;
+	int32_t move_operation;
+	int32_t bwinc;
+	int32_t linc;
 	uint32_t ext;
-	int32_t inc_size, ind_reg, disp;
+	int32_t inc_size;
+	int32_t ind_reg;
+	int32_t disp;
 
 	if ((((inst & 0xf000) == 0x1000) || ((inst & 0xf000) == 0x2000) || ((inst & 0xf000) == 0x3000)) && (mask == DATA_ALT_ADDR))
 		move_operation = true;    // move destination address
@@ -658,9 +665,9 @@ int32_t runprog() {
 //			simIO->setupWindow();
 //		}
 //		scrshow();              // if trace is on then update the screen
-//		if (halt)
+//		if (halt) {
 //			Form1->setMenuTrace(); // set menu and toolbar to disable debug commands
-//		else {
+//		} else {
 //			Form1->setMenuActive();   // enable debug commands
 //		}
 
@@ -746,7 +753,11 @@ void logRegisters() {
  informs the user that an exception condition has occurred.
  ****************************************************************************/
 int32_t exec_inst() {
-	static int32_t start, finish, exec_result, i, intMask;
+	static int32_t start;
+	static int32_t finish;
+	static int32_t exec_result;
+	static int32_t i;
+	static int32_t intMask;
 	static uint32_t temp;
 	char buffer[512];
 
