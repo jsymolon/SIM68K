@@ -25,7 +25,7 @@ SourceCtrl::SourceCtrl(wxWindow *parent) :
 	//m_colour = wxColour("WHITE");
 	wxFont m_font(10, wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL,
 			wxFONTWEIGHT_BOLD);
-	this->SetFont(m_font);
+	SetFont(m_font);
 	fontPixelSize = m_font.GetPixelSize();
 	halfFont = int((fontPixelSize.y - 4) / 2); // minus to fit the circle in font height
 	//SetVirtualSize(virtSize);

@@ -21,12 +21,14 @@ private:
 	wxSize fontPixelSize;
 
 public:
-	LogCtrl(wxWindow *parent, wxWindowID id = wxID_ANY, const wxString &value = "", const wxPoint &pos = wxDefaultPosition,
-			const wxSize &size = wxDefaultSize, long style = 0, const wxValidator &validator = wxDefaultValidator,
-			const wxString &name = wxTextCtrlNameStr) :
+	LogCtrl(wxWindow *parent, wxWindowID id = wxID_ANY, const wxString &value =
+			"", const wxPoint &pos = wxDefaultPosition, const wxSize &size =
+			wxDefaultSize, long style = 0, const wxValidator &validator =
+			wxDefaultValidator, const wxString &name = wxTextCtrlNameStr) :
 			wxTextCtrl(parent, id, value, pos, size, style, validator, name) {
 
-		wxFont m_font(10, wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
+		wxFont m_font(10, wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL,
+				wxFONTWEIGHT_BOLD);
 		this->SetFont(m_font);
 		fontPixelSize = m_font.GetPixelSize();
 		SetBackgroundColour(*wxWHITE);

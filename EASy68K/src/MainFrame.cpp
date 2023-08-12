@@ -177,26 +177,9 @@ void MainFrame::BuildMenu() {
 void MainFrame::BuildFrame() {
 	wxBoxSizer *topsizer = new wxBoxSizer(wxVERTICAL);
 
-//	wxSplitterWindow *splittermain = new wxSplitterWindow(this, wxID_ANY);
-//
-//	// splittermain - top is source, bottom is log
-//	sourceCodeCtrl = new SourceCtrl(splittermain);
-//	ChangeFont(reinterpret_cast<wxPanel*>(sourceCodeCtrl), props);
-//	splittermain->SplitHorizontally(sourceCodeCtrl, logWindow);
-//	splittermain->SetSashGravity(.9);  // top resize more
-//	splittermain->SetSashPosition(900);
-//	topsizer->Add(splittermain, 1, wxEXPAND);
-//	SetSizerAndFit(topsizer);
-
-	wxSplitterWindow *splitter = new wxSplitterWindow(this, wxID_ANY);
-
-	sourceCodeCtrl = new SourceCtrl(splitter);
-//	AdditionalPanel *additionalPanel = new AdditionalPanel(splitter);
-//
-//	splitter->SplitVertically(scrolledEditPanel, additionalPanel);
-	splitter->SetMinimumPaneSize(150);
-
-	Centre();
+	sourceCodeCtrl = new SourceCtrl(this);
+	topsizer->Add(sourceCodeCtrl, 1, wxEXPAND | wxALL);
+	SetSizer(topsizer);
 
 	statusBar = new wxStatusBar(this, wxID_ANY, wxST_SIZEGRIP);
 	this->SetStatusBar(statusBar);
