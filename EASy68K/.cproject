@@ -24,11 +24,7 @@
 							<builder arguments="-j 4" buildPath="${workspace_loc:/EASy68K}/Debug" id="cdt.managedbuild.target.gnu.builder.exe.debug.889451164" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="cdt.managedbuild.target.gnu.builder.exe.debug"/>
 							<tool commandLinePattern="${COMMAND} ${OUTPUT_FLAG} ${OUTPUT_PREFIX} ${OUTPUT} ${INPUTS} ${FLAGS}" id="cdt.managedbuild.tool.gnu.archiver.base.2051309254" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
 							<tool commandLinePattern="${COMMAND} ${OUTPUT_FLAG} ${OUTPUT_PREFIX} ${OUTPUT} ${INPUTS} ${FLAGS}" id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.1526425357" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug">
-<<<<<<< HEAD
 								<option id="gnu.cpp.compiler.exe.debug.option.optimization.level.1803253308" name="Optimization Level" superClass="gnu.cpp.compiler.exe.debug.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.more" valueType="enumerated"/>
-=======
-								<option id="gnu.cpp.compiler.exe.debug.option.optimization.level.1803253308" name="Optimization Level" superClass="gnu.cpp.compiler.exe.debug.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
->>>>>>> f1204d4e5eee6ff31771b095f5b932e5a681d773
 								<option defaultValue="gnu.cpp.compiler.debugging.level.max" id="gnu.cpp.compiler.exe.debug.option.debugging.level.1603368890" name="Debug Level" superClass="gnu.cpp.compiler.exe.debug.option.debugging.level" useByScannerDiscovery="false" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.dialect.std.1715925075" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.c++2a" valueType="enumerated"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.cpp.compiler.option.include.paths.1548080588" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
@@ -37,39 +33,31 @@
 								</option>
 								<option id="gnu.cpp.compiler.option.debugging.gprof.779597143" name="Generate gprof information (-pg)" superClass="gnu.cpp.compiler.option.debugging.gprof" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="gnu.cpp.compiler.option.warnings.extrawarn.1160455625" name="Extra warnings (-Wextra)" superClass="gnu.cpp.compiler.option.warnings.extrawarn" useByScannerDiscovery="false" value="true" valueType="boolean"/>
-<<<<<<< HEAD
 								<option id="gnu.cpp.compiler.option.warnings.weffcpp.406467474" name="Effective C++ guidelines (-Weffc++)" superClass="gnu.cpp.compiler.option.warnings.weffcpp" useByScannerDiscovery="false" value="false" valueType="boolean"/>
 								<option id="gnu.cpp.compiler.option.other.verbose.1493719946" name="Verbose (-v)" superClass="gnu.cpp.compiler.option.other.verbose" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="gnu.cpp.compiler.option.other.other.1088071342" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" useByScannerDiscovery="false" value="-c -ftime-report -fmessage-length=0  `wx-config --cppflags`" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.pthread.912560324" name="Support for pthread (-pthread)" superClass="gnu.cpp.compiler.option.pthread" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="gnu.cpp.compiler.option.other.pic.413354653" name="Position Independent Code (-fPIC)" superClass="gnu.cpp.compiler.option.other.pic" useByScannerDiscovery="false" value="true" valueType="boolean"/>
-								<option id="gnu.cpp.compiler.option.warnings.wcastqual.1224920346" superClass="gnu.cpp.compiler.option.warnings.wcastqual" value="true" valueType="boolean"/>
-								<option id="gnu.cpp.compiler.option.warnings.wfloatequal.498980986" superClass="gnu.cpp.compiler.option.warnings.wfloatequal" value="true" valueType="boolean"/>
-								<option id="gnu.cpp.compiler.option.warnings.wundef.1277649230" superClass="gnu.cpp.compiler.option.warnings.wundef" value="true" valueType="boolean"/>
-								<option id="gnu.cpp.compiler.option.warnings.wswitchdef.1281526103" superClass="gnu.cpp.compiler.option.warnings.wswitchdef" value="true" valueType="boolean"/>
-								<option id="gnu.cpp.compiler.option.warnings.wstrictnullsent.490082310" superClass="gnu.cpp.compiler.option.warnings.wstrictnullsent" value="true" valueType="boolean"/>
-								<option id="gnu.cpp.compiler.option.warnings.wsignpromo.1269506596" superClass="gnu.cpp.compiler.option.warnings.wsignpromo" value="true" valueType="boolean"/>
-								<option id="gnu.cpp.compiler.option.warnings.wsignconv.1974136020" superClass="gnu.cpp.compiler.option.warnings.wsignconv" value="true" valueType="boolean"/>
-								<option id="gnu.cpp.compiler.option.warnings.wshadow.1432414523" superClass="gnu.cpp.compiler.option.warnings.wshadow" value="true" valueType="boolean"/>
-								<option id="gnu.cpp.compiler.option.warnings.woverloadedvirtual.1206778155" superClass="gnu.cpp.compiler.option.warnings.woverloadedvirtual" value="true" valueType="boolean"/>
-								<option id="gnu.cpp.compiler.option.warnings.wredundantdecl.756806795" superClass="gnu.cpp.compiler.option.warnings.wredundantdecl" value="true" valueType="boolean"/>
-								<option id="gnu.cpp.compiler.option.warnings.woldstylecast.1139759829" superClass="gnu.cpp.compiler.option.warnings.woldstylecast" value="true" valueType="boolean"/>
-								<option id="gnu.cpp.compiler.option.warnings.wnoexccept.241517540" superClass="gnu.cpp.compiler.option.warnings.wnoexccept" value="true" valueType="boolean"/>
-								<option id="gnu.cpp.compiler.option.warnings.wmissingincdir.346008238" superClass="gnu.cpp.compiler.option.warnings.wmissingincdir" value="true" valueType="boolean"/>
-								<option id="gnu.cpp.compiler.option.warnings.wmissingdecl.250774823" superClass="gnu.cpp.compiler.option.warnings.wmissingdecl" value="true" valueType="boolean"/>
-								<option id="gnu.cpp.compiler.option.warnings.wlogicalop.1332665808" superClass="gnu.cpp.compiler.option.warnings.wlogicalop" value="true" valueType="boolean"/>
-								<option id="gnu.cpp.compiler.option.warnings.wdisabledopt.2063999233" superClass="gnu.cpp.compiler.option.warnings.wdisabledopt" value="true" valueType="boolean"/>
-								<option id="gnu.cpp.compiler.option.warnings.wctordtorprivacy.1492557656" superClass="gnu.cpp.compiler.option.warnings.wctordtorprivacy" value="true" valueType="boolean"/>
-								<option id="gnu.cpp.compiler.option.warnings.wcastalign.1543200863" superClass="gnu.cpp.compiler.option.warnings.wcastalign" value="true" valueType="boolean"/>
-								<option id="gnu.cpp.compiler.option.warnings.wconversion.1598150495" superClass="gnu.cpp.compiler.option.warnings.wconversion" value="true" valueType="boolean"/>
-								<option id="gnu.cpp.compiler.option.warnings.pedantic.571744963" superClass="gnu.cpp.compiler.option.warnings.pedantic" value="true" valueType="boolean"/>
-=======
-								<option id="gnu.cpp.compiler.option.warnings.weffcpp.406467474" name="Effective C++ guidelines (-Weffc++)" superClass="gnu.cpp.compiler.option.warnings.weffcpp" useByScannerDiscovery="false" value="true" valueType="boolean"/>
-								<option id="gnu.cpp.compiler.option.other.verbose.1493719946" name="Verbose (-v)" superClass="gnu.cpp.compiler.option.other.verbose" useByScannerDiscovery="false" value="true" valueType="boolean"/>
-								<option id="gnu.cpp.compiler.option.other.other.1088071342" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" useByScannerDiscovery="false" value="-c -ftime-report -fmessage-length=0  `wx-config --cppflags`" valueType="string"/>
-								<option id="gnu.cpp.compiler.option.pthread.912560324" name="Support for pthread (-pthread)" superClass="gnu.cpp.compiler.option.pthread" useByScannerDiscovery="false" value="true" valueType="boolean"/>
-								<option id="gnu.cpp.compiler.option.other.pic.413354653" superClass="gnu.cpp.compiler.option.other.pic" value="true" valueType="boolean"/>
->>>>>>> f1204d4e5eee6ff31771b095f5b932e5a681d773
+								<option id="gnu.cpp.compiler.option.warnings.wcastqual.1224920346" name="Removing type qualifier from cast target type (-Wcast-qual)" superClass="gnu.cpp.compiler.option.warnings.wcastqual" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.wfloatequal.498980986" name="Direct float equal check (-Wfloat-equal)" superClass="gnu.cpp.compiler.option.warnings.wfloatequal" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.wundef.1277649230" name="An undefined identifier is evaluated in an #if directive (-Wundef)" superClass="gnu.cpp.compiler.option.warnings.wundef" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.wswitchdef.1281526103" name="A switch statement does not have a default case (-Wswitch-default)" superClass="gnu.cpp.compiler.option.warnings.wswitchdef" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.wstrictnullsent.490082310" name="Use of an uncasted NULL as sentinel (-Wstrict-null-sentinel)" superClass="gnu.cpp.compiler.option.warnings.wstrictnullsent" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.wsignpromo.1269506596" name="Overload resolution promotes unsigned to signed type (-Wsign-promo)" superClass="gnu.cpp.compiler.option.warnings.wsignpromo" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.wsignconv.1974136020" name="Implicit conversions that may change the sign (-Wsign-conversion)" superClass="gnu.cpp.compiler.option.warnings.wsignconv" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.wshadow.1432414523" name="Local symbol shadows upper scope symbol (-Wshadow)" superClass="gnu.cpp.compiler.option.warnings.wshadow" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.woverloadedvirtual.1206778155" name="Function hides virtual functions from base class (-Woverloaded-virtual)" superClass="gnu.cpp.compiler.option.warnings.woverloadedvirtual" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.wredundantdecl.756806795" name="More than one declaration in the same scope (-Wredundant-decls)" superClass="gnu.cpp.compiler.option.warnings.wredundantdecl" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.woldstylecast.1139759829" name="C-style cast used (-Wold-style-cast)" superClass="gnu.cpp.compiler.option.warnings.woldstylecast" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.wnoexccept.241517540" name="Noexcept false but never throw exception (-Wnoexcept)" superClass="gnu.cpp.compiler.option.warnings.wnoexccept" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.wmissingincdir.346008238" name="User-supplied include directory does not exist (-Wmissing-include-dirs)" superClass="gnu.cpp.compiler.option.warnings.wmissingincdir" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.wmissingdecl.250774823" name="Global function without previous declaration (-Wmissing-declarations)" superClass="gnu.cpp.compiler.option.warnings.wmissingdecl" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.wlogicalop.1332665808" name="Suspicious uses of logical operators (-Wlogical-op)" superClass="gnu.cpp.compiler.option.warnings.wlogicalop" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.wdisabledopt.2063999233" name="Requested optimization pass is disabled (-Wdisabled-optimization)" superClass="gnu.cpp.compiler.option.warnings.wdisabledopt" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.wctordtorprivacy.1492557656" name="All ctor and dtor private (-Wctor-dtor-privacy)" superClass="gnu.cpp.compiler.option.warnings.wctordtorprivacy" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.wcastalign.1543200863" name="Pointer cast with different alignment (-Wcast-align)" superClass="gnu.cpp.compiler.option.warnings.wcastalign" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.wconversion.1598150495" name="Implicit conversion warnings (-Wconversion)" superClass="gnu.cpp.compiler.option.warnings.wconversion" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.pedantic.571744963" name="Pedantic (-pedantic)" superClass="gnu.cpp.compiler.option.warnings.pedantic" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.58739504" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.108909912" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.debug">
@@ -84,11 +72,7 @@
 									<listOptionValue builtIn="false" value="/usr/local/lib"/>
 								</option>
 								<option id="gnu.cpp.link.option.pthread.39204180" name="Support for pthread (-pthread)" superClass="gnu.cpp.link.option.pthread" value="true" valueType="boolean"/>
-<<<<<<< HEAD
 								<option id="gnu.cpp.link.option.flags.2052753120" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="`wx-config --libs`" valueType="string"/>
-=======
-								<option id="gnu.cpp.link.option.flags.2052753120" superClass="gnu.cpp.link.option.flags" value="`wx-config --libs`" valueType="string"/>
->>>>>>> f1204d4e5eee6ff31771b095f5b932e5a681d773
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1652579295" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -143,11 +127,7 @@
 								<option id="gnu.cpp.compiler.option.other.verbose.1958906111" name="Verbose (-v)" superClass="gnu.cpp.compiler.option.other.verbose" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="gnu.cpp.compiler.option.other.other.1167315094" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" useByScannerDiscovery="false" value="-c -ftime-report -fmessage-length=0  `wx-config --cppflags`" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.pthread.112574403" name="Support for pthread (-pthread)" superClass="gnu.cpp.compiler.option.pthread" useByScannerDiscovery="false" value="true" valueType="boolean"/>
-<<<<<<< HEAD
 								<option id="gnu.cpp.compiler.option.other.pic.103489579" name="Position Independent Code (-fPIC)" superClass="gnu.cpp.compiler.option.other.pic" useByScannerDiscovery="false" value="true" valueType="boolean"/>
-=======
-								<option id="gnu.cpp.compiler.option.other.pic.103489579" superClass="gnu.cpp.compiler.option.other.pic" value="true" valueType="boolean"/>
->>>>>>> f1204d4e5eee6ff31771b095f5b932e5a681d773
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.2131241204" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.1760777369" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.debug">
@@ -161,11 +141,7 @@
 									<listOptionValue builtIn="false" value="/usr/local/lib"/>
 								</option>
 								<option id="gnu.cpp.link.option.pthread.1166045753" name="Support for pthread (-pthread)" superClass="gnu.cpp.link.option.pthread" value="true" valueType="boolean"/>
-<<<<<<< HEAD
 								<option id="gnu.cpp.link.option.flags.510855776" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="`wx-config --libs`" valueType="string"/>
-=======
-								<option id="gnu.cpp.link.option.flags.510855776" superClass="gnu.cpp.link.option.flags" value="`wx-config --libs`" valueType="string"/>
->>>>>>> f1204d4e5eee6ff31771b095f5b932e5a681d773
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1211057136" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
