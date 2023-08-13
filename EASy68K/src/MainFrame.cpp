@@ -11,13 +11,19 @@
 #include <wx/log.h>
 #include <wx/splitter.h>
 #include <wx/stdpaths.h>
+#include <wx/textfile.h>
 #include <wx/toolbar.h>
+
+#include <iostream>  // need cerr
+#include <fstream>
+#include <exception>
+#include <stdexcept>
 
 #include <string>
 #include "extern.h"
 
 BEGIN_EVENT_TABLE ( MainFrame, wxFrame ) EVT_MENU(ID_New, MainFrame::OnNew)
-EVT_MENU(ID_Open_Data, MainFrame::OnOpenData)
+EVT_MENU(ID_Open_Data, MainFrame::OnOpen)
 EVT_MENU(ID_Save, MainFrame::OnSave)
 EVT_MENU(ID_SaveAs, MainFrame::OnSaveAs)
 EVT_MENU(ID_Print, MainFrame::OnPrint)
@@ -54,9 +60,9 @@ END_EVENT_TABLE()
 
 // ------------------------------------------------------------------------------------------------
 MainFrame::MainFrame(const wxString &title, const wxPoint &pos,
-		const wxSize &size, EASy68K *easy68k) :
+		const wxSize &size, EASy68K *easy68kp) :
 		wxFrame(reinterpret_cast<wxFrame*>( NULL), -1, title, pos, size) {
-	this->easy68k = easy68k;
+	easy68k = easy68kp;
 	props->load("");
 	BuildMenu();
 	BuildFrame();
@@ -65,11 +71,11 @@ MainFrame::MainFrame(const wxString &title, const wxPoint &pos,
 }
 
 // ------------------------------------------------------------------------------------------------
-void MainFrame::AddImageToBar(wxToolBar *toolbar, int toolid, wxString path,
+void MainFrame::AddImageToBar(wxToolBar *toolbarp, int toolid, wxString path,
 		wxString filename, wxString label) {
 	wxString b1 = path.Append(filename);
 	wxBitmap p1(b1, wxBITMAP_TYPE_XPM);
-	toolbar->AddTool(toolid, label, p1);
+	toolbarp->AddTool(toolid, label, p1);
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -86,20 +92,22 @@ void MainFrame::BuildToolbar() {
 			wxTB_FLAT | wxTB_NODIVIDER | wxTB_TEXT);
 	toolbar->SetToolBitmapSize(wxSize(ICON_SIZE, ICON_SIZE));
 
-	AddImageToBar(toolbar, ID_New, path, "new.png", wxT("New"));
-	AddImageToBar(toolbar, ID_Open, path, "folder.png", wxT("Open"));
-	AddImageToBar(toolbar, ID_Save, path, "save.png", wxT("Save"));
-	AddImageToBar(toolbar, ID_Print, path, "print.png", wxT("Print"));
-	AddImageToBar(toolbar, ID_Find, path, "search.png", wxT("Find"));
-	AddImageToBar(toolbar, ID_Cut, path, "scissors.png", wxT("Cut"));
-	AddImageToBar(toolbar, ID_Copy, path, "copy.png", wxT("Copy"));
-	AddImageToBar(toolbar, ID_Paste, path, "paste.png", wxT("Paste"));
-	AddImageToBar(toolbar, ID_Undo, path, "undo_blue.png", wxT("Undo"));
-	AddImageToBar(toolbar, ID_Redo, path, "redo_blue.png", wxT("Redo"));
-	AddImageToBar(toolbar, ID_Comment, path, "comment.png", wxT("Comment"));
-	AddImageToBar(toolbar, ID_Uncomment, path, "uncomment.png",
+	AddImageToBar(toolbar, ID_New, path, "large/new.png", wxT("New"));
+	AddImageToBar(toolbar, ID_Open, path, "large/folder.png", wxT("Open"));
+	AddImageToBar(toolbar, ID_Save, path, "large/save.png", wxT("Save"));
+	AddImageToBar(toolbar, ID_Print, path, "large/print.png", wxT("Print"));
+	AddImageToBar(toolbar, ID_Find, path, "large/search.png", wxT("Find"));
+	AddImageToBar(toolbar, ID_Cut, path, "large/scissors.png", wxT("Cut"));
+	AddImageToBar(toolbar, ID_Copy, path, "large/copy.png", wxT("Copy"));
+	AddImageToBar(toolbar, ID_Paste, path, "large/paste.png", wxT("Paste"));
+	AddImageToBar(toolbar, ID_Undo, path, "large/undo_blue.png", wxT("Undo"));
+	AddImageToBar(toolbar, ID_Redo, path, "large/redo_blue.png", wxT("Redo"));
+	AddImageToBar(toolbar, ID_Comment, path, "large/comment.png",
+			wxT("Comment"));
+	AddImageToBar(toolbar, ID_Uncomment, path, "large/uncomment.png",
 			wxT("Uncomment"));
-	AddImageToBar(toolbar, ID_Assemble, path, "run32x32.png", wxT("Assemble"));
+	AddImageToBar(toolbar, ID_Assemble, path, "large/run32x32.png",
+			wxT("Assemble"));
 
 	toolbar->Realize();
 	SetToolBar(toolbar);
@@ -158,7 +166,7 @@ void MainFrame::BuildMenu() {
 	windowMenu = new wxMenu();
 	windowMenu->Append(ID_Arrange, "&Arrange", "Arrange");
 	windowMenu->Append(ID_Cascade, "&Cascade", "Cascade");
-	windowMenu->Append(ID_TileHorz, "&Tile Horzontally", "Tile Horizontally");
+	windowMenu->Append(ID_TileHorz, "&Tile Horizontally", "Tile Horizontally");
 	windowMenu->Append(ID_TileVert, "&Tile Vertically", "Tile Vertically");
 	windowMenu->Append(ID_MinimizeAll, "&Minimize", "Minimize All");
 	windowMenu->AppendSeparator();
@@ -196,17 +204,52 @@ void MainFrame::ChangeFont(wxPanel *panel, const Properties *const props) {
 
 // ------------------------------------------------------------------------------------------------
 void MainFrame::OnNew(wxCommandEvent &event) {
-	// TODO: OnNew
 }
 
 // ------------------------------------------------------------------------------------------------
-void MainFrame::OnOpenData(wxCommandEvent &event) {
-	// TODO: OnOpenData
+void MainFrame::OnOpen(wxCommandEvent &event) {
+	wxString filePath;
+
+	// Create a file dialog
+	wxFileDialog fileDialog(this, "Select a File", wxEmptyString, wxEmptyString,
+			"Src files (*.X68)|*.X68|All files (*.*)|*.*",
+			wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+
+	// Show the file dialog and check if the user selected a file
+	if (fileDialog.ShowModal() == wxID_OK) {
+		filePath = fileDialog.GetPath();
+
+		std::fstream x68;
+		try {
+			x68.open(filePath, std::ios::in);
+			if (!x68) {
+				//TODO: error
+				return;
+			}
+			std::string line;
+			wxString content;
+			while (getline(x68, line)) {
+				content.Append(line);
+			}
+			sourceCodeCtrl->SetContent(content);
+			x68.close();
+		} catch (const std::exception &e) {
+			std::cerr << "loadSourceFile:" << e.what();
+		}
+	}
 }
 
 // ------------------------------------------------------------------------------------------------
 void MainFrame::OnSave(wxCommandEvent &event) {
-	// TODO: OnSave
+	wxString filePath = wxFileSelector("Save Source File", "", "", "",
+			"Src files (*.X86)|*.X86", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+	if (!filePath.empty()) {
+		wxFile file(filePath, wxFile::write);
+		if (file.IsOpened()) {
+			wxString content = sourceCodeCtrl->GetContent();
+			file.Write(content);
+		}
+	}
 }
 
 // ------------------------------------------------------------------------------------------------

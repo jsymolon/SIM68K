@@ -20,8 +20,8 @@ BEGIN_EVENT_TABLE(SourceCtrl, wxScrolledWindow)
 END_EVENT_TABLE()
 
 //----------------------------------------------------------------------------------
-SourceCtrl::SourceCtrl(wxWindow *parent) :
-		wxScrolled<wxWindow>(parent) {
+SourceCtrl::SourceCtrl(wxWindow *parent, wxWindowID id) :
+		wxScrolled<wxWindow>(parent, id) {
 	//m_colour = wxColour("WHITE");
 	wxFont m_font(10, wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL,
 			wxFONTWEIGHT_BOLD);
@@ -95,5 +95,14 @@ void SourceCtrl::adjustScrollPos(void) {
 //		this->GetParent()->Layout();
 //		std::cout << "Scroll: PC:" << PC << " PC l:" << yPtPC << " sp:" << sp << " s:" << vpstart << " m:" << vpmid << " e:" << vpend
 //				<< " moveScroll:" << moveScrollPos << " pixsz:" << fontPixelSize.y << "\n";
+}
+
+//----------------------------------------------------------------------------------
+void SetContent(wxString content) {
+
+}
+
+//----------------------------------------------------------------------------------
+wxString GetContent(void) {
 }
 

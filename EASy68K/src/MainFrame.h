@@ -43,7 +43,7 @@ public:
 	void ChangeFont(wxPanel *panel, const Properties *const props);
 
 	void OnNew(wxCommandEvent &event);
-	void OnOpenData(wxCommandEvent &event);
+	void OnOpen(wxCommandEvent &event);
 	void OnSave(wxCommandEvent &event);
 	void OnSaveAs(wxCommandEvent &event);
 	void OnPrint(wxCommandEvent &event);

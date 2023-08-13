@@ -13,7 +13,6 @@ class SourceCtrl: public wxScrolled<wxWindow> {
 private:
 	wxTextCtrl *editCtrl;
 
-	wxFont m_font;
 	wxColour m_backgroundColour = wxColour("WHITE");
 	wxColour m_breakOpaqueColour = wxColour(0, 255, 0, wxALPHA_OPAQUE);
 	wxColour m_breakTranColour = wxColour(0, 255, 0, wxALPHA_TRANSPARENT);
@@ -36,13 +35,12 @@ private:
 	unsigned int endline = 0;
 
 public:
-	SourceCtrl(wxWindow *parent);
+	SourceCtrl(wxWindow *parent, wxWindowID id = wxID_ANY);
 
 	const wxFont& GetTextFont() const {
 		return (m_font);
 	}
 	void SetTextFont(const wxFont &font) {
-		m_font = font;
 		this->SetFont(font);
 		fontPixelSize = font.GetPixelSize();
 		SetVirtualSize(virtSize);
@@ -74,6 +72,10 @@ public:
 	void OnScroll(wxScrollWinEvent &event);
 
 	void adjustScrollPos(void);
+
+	void SetContent(wxString content);
+
+	wxString GetContent(void);
 
 	// some useful events
 	/*
