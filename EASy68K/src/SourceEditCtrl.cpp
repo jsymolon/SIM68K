@@ -1,9 +1,9 @@
-#include "SourceCtrl.h"
-
 #include "extern.h"
+#include <wx/textctrl.h>
 #include <iterator>
+#include "SourceEditCtrl.h"
 
-BEGIN_EVENT_TABLE(SourceCtrl, wxScrolledWindow)
+BEGIN_EVENT_TABLE(SourceEditCtrl, wxScrolledWindow)
 // some useful events
 /*
  EVT_MOTION(BasicDrawPane::mouseMoved)
@@ -19,8 +19,10 @@ BEGIN_EVENT_TABLE(SourceCtrl, wxScrolledWindow)
 // catch paint events
 END_EVENT_TABLE()
 
+//TODO: TAB doesn't insert tabs
+
 //----------------------------------------------------------------------------------
-SourceCtrl::SourceCtrl(wxWindow *parent, wxWindowID id) :
+SourceEditCtrl::SourceEditCtrl(wxWindow *parent, wxWindowID id) :
 		wxScrolled<wxWindow>(parent, id) {
 	//m_colour = wxColour("WHITE");
 	wxFont m_font(10, wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL,
@@ -41,7 +43,7 @@ SourceCtrl::SourceCtrl(wxWindow *parent, wxWindowID id) :
 }
 
 //----------------------------------------------------------------------------------
-void SourceCtrl::SetScrollAndSize(int nLines) {
+void SourceEditCtrl::SetScrollAndSize(int nLines) {
 	// dont change x, set y to number of lines * fontheight
 	virtSize.y = (nLines + 1) * fontPixelSize.y;
 	SetVirtualSize(virtSize);
@@ -62,7 +64,7 @@ void SourceCtrl::SetScrollAndSize(int nLines) {
  void SourceCtrl::keyReleased(wxKeyEvent& event) {}
  */
 
-void SourceCtrl::OnScroll(wxScrollWinEvent &event) {
+void SourceEditCtrl::OnScroll(wxScrollWinEvent &event) {
 	// Update the scroll position
 	int scrollX = GetScrollPos(wxHORIZONTAL);
 	int scrollY = GetScrollPos(wxVERTICAL);
@@ -72,7 +74,7 @@ void SourceCtrl::OnScroll(wxScrollWinEvent &event) {
 
 //----------------------------------------------------------------------------------
 // we repaint in drawing, don't need to have separate one
-void SourceCtrl::adjustScrollPos(void) {
+void SourceEditCtrl::adjustScrollPos(void) {
 	// Figure out if the PC is w/in Viewport (if running)
 	wxSize sz = GetClientSize();
 	int vpstart = viewStartY / fontPixelSize.y;
@@ -98,11 +100,11 @@ void SourceCtrl::adjustScrollPos(void) {
 }
 
 //----------------------------------------------------------------------------------
-void SetContent(wxString content) {
-
+void SourceEditCtrl::SetContent(const wxString &content) {
+	editCtrl->SetValue(content);
 }
 
 //----------------------------------------------------------------------------------
-wxString GetContent(void) {
+wxString SourceEditCtrl::GetContent(void) {
 }
 

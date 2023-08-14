@@ -1,5 +1,5 @@
-#ifndef SOURCECTRL_H_
-#define SOURCECTRL_H_
+#ifndef SOURCEEDITCTRL_H_
+#define SOURCEEDITCTRL_H_
 
 #include <wx/wxprec.h>
 #ifndef WX_PRECOMP
@@ -9,7 +9,7 @@
 #include <wx/scrolwin.h>
 const uint8_t LINE_LEN = 50;
 
-class SourceCtrl: public wxScrolled<wxWindow> {
+class SourceEditCtrl: public wxScrolled<wxWindow> {
 private:
 	wxTextCtrl *editCtrl;
 
@@ -35,7 +35,7 @@ private:
 	unsigned int endline = 0;
 
 public:
-	SourceCtrl(wxWindow *parent, wxWindowID id = wxID_ANY);
+	SourceEditCtrl(wxWindow *parent, wxWindowID id = wxID_ANY);
 
 	const wxFont& GetTextFont() const {
 		return (m_font);
@@ -73,7 +73,7 @@ public:
 
 	void adjustScrollPos(void);
 
-	void SetContent(wxString content);
+	void SetContent(const wxString &content);
 
 	wxString GetContent(void);
 

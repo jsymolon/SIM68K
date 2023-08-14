@@ -23,7 +23,7 @@
 #include "extern.h"
 
 BEGIN_EVENT_TABLE ( MainFrame, wxFrame ) EVT_MENU(ID_New, MainFrame::OnNew)
-EVT_MENU(ID_Open_Data, MainFrame::OnOpen)
+EVT_MENU(ID_Open, MainFrame::OnOpen)
 EVT_MENU(ID_Save, MainFrame::OnSave)
 EVT_MENU(ID_SaveAs, MainFrame::OnSaveAs)
 EVT_MENU(ID_Print, MainFrame::OnPrint)
@@ -185,7 +185,7 @@ void MainFrame::BuildMenu() {
 void MainFrame::BuildFrame() {
 	wxBoxSizer *topsizer = new wxBoxSizer(wxVERTICAL);
 
-	sourceCodeCtrl = new SourceCtrl(this);
+	sourceCodeCtrl = new SourceEditCtrl(this);
 	topsizer->Add(sourceCodeCtrl, 1, wxEXPAND | wxALL);
 	SetSizer(topsizer);
 
@@ -208,8 +208,6 @@ void MainFrame::OnNew(wxCommandEvent &event) {
 
 // ------------------------------------------------------------------------------------------------
 void MainFrame::OnOpen(wxCommandEvent &event) {
-	wxString filePath;
-
 	// Create a file dialog
 	wxFileDialog fileDialog(this, "Select a File", wxEmptyString, wxEmptyString,
 			"Src files (*.X68)|*.X68|All files (*.*)|*.*",
@@ -217,11 +215,11 @@ void MainFrame::OnOpen(wxCommandEvent &event) {
 
 	// Show the file dialog and check if the user selected a file
 	if (fileDialog.ShowModal() == wxID_OK) {
-		filePath = fileDialog.GetPath();
+		srcFilePath = fileDialog.GetPath();
 
 		std::fstream x68;
 		try {
-			x68.open(filePath, std::ios::in);
+			x68.open(srcFilePath, std::ios::in);
 			if (!x68) {
 				//TODO: error
 				return;
@@ -241,10 +239,8 @@ void MainFrame::OnOpen(wxCommandEvent &event) {
 
 // ------------------------------------------------------------------------------------------------
 void MainFrame::OnSave(wxCommandEvent &event) {
-	wxString filePath = wxFileSelector("Save Source File", "", "", "",
-			"Src files (*.X86)|*.X86", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
-	if (!filePath.empty()) {
-		wxFile file(filePath, wxFile::write);
+	if (!srcFilePath.empty()) {
+		wxFile file(srcFilePath, wxFile::write);
 		if (file.IsOpened()) {
 			wxString content = sourceCodeCtrl->GetContent();
 			file.Write(content);
@@ -254,7 +250,15 @@ void MainFrame::OnSave(wxCommandEvent &event) {
 
 // ------------------------------------------------------------------------------------------------
 void MainFrame::OnSaveAs(wxCommandEvent &event) {
-	// TODO: OnSaveAs
+	wxString filePath = wxFileSelector("Save Source File", "", "", "",
+			"Src files (*.X86)|*.X86", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+	if (!filePath.empty()) {
+		wxFile file(filePath, wxFile::write);
+		if (file.IsOpened()) {
+			wxString content = sourceCodeCtrl->GetContent();
+			file.Write(content);
+		}
+	}
 }
 
 // ------------------------------------------------------------------------------------------------

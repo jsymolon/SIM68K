@@ -21,7 +21,7 @@
 
 #include <string>
 
-#include "SourceCtrl.h"
+#include "SourceEditCtrl.h"
 #include "LogCtrl.h"
 #include "Properties.h"
 
@@ -74,7 +74,7 @@ public:
 
 protected:
 	EASy68K *easy68k;
-	SourceCtrl *sourceCodeCtrl;
+	SourceEditCtrl *sourceCodeCtrl;
 	LogCtrl *logCtrl;
 
 	wxMenuBar *mainMenu;
@@ -89,6 +89,7 @@ protected:
 
 	wxStatusBar *statusBar;
 	Properties *props = new Properties();
+	wxString srcFilePath;
 
 DECLARE_EVENT_TABLE()
 
@@ -139,7 +140,6 @@ enum {
 	// File
 	ID_Open = wxID_HIGHEST + 1,
 	ID_New,
-	ID_Open_Data,
 	ID_Save,
 	ID_SaveAs,
 	ID_Print,
