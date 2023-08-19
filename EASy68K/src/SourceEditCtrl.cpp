@@ -19,8 +19,6 @@ BEGIN_EVENT_TABLE(SourceEditCtrl, wxScrolledWindow)
 // catch paint events
 END_EVENT_TABLE()
 
-//TODO: TAB doesn't insert tabs
-
 //----------------------------------------------------------------------------------
 SourceEditCtrl::SourceEditCtrl(wxWindow *parent, wxWindowID id) :
 		wxScrolled<wxWindow>(parent, id) {
@@ -35,7 +33,7 @@ SourceEditCtrl::SourceEditCtrl(wxWindow *parent, wxWindowID id) :
 
 	// Create a text control for editing
 	editCtrl = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition,
-			wxDefaultSize, wxTE_MULTILINE);
+			wxDefaultSize, wxTE_MULTILINE | wxTE_PROCESS_TAB | wxTE_RICH2);
 
 	wxBoxSizer *sizersw = new wxBoxSizer(wxVERTICAL);
 	sizersw->Add(editCtrl, 1, wxEXPAND | wxALL);
