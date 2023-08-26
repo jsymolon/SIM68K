@@ -6,6 +6,8 @@
  */
 #include "MainFrame.h"
 
+#include <wx/file.h>
+#include <wx/filefn.h>
 #include <wx/filename.h>
 #include <wx/font.h>
 #include <wx/log.h>
@@ -338,7 +340,29 @@ void MainFrame::OnReplace(wxCommandEvent &event) {
 
 // ------------------------------------------------------------------------------------------------
 void MainFrame::OnAssemble(wxCommandEvent &event) {
-	// TODO: OnAssemble
+	// if autosave and source has been modified
+	//TODO
+//	if (Options->bSave && Active->SourceText->Modified) {
+//		Main->mnuSaveClick(Sender); //save source file
+//	}
+//	Active->Messages->Items->Clear();
+	//try to assemble the file
+
+	// use path of selected source file as temp working directory
+//	SetCurrentDir(ExtractFilePath(Active->Project.CurrentFile));
+//	sourceFile = ExtractFilePath(Active->Project.CurrentFile) + "EASy68Ks.tmp";
+	wxString tempFile = wxGetCwd();
+	if (srcFilePath.IsEmpty()) {
+	}
+	srcFilePath = "";
+	tempFile = tempFile.Append("/src/bitmaps/");
+//	tempFile = ExtractFilePath(Active->Project.CurrentFile) + "EASy68Km.tmp";
+//	Active->SourceText->Lines->SaveToFile(sourceFile);
+//	assembleFile(sourceFile.c_str(), tempFile.c_str(),
+//			Active->Project.CurrentFile);
+//	DeleteFile (sourceFile);	// delete temporary files
+//	DeleteFile (tempFile);
+//	AssemblerBox->ShowModal();
 }
 
 // ------------------------------------------------------------------------------------------------

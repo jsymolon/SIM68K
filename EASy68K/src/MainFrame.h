@@ -13,17 +13,22 @@
 #include <wx/wx.h>
 #endif
 
-#include <wx/gdicmn.h>
-#include <wx/textctrl.h>
-#include <wx/sizer.h>
-#include <wx/menu.h>
-#include <wx/menuitem.h>
+//#include <wx/file.h>
+//#include <wx/filename.h>
+//#include <wx/gdicmn.h>
+//#include <wx/menu.h>
+//#include <wx/menuitem.h>
+//#include <wx/sizer.h>
+//#include <wx/textctrl.h>
+#include <wx/toolbar.h>
 
+#include <memory>
 #include <string>
 
 #include "SourceEditCtrl.h"
 #include "LogCtrl.h"
 #include "Properties.h"
+#include "Options.h"
 
 const int16_t ICON_SIZE = 32;
 
@@ -76,20 +81,22 @@ protected:
 	EASy68K *easy68k;
 	SourceEditCtrl *sourceCodeCtrl;
 	LogCtrl *logCtrl;
+	std::unique_ptr<Options> options;
 
-	wxMenuBar *mainMenu;
-	wxMenu *fileMenu;
-	wxMenu *editMenu;
-	wxMenu *projectMenu;
-	wxMenu *optionsMenu;
-	wxMenu *windowMenu;
-	wxMenu *helpMenu;
-
-	wxToolBar *toolbar;
-
-	wxStatusBar *statusBar;
-	Properties *props = new Properties();
-	wxString srcFilePath;
+//	wxMenuBar *mainMenu;
+//	wxMenu *fileMenu;
+//	wxMenu *editMenu;
+//	wxMenu *projectMenu;
+//	wxMenu *optionsMenu;
+//	wxMenu *windowMenu;
+//	wxMenu *helpMenu;
+//
+//	wxToolBar *toolbar;
+//
+//	wxStatusBar *statusBar;
+//	Properties *props = new Properties();
+//	wxString srcFilePath;
+//	wxFile *tempFile = nullptr;
 
 DECLARE_EVENT_TABLE()
 

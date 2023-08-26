@@ -14,10 +14,11 @@
 #endif
 
 #include <wx/gdicmn.h>
-#include <wx/textctrl.h>
-#include <wx/sizer.h>
 #include <wx/menu.h>
 #include <wx/menuitem.h>
+#include <wx/sizer.h>
+#include <wx/textctrl.h>
+#include <wx/toolbar.h>
 
 #include <string>
 #include "SourceCtrl.h"
