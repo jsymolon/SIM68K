@@ -351,13 +351,18 @@ void MainFrame::OnAssemble(wxCommandEvent &event) {
 	// use path of selected source file as temp working directory
 //	SetCurrentDir(ExtractFilePath(Active->Project.CurrentFile));
 //	sourceFile = ExtractFilePath(Active->Project.CurrentFile) + "EASy68Ks.tmp";
-	wxString tempFile = wxGetCwd();
-	if (srcFilePath.IsEmpty()) {
+	wxString cwd = wxGetCwd();
+
+	//	tempFile = ExtractFilePath(Active->Project.CurrentFile) + "EASy68Km.tmp";
+	wxString tempFileName = wxFileName::CreateTempFileName(cwd, tempFile);
+	wxFile *tempSrcFile = nullptr;
+	wxString tempSrcFileName = wxFileName::CreateTempFileName(cwd, tempSrcFile);
+
+	//	Active->SourceText->Lines->SaveToFile(sourceFile);
+	if (!srcFilePath.IsEmpty()) {
+		wxCommandEvent event;
+		this->OnSave(event);
 	}
-	srcFilePath = "";
-	tempFile = tempFile.Append("/src/bitmaps/");
-//	tempFile = ExtractFilePath(Active->Project.CurrentFile) + "EASy68Km.tmp";
-//	Active->SourceText->Lines->SaveToFile(sourceFile);
 //	assembleFile(sourceFile.c_str(), tempFile.c_str(),
 //			Active->Project.CurrentFile);
 //	DeleteFile (sourceFile);	// delete temporary files
