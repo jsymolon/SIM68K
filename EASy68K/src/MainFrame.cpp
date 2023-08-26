@@ -23,6 +23,7 @@
 
 #include <string>
 #include "extern.h"
+#include "proto.h"
 
 BEGIN_EVENT_TABLE ( MainFrame, wxFrame ) EVT_MENU(ID_New, MainFrame::OnNew)
 EVT_MENU(ID_Open, MainFrame::OnOpen)
@@ -363,10 +364,12 @@ void MainFrame::OnAssemble(wxCommandEvent &event) {
 		wxCommandEvent event;
 		this->OnSave(event);
 	}
-//	assembleFile(sourceFile.c_str(), tempFile.c_str(),
-//			Active->Project.CurrentFile);
+	wxString x;
+	assembleFile(tempSrcFileName.c_str(), tempFileName.c_str(), &x);
 //	DeleteFile (sourceFile);	// delete temporary files
+	wxRemoveFile(tempSrcFileName);
 //	DeleteFile (tempFile);
+	wxRemoveFile(tempFileName);
 //	AssemblerBox->ShowModal();
 }
 

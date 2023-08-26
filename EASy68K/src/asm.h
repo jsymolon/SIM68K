@@ -23,11 +23,8 @@
 #include <wx/string.h>
 #include <wx/colour.h>
 
-#include <system.hpp>
-#include <process.h>
 #include <stdlib.h>
 #include <malloc.h>
-#include <vcl.h>
 
 /* Define a couple of useful tests */
 

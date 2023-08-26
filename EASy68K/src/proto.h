@@ -21,7 +21,7 @@
 int processFile(void);
 int assemble(const char*, int*);
 int createCode(const char*, int*);
-int assembleFile(char fileName[], char tempName[], wxString workName);
+int assembleFile(char fileName[], char tempName[], wxString &workName);
 char* fieldParse(char *p, opDescriptor *d, int *errorPtr);
 int pickMask(int, flavor*, int*);
 int move(int, int, opDescriptor*, opDescriptor*, int*);
