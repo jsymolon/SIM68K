@@ -155,7 +155,9 @@ extern std::stack<wxString, std::vector<wxString> > forStack;
 
 //------------------------------------------------------------
 // Assemble source file
-int assembleFile(char fileName[], char tempName[], const char *workName) {
+//int assembleFile(char const *fileName, char const *tempName,
+//		char const *workName) {
+int assembleFile(char *fileName, char *tempName, char *workName) {
 	wxString outName;
 	int i;
 
@@ -688,7 +690,7 @@ int createCode(const char *capLine, int *errorPtr) {
 							&source, &dest, errorPtr);
 					return (NORMAL);
 				} else if (source.mode & flavorPtr->source
-						&& dest.mode & flavorPtr->dest) {
+						&& (dest.mode & flavorPtr->dest)) {
 					mask = pickMask(reinterpret_cast<int>(size), flavorPtr,
 							errorPtr);
 					// The following line calls the function defined for the current
@@ -789,7 +791,7 @@ char* fieldParse(char *p, opDescriptor *d, int *errorPtr) {
 
 //-------------------------------------------------------
 int pickMask(int size, flavor *flavorPtr, int *errorPtr) {
-	if (!size || size & flavorPtr->sizes)
+	if (!size || (size & flavorPtr->sizes))
 		if (size & (BYTE_SIZE | SHORT_SIZE))
 			return (flavorPtr->bytemask);
 		else if (!size || size == WORD_SIZE)

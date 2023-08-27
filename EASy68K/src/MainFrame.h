@@ -39,7 +39,7 @@ public:
 	void BuildToolbar();
 	void BuildMenu();
 	void BuildFrame();
-	void ChangeFont(wxPanel *panel, const Properties *const props);
+	void ChangeFont(wxPanel *panel, const Properties *const props_p);
 
 	void OnNew(wxCommandEvent &event);
 	void OnOpen(wxCommandEvent &event);

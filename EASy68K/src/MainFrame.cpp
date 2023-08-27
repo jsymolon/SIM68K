@@ -200,7 +200,7 @@ void MainFrame::BuildFrame() {
 }
 
 // ------------------------------------------------------------------------------------------------
-void MainFrame::ChangeFont(wxPanel *panel, const Properties *const props) {
+void MainFrame::ChangeFont(wxPanel *panel, const Properties *const props_p) {
 	wxFont font(wxFontInfo(12).FaceName("Liberation Mono").Italic());
 	panel->SetFont(font);
 }
@@ -350,25 +350,21 @@ void MainFrame::OnAssemble(wxCommandEvent &event) {
 	//try to assemble the file
 
 	// use path of selected source file as temp working directory
-//	SetCurrentDir(ExtractFilePath(Active->Project.CurrentFile));
-//	sourceFile = ExtractFilePath(Active->Project.CurrentFile) + "EASy68Ks.tmp";
 	wxString cwd = wxGetCwd();
 
-	//	tempFile = ExtractFilePath(Active->Project.CurrentFile) + "EASy68Km.tmp";
 	wxString tempFileName = wxFileName::CreateTempFileName(cwd, tempFile);
 	wxFile *tempSrcFile = nullptr;
 	wxString tempSrcFileName = wxFileName::CreateTempFileName(cwd, tempSrcFile);
 
-	//	Active->SourceText->Lines->SaveToFile(sourceFile);
+	wxFile *tempWrkFile = nullptr;
+	wxString tempWrkFileName = wxFileName::CreateTempFileName(cwd, tempWrkFile);
+
 	if (!srcFilePath.IsEmpty()) {
-		wxCommandEvent event;
 		this->OnSave(event);
 	}
-	wxString x;
-	//assembleFile(tempSrcFileName.c_str(), tempFileName.c_str(), x.c_str());
-//	DeleteFile (sourceFile);	// delete temporary files
+	assembleFile(tempSrcFileName.c_str(), tempFileName.c_str(),
+			tempWrkFileName.c_str());
 	wxRemoveFile(tempSrcFileName);
-//	DeleteFile (tempFile);
 	wxRemoveFile(tempFileName);
 //	AssemblerBox->ShowModal();
 }

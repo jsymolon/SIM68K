@@ -27,8 +27,9 @@ public:
 			wxDefaultValidator, const wxString &name = wxTextCtrlNameStr) :
 			wxTextCtrl(parent, id, value, pos, size, style, validator, name) {
 
-		wxFont m_font(10, wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL,
+		wxFont m_font_l(10, wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL,
 				wxFONTWEIGHT_BOLD);
+		m_font = m_font_l;
 		this->SetFont(m_font);
 		fontPixelSize = m_font.GetPixelSize();
 		SetBackgroundColour(*wxWHITE);
