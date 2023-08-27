@@ -155,7 +155,7 @@ extern std::stack<wxString, std::vector<wxString> > forStack;
 
 //------------------------------------------------------------
 // Assemble source file
-int assembleFile(char fileName[], char tempName[], wxString &workName) {
+int assembleFile(char fileName[], char tempName[], const char *workName) {
 	wxString outName;
 	int i;
 

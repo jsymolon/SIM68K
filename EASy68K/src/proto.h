@@ -17,11 +17,15 @@
 
 /* ANSI C function prototype definitions */
 #include <wx/string.h>
+#include "asm.h"
+
+#ifndef PROTO_H_
+#define PROTO_H_
 
 int processFile(void);
 int assemble(const char*, int*);
 int createCode(const char*, int*);
-int assembleFile(char fileName[], char tempName[], wxString &workName);
+int assembleFile(char fileName[], char tempName[], const char *workName);
 char* fieldParse(char *p, opDescriptor *d, int *errorPtr);
 int pickMask(int, flavor*, int*);
 int move(int, int, opDescriptor*, opDescriptor*, int*);
@@ -109,3 +113,5 @@ int failError(int, char*, char*, int*);
 int listOn(int, char*, char*, int*);
 int listOff(int, char*, char*, int*);
 int memory(int, char*, char*, int*);
+
+#endif PROTO_H_

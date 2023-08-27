@@ -104,5 +104,6 @@ void SourceEditCtrl::SetContent(const wxString &content) {
 
 //----------------------------------------------------------------------------------
 wxString SourceEditCtrl::GetContent(void) {
+	return (editCtrl->GetValue());
 }
 

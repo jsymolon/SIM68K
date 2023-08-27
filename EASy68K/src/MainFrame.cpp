@@ -365,7 +365,7 @@ void MainFrame::OnAssemble(wxCommandEvent &event) {
 		this->OnSave(event);
 	}
 	wxString x;
-	assembleFile(tempSrcFileName.c_str(), tempFileName.c_str(), &x);
+	//assembleFile(tempSrcFileName.c_str(), tempFileName.c_str(), x.c_str());
 //	DeleteFile (sourceFile);	// delete temporary files
 	wxRemoveFile(tempSrcFileName);
 //	DeleteFile (tempFile);
