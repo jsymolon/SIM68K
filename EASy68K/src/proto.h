@@ -27,6 +27,7 @@ int assemble(const char*, int*);
 int createCode(const char*, int*);
 //int assembleFile(char const *fileName, char const *tempName,
 //		char const *workName);
+int assembleFile(void);
 int assembleFile(char * fileName, char * tempName, char* workName) ;
 char* fieldParse(char *p, opDescriptor *d, int *errorPtr);
 int pickMask(int, flavor*, int*);

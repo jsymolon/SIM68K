@@ -362,8 +362,10 @@ void MainFrame::OnAssemble(wxCommandEvent &event) {
 	if (!srcFilePath.IsEmpty()) {
 		this->OnSave(event);
 	}
-	assembleFile(tempSrcFileName.c_str(), tempFileName.c_str(),
-			tempWrkFileName.c_str());
+//	assembleFile(tempSrcFileName.ToStdString().c_str(),
+//			tempFileName.ToStdString().c_str(),
+//			tempWrkFileName.ToStdString().c_str());
+	assembleFile();
 	wxRemoveFile(tempSrcFileName);
 	wxRemoveFile(tempFileName);
 //	AssemblerBox->ShowModal();
