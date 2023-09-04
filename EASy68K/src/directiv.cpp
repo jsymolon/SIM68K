@@ -41,7 +41,7 @@ extern int loc;
 extern int locOffset;
 extern int sectionLoc[16];     // section locations
 extern int sectI;              // current section
-extern bool offsetMode
+extern bool offsetMode;
 extern bool showEqual;
 
 extern bool pass2;

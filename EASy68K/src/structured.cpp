@@ -95,9 +95,9 @@ const char *BccCodes[BCC_COUNT][5] = {
 // returns a branch instruction
 // or is 1 on ea <cc> ea OR, 0 otherwise
 wxString getBcc(wxString cc, int mode, int orf) {
-	cc = cc.UpperCase();
+	wxString &cu = cc.UpperCase();
 	for (int i = 0; i < BCC_COUNT; i++) {
-		if (cc == BccCodes[i][0])
+		if (cu == BccCodes[i][0])
 			return (BccCodes[i][mode + orf]);
 	}
 	return ("B??");

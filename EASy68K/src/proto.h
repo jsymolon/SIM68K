@@ -18,16 +18,16 @@
 /* ANSI C function prototype definitions */
 #include <wx/string.h>
 #include "asm.h"
+#include <stdio.h>
 
 #ifndef PROTO_H_
 #define PROTO_H_
 
 int processFile(void);
-int assemble(const char*, int*);
-int createCode(const char*, int*);
+int assemble(char *, int*);
+int createCode(char *, int*);
 //int assembleFile(char const *fileName, char const *tempName,
 //		char const *workName);
-int assembleFile(void);
 int assembleFile(char * fileName, char * tempName, char* workName) ;
 char* fieldParse(char *p, opDescriptor *d, int *errorPtr);
 int pickMask(int, flavor*, int*);
@@ -68,7 +68,7 @@ int set(int, char*, char*, int*);
 int section(int, char*, char*, int*);
 int simhalt(int, char*, char*, int*);
 int page(int, char*, char*, int*);
-int dc(int, char*, char*, int*);
+int dc(int, char *, char *, int*);
 char* collect(char*, char*);
 int dcb(int, char*, char*, int*);
 int ds(int, char*, char*, int*);
@@ -83,10 +83,10 @@ int listLine(const char[], char[] = "\0");
 int listLoc(void);
 int listCond(bool);
 int listError(char *lineNum, char *errMsg);
-int listText(const char *text);
+int listText(char *text);
 int listObj(int, int);
 int strcap(char*, char*);
-char* skipSpace(char*);
+char *skipSpace(char *);
 int setFlags(int, char*[], int*);
 //int	getopt(int, char *[], char *, int *);
 int help(void);
@@ -96,7 +96,7 @@ int opt(int, char*, char*, int*);
 int macro(int, char*, char*, int*);      //ck
 int asmMacro(int, char*, char*, int*);   //ck
 int asmStructure(int, char*, char*, int*);  //ck
-int tokenize(const char*, char*, char*[], char*);  //ck
+int tokenize(char *, char*, char*[], char*);  //ck
 int optCRE();                               //ck
 char* evalList(char*, unsigned short*, int*);
 int initObj(char*);
@@ -105,9 +105,9 @@ int checkValue(int);
 int finishList();
 int finishObj(void);
 char* opParse(char*, opDescriptor*, int*);
-symbolDef* lookup(char*, int, int*);
-int hash(char*);
-symbolDef* define(char*, int, bool, bool, int*);
+symbolDef* lookup(char *, int, int*);
+int hash(char *);
+symbolDef* define(char *, int, bool, bool, int*);
 void clearSymbols();
 int writeObj(void);
 int include(int, char*, char*, int*);

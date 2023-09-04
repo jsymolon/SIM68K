@@ -11,7 +11,7 @@
  *		pointer to the flavor list for each instruction, and
  *		other data. Finally, the variable tableSize is
  *		initialized to contain the number of instructions in
- *		the table. 
+ *		the table.
  *
  *      Author: Paul McKee
  *		ECE492    North Carolina State University
@@ -54,6 +54,7 @@
 
 #include <stdio.h>
 #include "asm.h"
+#include <cstdint>
 
 /* Definitions of addressing mode masks for various classes of references */
 
@@ -129,9 +130,9 @@ flavor addxfl[] = { { DnDirect, DnDirect, BWL, twoReg, 0xD100, 0xD140, 0xD180 },
 
 flavor andfl[] = { { Data, DnDirect, BWL, arithReg, 0xC000, 0xC040, 0xC080 }, {
 		DnDirect, MemAlt, BWL, arithAddr, 0xC100, 0xC140, 0xC180 }, { IMMEDIATE,
-		DataAlt, BWL, immedInst, 0x0200, 0x0240, 0x0280 }, { IMMEDIATE,
-		CCRDirect, BYTE_SIZE, immedToCCR, 0x023C, 0x023C, 0 }, { IMMEDIATE,
-		SRDirect, WORD_SIZE, immedWord, 0, 0x027C, 0 } };
+DataAlt, BWL, immedInst, 0x0200, 0x0240, 0x0280 }, { IMMEDIATE, CCRDirect,
+		BYTE_SIZE, immedToCCR, 0x023C, 0x023C, 0 }, { IMMEDIATE, SRDirect,
+		WORD_SIZE, immedWord, 0, 0x027C, 0 } };
 
 flavor andifl[] = {
 		{ IMMEDIATE, DataAlt, BWL, immedInst, 0x0200, 0x0240, 0x0280 },
@@ -319,7 +320,7 @@ flavor eorifl[] = {
 
 flavor exgfl[] = { { DnDirect, DnDirect, LONG_SIZE, exg, 0, 0xC140, 0xC140 }, {
 		AnDirect, AnDirect, LONG_SIZE, exg, 0, 0xC148, 0xC148 }, { GenReg,
-		GenReg, LONG_SIZE, exg, 0, 0xC188, 0xC188 } };
+GenReg, LONG_SIZE, exg, 0, 0xC188, 0xC188 } };
 
 flavor extfl[] = { { DnDirect, 0, WL, oneReg, 0, 0x4880, 0x48C0 } };
 
@@ -344,8 +345,9 @@ flavor lsrfl[] = { { MemAlt, 0, WORD_SIZE, oneOp, 0, 0xE2C0, 0 }, { DnDirect,
 
 flavor movefl[] = { { Data, DataAlt, BWL, move, 0x1000, 0x3000, 0x2000 }, {
 		AnDirect, DataAlt, WL, move, 0x1000, 0x3000, 0x2000 }, { All, AnDirect,
-		WL, move, 0, 0x3000, 0x2000 }, { Data, CCRDirect, WORD_SIZE, oneOp, 0,
-		0x44C0, 0 }, { Data, SRDirect, WORD_SIZE, oneOp, 0, 0x46C0, 0 },
+WL, move, 0, 0x3000, 0x2000 },
+		{ Data, CCRDirect, WORD_SIZE, oneOp, 0, 0x44C0, 0 }, { Data, SRDirect,
+				WORD_SIZE, oneOp, 0, 0x46C0, 0 },
 //	{ CCRDirect, DataAlt, WORD_SIZE, moveReg, 0, 0x42C0, 0 },
 		{ SRDirect, DataAlt, WORD_SIZE, moveReg, 0, 0x40C0, 0 }, { AnDirect,
 				USPDirect, LONG_SIZE, moveUSP, 0, 0x4E60, 0x4E60 }, { USPDirect,
@@ -362,8 +364,8 @@ flavor moveafl[] = { { All, AnDirect, WL, move, 0, 0x3000, 0x2000 } };
 
 flavor movepfl[] = { { DnDirect, AnIndDisp, WL, movep, 0, 0x0188, 0x01C8 }, {
 		AnIndDisp, DnDirect, WL, movep, 0, 0x0108, 0x0148 }, { DnDirect, AnInd,
-		WL, movep, 0, 0x0188, 0x01C8 }, { AnInd, DnDirect, WL, movep, 0, 0x0108,
-		0x0148 } };
+WL, movep, 0, 0x0188, 0x01C8 },
+		{ AnInd, DnDirect, WL, movep, 0, 0x0108, 0x0148 } };
 
 flavor moveqfl[] = {
 		{ IMMEDIATE, DnDirect, LONG_SIZE, moveq, 0, 0x7000, 0x7000 } };
@@ -389,9 +391,9 @@ flavor notfl[] = { { DataAlt, 0, BWL, oneOp, 0x4600, 0x4640, 0x4680 } };
 
 flavor orfl[] = { { Data, DnDirect, BWL, arithReg, 0x8000, 0x8040, 0x8080 }, {
 		DnDirect, MemAlt, BWL, arithAddr, 0x8100, 0x8140, 0x8180 }, { IMMEDIATE,
-		DataAlt, BWL, immedInst, 0x0000, 0x0040, 0x0080 }, { IMMEDIATE,
-		CCRDirect, BYTE_SIZE, immedToCCR, 0x003C, 0x003C, 0 }, { IMMEDIATE,
-		SRDirect, WORD_SIZE, immedWord, 0, 0x007C, 0 } };
+DataAlt, BWL, immedInst, 0x0000, 0x0040, 0x0080 }, { IMMEDIATE, CCRDirect,
+		BYTE_SIZE, immedToCCR, 0x003C, 0x003C, 0 }, { IMMEDIATE, SRDirect,
+		WORD_SIZE, immedWord, 0, 0x007C, 0 } };
 
 flavor orifl[] = {
 		{ IMMEDIATE, DataAlt, BWL, immedInst, 0x0000, 0x0040, 0x0080 },
@@ -471,7 +473,7 @@ flavor subfl[] = { { All, AnDirect, WL, arithReg, 0, 0x90C0, 0x91C0 }, // change
 				IMMEDIATE, AnDirect, WL, quickMath, 0, 0x5140, 0x5180 }, { Data,
 				DnDirect, BWL, arithReg, 0x9000, 0x9040, 0x9080 }, { AnDirect,
 				DnDirect, WL, arithReg, 0x9000, 0x9040, 0x9080 }, { DnDirect,
-				MemAlt, BWL, arithAddr, 0x9100, 0x9140, 0x9180 }, };
+		MemAlt, BWL, arithAddr, 0x9100, 0x9140, 0x9180 }, };
 
 flavor subafl[] = { { All, AnDirect, WL, arithReg, 0, 0x90C0, 0x91C0 } };
 
@@ -529,22 +531,22 @@ instruction instTable[] = { { "ABCD", abcdfl, flavorCount(abcdfl), true, NULL },
 				flavorCount(bfsetfl), true, NULL }, { "BFTST", bftstfl,
 				flavorCount(bftstfl), true, NULL }, { "BGE", bgefl, flavorCount(
 				bgefl), true, NULL }, { "BGT", bgtfl, flavorCount(bgtfl), true,
-				NULL }, { "BHI", bhifl, flavorCount(bhifl), true, NULL }, {
-				"BHS", bccfl, flavorCount(bccfl), true, NULL }, { "BLE", blefl,
+		NULL }, { "BHI", bhifl, flavorCount(bhifl), true, NULL }, { "BHS",
+				bccfl, flavorCount(bccfl), true, NULL }, { "BLE", blefl,
 				flavorCount(blefl), true, NULL }, { "BLO", bcsfl, flavorCount(
 				bcsfl), true, NULL }, { "BLS", blsfl, flavorCount(blsfl), true,
-				NULL }, { "BLT", bltfl, flavorCount(bltfl), true, NULL }, {
-				"BMI", bmifl, flavorCount(bmifl), true, NULL }, { "BNE", bnefl,
+		NULL }, { "BLT", bltfl, flavorCount(bltfl), true, NULL }, { "BMI",
+				bmifl, flavorCount(bmifl), true, NULL }, { "BNE", bnefl,
 				flavorCount(bnefl), true, NULL }, { "BPL", bplfl, flavorCount(
 				bplfl), true, NULL }, { "BRA", brafl, flavorCount(brafl), true,
-				NULL }, { "BSET", bsetfl, flavorCount(bsetfl), true, NULL }, {
-				"BSR", bsrfl, flavorCount(bsrfl), true, NULL }, { "BTST",
-				btstfl, flavorCount(btstfl), true, NULL }, { "BVC", bvcfl,
-				flavorCount(bvcfl), true, NULL }, { "BVS", bvsfl, flavorCount(
-				bvsfl), true, NULL }, { "CHK", chkfl, flavorCount(chkfl), true,
-				NULL }, { "CLR", clrfl, flavorCount(clrfl), true, NULL }, {
-				"CMP", cmpfl, flavorCount(cmpfl), true, NULL }, { "CMPA",
-				cmpafl, flavorCount(cmpafl), true, NULL }, { "CMPI", cmpifl,
+		NULL }, { "BSET", bsetfl, flavorCount(bsetfl), true, NULL }, { "BSR",
+				bsrfl, flavorCount(bsrfl), true, NULL }, { "BTST", btstfl,
+				flavorCount(btstfl), true, NULL }, { "BVC", bvcfl, flavorCount(
+				bvcfl), true, NULL }, { "BVS", bvsfl, flavorCount(bvsfl), true,
+		NULL }, { "CHK", chkfl, flavorCount(chkfl), true,
+		NULL }, { "CLR", clrfl, flavorCount(clrfl), true, NULL }, { "CMP",
+				cmpfl, flavorCount(cmpfl), true, NULL }, { "CMPA", cmpafl,
+				flavorCount(cmpafl), true, NULL }, { "CMPI", cmpifl,
 				flavorCount(cmpifl), true, NULL }, { "CMPM", cmpmfl,
 				flavorCount(cmpmfl), true, NULL }, { "DBCC", dbccfl,
 				flavorCount(dbccfl), true, NULL }, { "DBCS", dbcsfl,
@@ -558,9 +560,9 @@ instruction instTable[] = { { "ABCD", abcdfl, flavorCount(abcdfl), true, NULL },
 				flavorCount(dblefl), true, NULL }, { "DBLO", dbcsfl,
 				flavorCount(dbcsfl), true, NULL }, { "DBLOOP", NULL, 0, false,
 				asmStructure }, { "DBLS", dblsfl, flavorCount(dblsfl), true,
-				NULL }, { "DBLT", dbltfl, flavorCount(dbltfl), true, NULL }, {
-				"DBMI", dbmifl, flavorCount(dbmifl), true, NULL }, { "DBNE",
-				dbnefl, flavorCount(dbnefl), true, NULL }, { "DBPL", dbplfl,
+		NULL }, { "DBLT", dbltfl, flavorCount(dbltfl), true, NULL }, { "DBMI",
+				dbmifl, flavorCount(dbmifl), true, NULL }, { "DBNE", dbnefl,
+				flavorCount(dbnefl), true, NULL }, { "DBPL", dbplfl,
 				flavorCount(dbplfl), true, NULL }, { "DBRA", dbrafl,
 				flavorCount(dbrafl), true, NULL }, { "DBT", dbtfl, flavorCount(
 				dbtfl), true, NULL }, { "DBVC", dbvcfl, flavorCount(dbvcfl),
@@ -571,21 +573,21 @@ instruction instTable[] = { { "ABCD", abcdfl, flavorCount(abcdfl), true, NULL },
 				flavorCount(divufl), true, NULL }, { "DS", NULL, 0, false, ds },
 		{ "ELSE", NULL, 0, false, asmStructure }, { "END", NULL, 0, false,
 				funct_end }, { "ENDF", NULL, 0, false, asmStructure }, { "ENDI",
-				NULL, 0, false, asmStructure }, { "ENDW", NULL, 0, false,
-				asmStructure },
-		{ "EOR", eorfl, flavorCount(eorfl), true, NULL }, { "EORI", eorifl,
-				flavorCount(eorifl), true, NULL },
-		{ "EQU", NULL, 0, false, equ }, { "EXG", exgfl, flavorCount(exgfl),
-				true, NULL }, { "EXT", extfl, flavorCount(extfl), true, NULL },
-		{ "FAIL", NULL, 0, false, failError }, { "FOR", NULL, 0, false,
-				asmStructure }, { "IF", NULL, 0, false, asmStructure }, {
-				"ILLEGAL", illegalfl, flavorCount(illegalfl), true, NULL }, {
-				"INCBIN", NULL, 0, false, incbin }, { "INCLUDE", NULL, 0, false,
-				include }, { "JMP", jmpfl, flavorCount(jmpfl), true, NULL }, {
-				"JSR", jsrfl, flavorCount(jsrfl), true, NULL }, { "LEA", leafl,
-				flavorCount(leafl), true, NULL }, { "LINK", linkfl, flavorCount(
-				linkfl), true, NULL }, { "LIST", NULL, 0, false, listOn }, {
-				"LSL", lslfl, flavorCount(lslfl), true, NULL }, { "LSR", lsrfl,
+		NULL, 0, false, asmStructure },
+		{ "ENDW", NULL, 0, false, asmStructure }, { "EOR", eorfl, flavorCount(
+				eorfl), true, NULL }, { "EORI", eorifl, flavorCount(eorifl),
+				true, NULL }, { "EQU", NULL, 0, false, equ }, { "EXG", exgfl,
+				flavorCount(exgfl), true, NULL }, { "EXT", extfl, flavorCount(
+				extfl), true, NULL }, { "FAIL", NULL, 0, false, failError }, {
+				"FOR", NULL, 0, false, asmStructure }, { "IF", NULL, 0, false,
+				asmStructure }, { "ILLEGAL", illegalfl, flavorCount(illegalfl),
+				true, NULL }, { "INCBIN", NULL, 0, false, incbin }, { "INCLUDE",
+		NULL, 0, false, include }, { "JMP", jmpfl, flavorCount(jmpfl), true,
+				NULL }, { "JSR", jsrfl, flavorCount(jsrfl), true, NULL }, {
+				"LEA", leafl, flavorCount(leafl), true, NULL }, { "LINK",
+				linkfl, flavorCount(linkfl), true, NULL }, { "LIST", NULL, 0,
+				false, listOn },
+		{ "LSL", lslfl, flavorCount(lslfl), true, NULL }, { "LSR", lsrfl,
 				flavorCount(lsrfl), true, NULL }, { "MACRO", NULL, 0, false,
 				macro }, { "MEMORY", NULL, 0, false, memory }, { "MOVE", movefl,
 				flavorCount(movefl), true, NULL }, { "MOVEA", moveafl,
@@ -610,8 +612,8 @@ instruction instTable[] = { { "ABCD", abcdfl, flavorCount(abcdfl), true, NULL },
 		{ "REPEAT", NULL, 0, false, asmStructure }, { "RESET", resetfl,
 				flavorCount(resetfl), true, NULL }, { "ROL", rolfl, flavorCount(
 				rolfl), true, NULL }, { "ROR", rorfl, flavorCount(rorfl), true,
-				NULL }, { "ROXL", roxlfl, flavorCount(roxlfl), true, NULL }, {
-				"ROXR", roxrfl, flavorCount(roxrfl), true, NULL },
+		NULL }, { "ROXL", roxlfl, flavorCount(roxlfl), true, NULL }, { "ROXR",
+				roxrfl, flavorCount(roxrfl), true, NULL },
 		//{ "RTD", rtdfl, flavorCount(rtdfl), true, NULL },
 		{ "RTE", rtefl, flavorCount(rtefl), true, NULL }, { "RTR", rtrfl,
 				flavorCount(rtrfl), true, NULL }, { "RTS", rtsfl, flavorCount(
@@ -624,23 +626,23 @@ instruction instTable[] = { { "ABCD", abcdfl, flavorCount(abcdfl), true, NULL },
 				"SGE", sgefl, flavorCount(sgefl), true, NULL }, { "SGT", sgtfl,
 				flavorCount(sgtfl), true, NULL }, { "SHI", shifl, flavorCount(
 				shifl), true, NULL }, { "SHS", sccfl, flavorCount(sccfl), true,
-				NULL }, { "SIMHALT", NULL, 0, false, simhalt }, { "SLE", slefl,
+		NULL }, { "SIMHALT", NULL, 0, false, simhalt }, { "SLE", slefl,
 				flavorCount(slefl), true, NULL }, { "SLO", scsfl, flavorCount(
 				scsfl), true, NULL }, { "SLS", slsfl, flavorCount(slsfl), true,
-				NULL }, { "SLT", sltfl, flavorCount(sltfl), true, NULL }, {
-				"SMI", smifl, flavorCount(smifl), true, NULL }, { "SNE", snefl,
+		NULL }, { "SLT", sltfl, flavorCount(sltfl), true, NULL }, { "SMI",
+				smifl, flavorCount(smifl), true, NULL }, { "SNE", snefl,
 				flavorCount(snefl), true, NULL }, { "SPL", splfl, flavorCount(
 				splfl), true, NULL }, { "ST", stfl, flavorCount(stfl), true,
-				NULL }, { "STOP", stopfl, flavorCount(stopfl), true, NULL }, {
-				"SUB", subfl, flavorCount(subfl), true, NULL }, { "SUBA",
-				subafl, flavorCount(subafl), true, NULL }, { "SUBI", subifl,
+		NULL }, { "STOP", stopfl, flavorCount(stopfl), true, NULL }, { "SUB",
+				subfl, flavorCount(subfl), true, NULL }, { "SUBA", subafl,
+				flavorCount(subafl), true, NULL }, { "SUBI", subifl,
 				flavorCount(subifl), true, NULL }, { "SUBQ", subqfl,
 				flavorCount(subqfl), true, NULL }, { "SUBX", subxfl,
 				flavorCount(subxfl), true, NULL }, { "SVC", svcfl, flavorCount(
 				svcfl), true, NULL }, { "SVS", svsfl, flavorCount(svsfl), true,
-				NULL }, { "SWAP", swapfl, flavorCount(swapfl), true, NULL }, {
-				"TAS", tasfl, flavorCount(tasfl), true, NULL }, { "TRAP",
-				trapfl, flavorCount(trapfl), true, NULL }, { "TRAPV", trapvfl,
+		NULL }, { "SWAP", swapfl, flavorCount(swapfl), true, NULL }, { "TAS",
+				tasfl, flavorCount(tasfl), true, NULL }, { "TRAP", trapfl,
+				flavorCount(trapfl), true, NULL }, { "TRAPV", trapvfl,
 				flavorCount(trapvfl), true, NULL }, { "TST", tstfl, flavorCount(
 				tstfl), true, NULL },
 		{ "UNLESS", NULL, 0, false, asmStructure }, { "UNLK", unlkfl,

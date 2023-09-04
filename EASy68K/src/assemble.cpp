@@ -157,12 +157,9 @@ extern std::stack<wxString, std::vector<wxString> > forStack;
 // Assemble source file
 //int assembleFile(char const *fileName, char const *tempName,
 //		char const *workName) {
-int assembleFile(void) {
-	int x = 1;
-}
 int assembleFile(char *fileName, char *tempName, char *workName) {
 	wxString outName;
-	int i;
+//	int i;
 
 	try {
 		tmpFile = fopen(tempName, "w+");
@@ -236,8 +233,8 @@ int assembleFile(char *fileName, char *tempName, char *workName) {
 }
 
 // Upper case string unless surrounded by single quotes
-std::string strcap(const char *s) {
-	std::string out = "";
+char* strcap(char *s) {
+	char *out = "";
 	bool capFlag = true;
 	try {
 		while (*s) {
@@ -257,7 +254,7 @@ std::string strcap(const char *s) {
 	return (out);
 }
 
-const char* skipSpace(const char *p) {
+char* skipSpace(char *p) {
 	try {
 		while (isspace(*p))
 			p++;
@@ -275,9 +272,6 @@ const char* skipSpace(const char *p) {
 // does 2 passes from here
 int processFile() {
 	int error;
-	bool comment;                 // true when line is comment
-	int value;
-	bool backRef;
 
 	try {
 		offsetMode = false;         // clear flags
@@ -349,19 +343,19 @@ int processFile() {
 }
 
 // Conditionally Assemble one line of code
-int assemble(const char *line, int *errorPtr) {
+int assemble(char *line, int *errorPtr) {
 	int value = 0;
 	bool backRef = false;
 	int error2Ptr = 0;
-	std::string capLine = "";
+	char *capLine;
 	char *p;
 	bool comment;                   // true when line is comment
 	try {
 		if (pass2 && listFlag)
 			listLoc();
 		capLine = strcap(line);
-		p = skipSpace(capLine.c_str());      // skip leading white space
-		tokenize(capLine.c_str(), ", \t\n", token, tokens); // tokenize line
+		p = skipSpace(capLine);      // skip leading white space
+		tokenize(capLine, ", \t\n", token, tokens); // tokenize line
 		if (*p == '*' || *p == ';')         // if comment
 			comment = true;
 		else
@@ -533,7 +527,7 @@ int assemble(const char *line, int *errorPtr) {
 				printCond = false;
 
 		} else if (!skipCond && !skipCreateCode) { // else, if not skip condition and not skip create
-			createCode(capLine.c_str(), errorPtr);
+			createCode(capLine, errorPtr);
 		}
 
 		// display and list errors and source line
@@ -562,7 +556,7 @@ int assemble(const char *line, int *errorPtr) {
 }
 
 // create machine code for instruction
-int createCode(const char *capLine, int *errorPtr) {
+int createCode(char *capLine, int *errorPtr) {
 	instruction *tablePtr;
 	flavor *flavorPtr;
 	opDescriptor source;
@@ -672,12 +666,10 @@ int createCode(const char *capLine, int *errorPtr) {
 					destParsed = true;
 				}
 				if (!flavorPtr->source) {
-					mask = pickMask(reinterpret_cast<int>(size), flavorPtr,
-							errorPtr);
+					mask = pickMask(size, flavorPtr, errorPtr);
 					// The following line calls the function defined for the current
 					// instruction as a flavor in instTable[]
-					(*flavorPtr->exec)(mask, reinterpret_cast<int>(size),
-							&source, &dest, errorPtr);
+					(*flavorPtr->exec)(mask, size, &source, &dest, errorPtr);
 					return (NORMAL);
 				} else if ((source.mode & flavorPtr->source)
 						&& !flavorPtr->dest) {
@@ -685,22 +677,18 @@ int createCode(const char *capLine, int *errorPtr) {
 						NEWERROR(*errorPtr, SYNTAX);
 						return (NORMAL);
 					}
-					mask = pickMask(reinterpret_cast<int>(size), flavorPtr,
-							errorPtr);
+					mask = pickMask(size, flavorPtr, errorPtr);
 					// The following line calls the function defined for the current
 					// instruction as a flavor in instTable[]
-					(*flavorPtr->exec)(mask, reinterpret_cast<int>(size),
-							&source, &dest, errorPtr);
+					(*flavorPtr->exec)(mask, size, &source, &dest, errorPtr);
 					return (NORMAL);
 				} else if (source.mode & flavorPtr->source
 						&& (dest.mode & flavorPtr->dest)) {
-					mask = pickMask(reinterpret_cast<int>(size), flavorPtr,
-							errorPtr);
+					mask = pickMask(size, flavorPtr, errorPtr);
 					// The following line calls the function defined for the current
 					// instruction as a flavor in instTable[]
 
-					(*flavorPtr->exec)(mask, reinterpret_cast<int>(size),
-							&source, &dest, errorPtr);
+					(*flavorPtr->exec)(mask, size, &source, &dest, errorPtr);
 					return (NORMAL);
 				}
 			}
@@ -708,7 +696,7 @@ int createCode(const char *capLine, int *errorPtr) {
 		} else {
 			// The following line calls the function defined for the current
 			// instruction as a flavor in instTable[]
-			(*tablePtr->exec)(reinterpret_cast<int>(size), label, p, errorPtr);
+			(*tablePtr->exec)(size, label, p, errorPtr);
 			return (NORMAL);
 		}
 	}
@@ -821,7 +809,7 @@ int pickMask(int size, flavor *flavorPtr, int *errorPtr) {
 //      token[] = pointers to tokens
 //      tokens = new string full of tokens
 // Returns number of tokens extracted.
-int tokenize(const char *instr, char *delim, char *token[], char *tokens) {
+int tokenize(char *instr, char *delim, char *token[], char *tokens) {
 	int i;
 	int size;
 	int tokN = 0;

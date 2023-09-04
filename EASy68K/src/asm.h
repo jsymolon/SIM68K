@@ -22,6 +22,7 @@
 
 #include <wx/string.h>
 #include <wx/colour.h>
+#include <wx/msgdlg.h>
 
 #include <stdlib.h>
 #include <malloc.h>
@@ -166,9 +167,9 @@ typedef struct {
 	char sizes; /* Bit mask for the legal sizes */
 	int (*exec)(int, int, opDescriptor*, opDescriptor*, int*);
 	/* Pointer to routine to build the instruction */
-	short int bytemask; /* Skeleton instruction masks for byte size...  */
-	short int wordmask; /*  word size, ...			        */
-	short int longmask; /*  and long sizes of the instruction	        */
+	uint16_t bytemask; /* Skeleton instruction masks for byte size...  */
+	uint16_t wordmask; /*  word size, ...			        */
+	uint16_t longmask; /*  and long sizes of the instruction	        */
 } flavor;
 
 /* Structure for the instruction table */
@@ -240,17 +241,17 @@ typedef struct {
 	bool underline;
 } FontStyle;
 
-const wxColor DEFAULT_CODE_COLOR = wxColour("wxBLACK");
-const wxColor DEFAULT_UNKNOWN_COLOR = wxColour("DARK OLIVE GREEN");
-const wxColor DEFAULT_DIRECTIVE_COLOR = wxColour("GREEN");
-const wxColor DEFAULT_COMMENT_COLOR = wxColour("BLUE");
-const wxColor DEFAULT_LABEL_COLOR = wxColour("PURPLE");
-const wxColor DEFAULT_STRUCTURE_COLOR = wxColour("MAROON");
-const wxColor DEFAULT_ERROR_COLOR = wxColour("RED");
-const wxColor DEFAULT_TEXT_COLOR = wxColour("AQUAMARINE");
-const wxColor DEFAULT_BACK_COLOR = wxColour("WHITE");
+const wxColor &DEFAULT_CODE_COLOR = wxColour("wxBLACK");
+const wxColor &DEFAULT_UNKNOWN_COLOR = wxColour("DARK OLIVE GREEN");
+const wxColor &DEFAULT_DIRECTIVE_COLOR = wxColour("GREEN");
+const wxColor &DEFAULT_COMMENT_COLOR = wxColour("BLUE");
+const wxColor &DEFAULT_LABEL_COLOR = wxColour("PURPLE");
+const wxColor &DEFAULT_STRUCTURE_COLOR = wxColour("MAROON");
+const wxColor &DEFAULT_ERROR_COLOR = wxColour("RED");
+const wxColor &DEFAULT_TEXT_COLOR = wxColour("AQUAMARINE");
+const wxColor &DEFAULT_BACK_COLOR = wxColour("WHITE");
 
-const char NEW_PAGE_MARKER[] =
+char NEW_PAGE_MARKER[] =
 		"<------------------------------ PAGE ------------------------------>";
 
 // function prototype definitions

@@ -8,11 +8,7 @@
 #ifndef MAINFRAME_H_
 #define MAINFRAME_H_
 
-#include <wx/wxprec.h>
-#ifndef WX_PRECOMP
 #include <wx/wx.h>
-#endif
-
 #include <wx/gdicmn.h>
 #include <wx/menu.h>
 #include <wx/menuitem.h>
