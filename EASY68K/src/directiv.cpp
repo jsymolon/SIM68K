@@ -36,6 +36,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include "asm.h"
+#include "extern.h"
 
 extern int loc;
 extern int locOffset;
@@ -50,7 +51,7 @@ extern bool listFlag;
 
 extern char *listPtr; /* Pointer to buffer where listing line is assembled
  (Used to put =XXXXXXXX in the listing for EQU's and SET's */
-extern char buffer[256];  //ck used to form messages for display in windows
+extern char buffer[LINE_LENGTH]; //ck used to form messages for display in windows
 
 extern unsigned int startAddress;      // starting address of program
 extern bool CREflag;    // true adds symbol table to listing
@@ -61,9 +62,9 @@ extern bool CEXflag;    // true expands constants
 extern bool BITflag;    // True to assemble bitfield instructions
 extern bool objFlag;	// True if an object code file is desired
 extern int includeNestLevel;    // count nested include directives
-extern char includeFile[256];  // name of current include file
+extern char includeFile[LINE_LENGTH];  // name of current include file
 
-extern char line[256];		// Source line
+extern char line[LINE_LENGTH];		// Source line
 extern int lineNum;
 extern FILE *inFile;            // input source file
 extern bool continuation;	// TRUE if the listing line is a continuation
@@ -607,8 +608,8 @@ int opt(int size, char *label, char *op, int *errorPtr) {
 //   assemble this line
 // }
 int include(int size, char *label, char *fileName, int *errorPtr) {
-	char incLine[256];
-	char capLine[256];
+	char incLine[LINE_LENGTH];
+	char capLine[LINE_LENGTH];
 	char *src;
 	char *dst;
 	int error;
@@ -622,7 +623,7 @@ int include(int size, char *label, char *fileName, int *errorPtr) {
 	char quote;
 	int lineNumInc;                       // line number for include file
 	int lineNumSave;
-	char fileNameSave[256];
+	char fileNameSave[LINE_LENGTH];
 
 	if (size) {                                   // if .size code specified
 		NEWERROR(*errorPtr, INV_SIZE_CODE);         // error, invalid size code

@@ -63,7 +63,7 @@
 //#include "mainS.h"
 
 #include <wx/msgdlg.h>
-
+#include "extern.h"
 #include "asm.h"
 
 /* Declarations of global variables */
@@ -74,7 +74,7 @@ extern bool continuation;
 extern bool CREflag;
 extern bool offsetMode;
 extern bool showEqual;
-extern char line[256];
+extern char line[LINE_LENGTH];
 extern FILE *listFile;
 extern int lineNum;
 extern int lineNumL68;
@@ -88,7 +88,7 @@ extern char *listPtr; /* Pointer to above buffer (this pointer is
 
 extern int errorCount;
 extern int warningCount; /* Number of errors and warnings */
-extern char buffer[256];  //ck used to form messages for display in windows
+extern char buffer[LINE_LENGTH]; //ck used to form messages for display in windows
 //extern char numBuf[20];
 extern unsigned int startAddress;     // starting address of program
 
@@ -103,7 +103,7 @@ int initList(char *name) {
 		if (!listFile) {
 			//sprintf(buffer, "Unable to create listing file");
 			//Application->MessageBox(buffer, "Error", MB_OK);
-			wxMessageBox("Unable to create listing file");
+//			wxMessageBox("Unable to create listing file");
 			return (MILD_ERROR);
 		}
 
@@ -127,7 +127,7 @@ int initList(char *name) {
 	}
 }
 
-int listLine(char text[], char lineIdent[])   // ck 4-2006 lineIdent[]
+int listLine(const char *text, char lineIdent[])   // ck 4-2006 lineIdent[]
 		{
 	// FixedTabSize->Value
 	try {
@@ -173,7 +173,7 @@ int listLine(char text[], char lineIdent[])   // ck 4-2006 lineIdent[]
 		if (ferror(listFile)) {
 //			sprintf(buffer, "Error writing to listing file\n");
 //			Application->MessageBox(buffer, "Error", MB_OK);
-			wxMessageBox("Error writing to listing file", wxT("Error"));
+//			wxMessageBox("Error writing to listing file", wxT("Error"));
 			return (MILD_ERROR);
 		}
 		lineNumL68++;
@@ -181,8 +181,8 @@ int listLine(char text[], char lineIdent[])   // ck 4-2006 lineIdent[]
 //		sprintf(buffer,
 //				"ERROR: An exception occurred in routine 'listLine'. \n");
 //		printError(NULL, EXCEPTION, 0);
-		wxMessageBox("ERROR: An exception occurred in routine 'listLine'. ",
-				wxT("Error"));
+//		wxMessageBox("ERROR: An exception occurred in routine 'listLine'. ",
+//				wxT("Error"));
 
 		return (MILD_ERROR);
 	}

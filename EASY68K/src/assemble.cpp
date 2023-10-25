@@ -79,7 +79,7 @@
 #include <cstring>
 
 #include <wx/msgdlg.h>
-
+#include "extern.h"
 #include "asm.h"
 
 extern int loc;		// The assembler's location counter
@@ -149,28 +149,25 @@ extern bool mapRead;
 extern bool mapProtected;
 extern bool mapInvalid;
 
-extern std::stack<int, std::vector<int> > stcStack;
-extern std::stack<char, std::vector<char> > dbStack;
-extern std::stack<wxString, std::vector<wxString> > forStack;
-
 //------------------------------------------------------------
 // Assemble source file
 //int assembleFile(char const *fileName, char const *tempName,
 //		char const *workName) {
-int assembleFile(char *fileName, char *tempName, char *workName) {
+int assembleFile(const char *fileName, const char *tempName,
+		const char *workName) {
 	wxString outName;
 //	int i;
 
 	try {
 		tmpFile = fopen(tempName, "w+");
 		if (!tmpFile) {
-			wxMessageBox(wxT("Error creating temp file."), wxT("Error"));
+//			wxMessageBox(wxT("Error creating temp file."), wxT("Error"));
 			return (SEVERE);
 		}
 
 		inFile = fopen(fileName, "r");
 		if (!inFile) {
-			wxMessageBox(wxT("Error reading source file."), wxT("Error"));
+//			wxMessageBox(wxT("Error reading source file."), wxT("Error"));
 			return (SEVERE);
 		}
 
@@ -233,25 +230,29 @@ int assembleFile(char *fileName, char *tempName, char *workName) {
 }
 
 // Upper case string unless surrounded by single quotes
-char* strcap(char *s) {
-	char *out = "";
-	bool capFlag = true;
+int strcap(char *d, char *s) {
+	bool capFlag;
+
 	try {
+		capFlag = true;
 		while (*s) {
 			if (capFlag)
-				out += toupper(*s);
+				*d = toupper(*s);
 			else
-				out += *s;
+				*d = *s;
 			if (*s == '\'')
 				capFlag = !capFlag;
+			d++;
 			s++;
 		}
+		*d = '\0';
 	} catch (...) {
 		sprintf(buffer, "ERROR: An exception occurred in routine 'strcap'. \n");
 		printError(NULL, EXCEPTION, 0);
-		return ("");
+		return (0);
 	}
-	return (out);
+
+	return (NORMAL);
 }
 
 char* skipSpace(char *p) {
@@ -353,7 +354,7 @@ int assemble(char *line, int *errorPtr) {
 	try {
 		if (pass2 && listFlag)
 			listLoc();
-		capLine = strcap(line);
+		strcap(capLine, line);
 		p = skipSpace(capLine);      // skip leading white space
 		tokenize(capLine, ", \t\n", token, tokens); // tokenize line
 		if (*p == '*' || *p == ';')         // if comment

@@ -8,12 +8,9 @@
 #ifndef MAINFRAME_H_
 #define MAINFRAME_H_
 
-#include <wx/wxprec.h>
-#ifndef WX_PRECOMP
 #include <wx/wx.h>
-#endif
-
 #include <wx/gdicmn.h>
+#include <wx/file.h>
 #include <wx/menu.h>
 #include <wx/menuitem.h>
 #include <wx/sizer.h>
@@ -37,8 +34,8 @@ public:
 	MainFrame(const wxString &title, const wxPoint &pos, const wxSize &size,
 			EASy68K *easy68k);
 
-//	void AddImageToBar(wxToolBar *toolbar, int toolid, wxString path,
-//			wxString filename, wxString label);
+	void AddImageToBar(wxToolBar *toolbar, int toolid, wxString path,
+			wxString filename, wxString label);
 
 	void BuildToolbar();
 	void BuildMenu();
@@ -81,20 +78,20 @@ protected:
 	LogCtrl *logCtrl;
 	std::unique_ptr<Options> options;
 
-//	wxMenuBar *mainMenu;
-//	wxMenu *fileMenu;
-//	wxMenu *editMenu;
-//	wxMenu *projectMenu;
-//	wxMenu *optionsMenu;
-//	wxMenu *windowMenu;
-//	wxMenu *helpMenu;
-//
-//	wxToolBar *toolbar;
-//
-//	wxStatusBar *statusBar;
+	wxMenuBar *mainMenu;
+	wxMenu *fileMenu;
+	wxMenu *editMenu;
+	wxMenu *projectMenu;
+	wxMenu *optionsMenu;
+	wxMenu *windowMenu;
+	wxMenu *helpMenu;
+
+	wxToolBar *toolbar;
+
+	wxStatusBar *statusBar;
 	Properties *props = new Properties();
 	wxString srcFilePath;
-//	wxFile *tempFile = nullptr;
+	wxFile *tempFile = nullptr;
 
 DECLARE_EVENT_TABLE()
 

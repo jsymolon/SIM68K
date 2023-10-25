@@ -39,9 +39,10 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include "extern.h"
 #include "asm.h"
 
-extern char line[256];		// Source line
+extern char line[LINE_LENGTH];		// Source line
 extern FILE *inFile;            // source file
 extern FILE *listFile;		// Listing file
 extern FILE *tmpFile;
@@ -114,7 +115,7 @@ int macro(int size, char *label, char *op, int *errorPtr) {
 	}
 	NEWERROR(*errorPtr, NO_ENDM);         // no ENDM found
 	noENDM = true;
-	return (NULL);
+	return (0);
 }
 
 //--------------------------------------------------------
@@ -126,7 +127,7 @@ int macro(int size, char *label, char *op, int *errorPtr) {
 //   assemble this line of macro
 // }
 int asmMacro(int size, char *label, char *arg, int *errorPtr) {
-	char capLine[256];
+	char capLine[LINE_LENGTH];
 	char macLine[MAC_SIZE];
 	char labelNumA[16];
 	char *capL;
