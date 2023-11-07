@@ -37,6 +37,7 @@
 #include <ctype.h>
 #include "asm.h"
 #include "extern.h"
+#include "directive.h"
 
 extern int loc;
 extern int locOffset;
@@ -322,7 +323,8 @@ int set(int size, char *label, char *op, int *errorPtr) {
 int dc(int size, char *label, char *op, int *errorPtr) {
 	int outVal;
 	bool backRef;
-	char string[260], *p;
+	char string[260];
+	char *p;
 
 	if (size == SHORT_SIZE) {
 		NEWERROR(*errorPtr, INV_SIZE_CODE);
@@ -412,12 +414,12 @@ char* collect(char *s, char *d) {
 				*d++ = '\0';
 				*d++ = '\0';
 				*d = '\0';
-				return ++s;
+				return (++s);
 			}
 		else
 			*d++ = *s++;
 	}
-	return s;
+	return (s);
 }
 
 /***********************************************************************
@@ -425,7 +427,9 @@ char* collect(char *s, char *d) {
  ***********************************************************************/
 
 int dcb(int size, char *label, char *op, int *errorPtr) {
-	int blockSize, blockVal, i;
+	int blockSize;
+	int blockVal;
+	int i;
 	bool backRef;
 
 	if (size == SHORT_SIZE) {
@@ -872,9 +876,12 @@ int memory(int size, char *label, char *op, int *errorPtr) {
 	int i;
 	const int MAXCHARS = 10;       // max number of characters in operand
 	char operand[MAXCHARS + 1];
-	bool ROMmap = false, readMap = false, protectedMap = false, invalidMap =
-			false;
-	int startAddr = 0, endAddr = 0;
+	bool ROMmap = false;
+	bool readMap = false;
+	bool protectedMap = false;
+	bool invalidMap = false;
+	int startAddr = 0;
+	int endAddr = 0;
 	bool backRef;
 
 	if (!pass2)                   // runs during pass2

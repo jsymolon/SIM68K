@@ -56,22 +56,21 @@ int exg(int, int, opDescriptor*, opDescriptor*, int*);
 int twoReg(int, int, opDescriptor*, opDescriptor*, int*);
 int oneReg(int, int, opDescriptor*, opDescriptor*, int*);
 int moveUSP(int, int, opDescriptor*, opDescriptor*, int*);
-int link(int, int, opDescriptor*, opDescriptor*, int*);
+int link_ins(int, int, opDescriptor*, opDescriptor*, int*);
 int output(int, int);
 int effAddr(opDescriptor*);
 int extWords(opDescriptor*, int, int*);
-int org(int, char*, char*, int*);
-int offset(int, char*, char*, int*);
-int funct_end(int, char*, char*, int*);
-int equ(int, char*, char*, int*);
-int set(int, char*, char*, int*);
-int section(int, char*, char*, int*);
-int simhalt(int, char*, char*, int*);
-int page(int, char*, char*, int*);
-int dc(int, char *, char *, int*);
-char* collect(char*, char*);
-int dcb(int, char*, char*, int*);
-int ds(int, char*, char*, int*);
+
+
+
+
+
+
+
+
+
+
+
 int printError(FILE*, int, int);
 char* eval(char*, int*, bool*, int*);
 char* evalNumber(char*, int*, bool*, int*);
@@ -92,7 +91,7 @@ int setFlags(int, char*[], int*);
 int help(void);
 int movem(int, char*, char*, int*);
 int reg(int, char*, char*, int*);
-int opt(int, char*, char*, int*);
+
 int macro(int, char*, char*, int*);      //ck
 int asmMacro(int, char*, char*, int*);   //ck
 int asmStructure(int, char*, char*, int*);  //ck
@@ -110,11 +109,10 @@ int hash(char *);
 symbolDef* define(char *, int, bool, bool, int*);
 void clearSymbols();
 int writeObj(void);
-int include(int, char*, char*, int*);
-int incbin(int, char*, char*, int*);
-int failError(int, char*, char*, int*);
-int listOn(int, char*, char*, int*);
-int listOff(int, char*, char*, int*);
-int memory(int, char*, char*, int*);
+
+
+
+
+;
 
 #endif

@@ -55,6 +55,7 @@
 #include <stdio.h>
 #include "asm.h"
 #include <cstdint>
+#include "directive.h"
 
 /* Definitions of addressing mode masks for various classes of references */
 
@@ -333,7 +334,7 @@ flavor jsrfl[] = { { Control, 0, 0, oneOp, 0, 0x4E80, 0 } };
 flavor leafl[] =
 		{ { Control, AnDirect, LONG_SIZE, arithReg, 0, 0x41C0, 0x41C0 } };
 
-flavor linkfl[] = { { AnDirect, IMMEDIATE, 0, link, 0, 0x4E50, 0 } };
+flavor linkfl[] = { { AnDirect, IMMEDIATE, 0, link_ins, 0, 0x4E50, 0 } };
 
 flavor lslfl[] = { { MemAlt, 0, WORD_SIZE, oneOp, 0, 0xE3C0, 0 }, { DnDirect,
 		DnDirect, BWL, shiftReg, 0xE128, 0xE168, 0xE1A8 }, { IMMEDIATE,

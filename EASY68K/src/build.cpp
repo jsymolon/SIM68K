@@ -785,7 +785,7 @@ int moveUSP(int mask, int size, opDescriptor *source, opDescriptor *dest,
  *
  ***********************************************************************/
 
-int link(int mask, int size, opDescriptor *source, opDescriptor *dest,
+int link_ins(int mask, int size, opDescriptor *source, opDescriptor *dest,
 		int *errorPtr) {
 	if (pass2) {
 		output((int) (mask | source->reg), WORD_SIZE);
