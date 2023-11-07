@@ -17,6 +17,8 @@
 #include <stdio.h>
 #include <ctype.h>
 #include "asm.h"
+#include "symbol.h"
+#include "error.h"
 
 extern FILE *listFile;
 extern char buffer[256];  //ck used to form messages for display in windows

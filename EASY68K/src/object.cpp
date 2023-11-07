@@ -94,6 +94,8 @@
 #include <stdio.h>
 #include <ctype.h>
 #include "asm.h"
+#include "error.h"
+#include "object.h"
 
 /* Define the maximum number of bytes (address, data,
  and checksum) that can be in one S-record */

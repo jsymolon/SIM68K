@@ -45,6 +45,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include "asm.h"
+#include "eval.h"
 
 extern char buffer[256];  //ck used to form messages for display in windows
 extern int loc;

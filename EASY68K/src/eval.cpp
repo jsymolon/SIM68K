@@ -52,6 +52,8 @@
 #include <stdio.h>
 #include <ctype.h>
 #include "asm.h"
+#include "eval.h"
+#include "symbol.h"
 
 extern bool pass2;
 extern int loc;

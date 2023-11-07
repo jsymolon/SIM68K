@@ -55,6 +55,8 @@
 
 #include <stdio.h>
 #include "asm.h"
+#include "listing.h"
+#include "object.h"
 
 extern int loc;
 extern bool pass2;

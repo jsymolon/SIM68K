@@ -241,7 +241,4 @@ typedef struct {
 	bool underline;
 } FontStyle;
 
-// function prototype definitions
-#include "proto.h"
-
 #endif

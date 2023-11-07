@@ -56,6 +56,10 @@
 #include "asm.h"
 #include <cstdint>
 #include "directive.h"
+#include "structured.h"
+#include "movem.h"
+#include "macro.h"
+#include "build.h"
 
 /* Definitions of addressing mode masks for various classes of references */
 

@@ -20,8 +20,7 @@
 #include <stdexcept>
 
 #include <string>
-#include "extern.h"
-#include "proto.h"
+#include "assemble.h"
 
 BEGIN_EVENT_TABLE ( MainFrame, wxFrame ) EVT_MENU(ID_New, MainFrame::OnNew)
 EVT_MENU(ID_Open, MainFrame::OnOpen)

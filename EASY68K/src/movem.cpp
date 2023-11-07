@@ -46,6 +46,13 @@
 #include <stdio.h>
 #include <ctype.h>
 #include "asm.h"
+#include "assemble.h"
+#include "opparse.h"
+#include "movem.h"
+#include "listing.h"
+#include "codegen.h"
+#include "symbol.h"
+
 /* Define bit masks for the legal addressing modes of MOVEM */
 
 #define ControlAlt  (AnInd | AnIndDisp | AnIndIndex | AbsShort | AbsLong)

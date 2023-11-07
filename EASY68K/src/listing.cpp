@@ -65,6 +65,9 @@
 #include <wx/msgdlg.h>
 #include "extern.h"
 #include "asm.h"
+#include "error.h"
+#include "symbol.h"
+#include "listing.h"
 
 /* Declarations of global variables */
 extern int loc;

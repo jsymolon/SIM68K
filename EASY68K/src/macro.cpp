@@ -41,6 +41,11 @@
 #include <string.h>
 #include "extern.h"
 #include "asm.h"
+#include "eval.h"
+#include "assemble.h"
+#include "listing.h"
+#include "symbol.h"
+#include "error.h"
 
 extern char line[LINE_LENGTH];		// Source line
 extern FILE *inFile;            // source file

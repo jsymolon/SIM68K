@@ -16,6 +16,11 @@
 #include <string.h>
 #include "extern.h"
 #include "asm.h"
+#include "structured.h"
+#include "symbol.h"
+#include "assemble.h"
+#include "listing.h"
+
 
 extern char line[LINE_LENGTH];		// Source line
 extern bool listFlag;
@@ -33,13 +38,6 @@ extern FILE *listFile;		// Listing file
 extern bool skipList;           // true to skip listing line in ASSEMBLE.CPP
 extern int macroNestLevel;     // used by macro processing
 extern char lineIdent[];        // "s" used to identify structure in listing
-
-// prototypes
-std::string getBcc(std::string cc, int mode, int orx);
-
-void outCmpBcc(char *size, char *op1, char *cc, char *op2, char *op3,
-		std::string label, int &error);
-void assembleStc(const char *line);
 
 const unsigned int stcMask = 0xF0000000;
 const unsigned int stcMaskI = 0x00000000;
@@ -93,12 +91,8 @@ const char *BccCodes[BCC_COUNT][5] = {
 
 };
 
-#include <iostream>
-#include <sstream>
-#include <iomanip>
-//-------------------------------------------------------
-std::string IntToHex(uint32_t value, int length);
 
+//-------------------------------------------------------
 std::string IntToHex(uint32_t value, int length) {
 	std::ostringstream ss;
 	ss << "0x" << std::setfill('0') << std::setw(length) << std::hex << value;
@@ -107,7 +101,7 @@ std::string IntToHex(uint32_t value, int length) {
 
 //-------------------------------------------------------
 
-#include <cctype>
+
 //-------------------------------------------------------
 // returns a branch instruction
 // or is 1 on ea <cc> ea OR, 0 otherwise
@@ -763,7 +757,7 @@ int asmStructure(int size, char *label, char *arg, int *errorPtr) {
 	return (NORMAL);
 }
 
-#include <cstring>
+
 void assembleStc(const char *line) {
 	// TODO fix, right now, just copy to temp line
 	char xline[256];

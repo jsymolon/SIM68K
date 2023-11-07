@@ -81,6 +81,15 @@
 #include <wx/msgdlg.h>
 #include "extern.h"
 #include "asm.h"
+#include "assemble.h"
+#include "build.h"
+#include "error.h"
+#include "eval.h"
+#include "instlook.h"
+#include "opparse.h"
+#include "listing.h"
+#include "object.h"
+#include "symbol.h"
 
 extern int loc;		// The assembler's location counter
 extern int sectionLoc[16];     // section locations

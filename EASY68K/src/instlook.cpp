@@ -42,6 +42,9 @@
 #include <stdio.h>
 #include <ctype.h>
 #include "asm.h"
+#include "symbol.h"
+#include "build.h"
+#include "macro.h"
 
 extern instruction instTable[];
 extern int tableSize;

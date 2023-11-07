@@ -37,7 +37,14 @@
 #include <ctype.h>
 #include "asm.h"
 #include "extern.h"
+#include "error.h"
+#include "assemble.h"
+#include "eval.h"
 #include "directive.h"
+#include "listing.h"
+#include "codegen.h"
+#include "symbol.h"
+#include "object.h"
 
 extern int loc;
 extern int locOffset;

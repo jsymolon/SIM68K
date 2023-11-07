@@ -47,6 +47,8 @@
 
 #include <stdio.h>
 #include "asm.h"
+#include "build.h"
+#include "codegen.h"
 
 extern int loc;
 extern bool pass2;
