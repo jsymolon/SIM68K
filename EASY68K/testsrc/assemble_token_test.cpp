@@ -28,7 +28,7 @@ TEST(tokenize1, assembletest) {
 			tokens[i] = '\t';
 	}
 	std::string s_out = std::string(tokens);
-	std::cout << tokens;
+	std::cout << s_out;
 }
 
 TEST(tokenize2, assembletest) {
@@ -47,5 +47,5 @@ TEST(tokenize2, assembletest) {
 			tokens[i] = '\t';
 	}
 	std::string s_out = std::string(tokens);
-	std::cout << tokens;
+	std::cout << s_out;
 }
