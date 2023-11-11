@@ -162,8 +162,7 @@ extern bool mapInvalid;
 // Assemble source file
 //int assembleFile(char const *fileName, char const *tempName,
 //		char const *workName) {
-int assembleFile(const char *fileName, const char *tempName,
-		const char *workName) {
+int assembleFile(const char *fileName, const char *tempName, const char *workName) {
 	wxString outName;
 //	int i;
 
@@ -229,8 +228,7 @@ int assembleFile(const char *fileName, const char *tempName,
 //			AssemblerBox->cmdExecute->Enabled = true;
 //		}
 	} catch (...) {
-		sprintf(buffer,
-				"ERROR: An exception occurred in routine 'assembleFile'. \n");
+		sprintf(buffer, "ERROR: An exception occurred in routine 'assembleFile'. \n");
 		printError(NULL, EXCEPTION, 0);
 		return (NULL);
 	}
@@ -270,8 +268,7 @@ char* skipSpace(char *p) {
 			p++;
 		return (p);
 	} catch (...) {
-		sprintf(buffer,
-				"ERROR: An exception occurred in routine 'skipSpace'. \n");
+		sprintf(buffer, "ERROR: An exception occurred in routine 'skipSpace'. \n");
 		printError(NULL, EXCEPTION, 0);
 		return (NULL);
 	}
@@ -343,8 +340,7 @@ int processFile() {
 			rewind(inFile);
 		}
 	} catch (...) {
-		sprintf(buffer,
-				"ERROR: An exception occurred in routine 'processFile'. \n");
+		sprintf(buffer, "ERROR: An exception occurred in routine 'processFile'. \n");
 		printError(NULL, EXCEPTION, 0);
 		return (NULL);
 	}
@@ -550,15 +546,13 @@ int assemble(char *line, int *errorPtr) {
 			if (printCond && !skipList) {
 				listCond(skipCond);
 				listLine(line, lineIdent);
-			} else if ((listFlag && (!skipCond && !skipList))
-					|| *errorPtr > WARNING)
+			} else if ((listFlag && (!skipCond && !skipList)) || *errorPtr > WARNING)
 				listLine(line, lineIdent);
 		}
 
 	} catch (...) {
 		NEWERROR(*errorPtr, EXCEPTION);
-		sprintf(buffer,
-				"ERROR: An exception occurred in routine 'assemble'. \n");
+		sprintf(buffer, "ERROR: An exception occurred in routine 'assemble'. \n");
 		return (NULL);
 	}
 
@@ -656,9 +650,8 @@ int createCode(char *capLine, int *errorPtr) {
 					if (*errorPtr > SEVERE)
 						return (NORMAL);
 
-					if (flavorPtr && flavorPtr->exec == bitField
-							&& flavorPtr->source == DnDirect) // if bitField instruction Dn,addr{offset:width}
-									{
+					if (flavorPtr && flavorPtr->exec == bitField && flavorPtr->source == DnDirect) // if bitField instruction Dn,addr{offset:width}
+							{
 						p = skipSpace(p); // skip spaces after destination operand
 						if (*p != '{') {
 							NEWERROR(*errorPtr, BAD_BITFIELD);
@@ -681,8 +674,7 @@ int createCode(char *capLine, int *errorPtr) {
 					// instruction as a flavor in instTable[]
 					(*flavorPtr->exec)(mask, size, &source, &dest, errorPtr);
 					return (NORMAL);
-				} else if ((source.mode & flavorPtr->source)
-						&& !flavorPtr->dest) {
+				} else if ((source.mode & flavorPtr->source) && !flavorPtr->dest) {
 					if (*p != '{' && !isspace(*p) && *p) {
 						NEWERROR(*errorPtr, SYNTAX);
 						return (NORMAL);
@@ -692,8 +684,7 @@ int createCode(char *capLine, int *errorPtr) {
 					// instruction as a flavor in instTable[]
 					(*flavorPtr->exec)(mask, size, &source, &dest, errorPtr);
 					return (NORMAL);
-				} else if (source.mode & flavorPtr->source
-						&& (dest.mode & flavorPtr->dest)) {
+				} else if (source.mode & flavorPtr->source && (dest.mode & flavorPtr->dest)) {
 					mask = pickMask(size, flavorPtr, errorPtr);
 					// The following line calls the function defined for the current
 					// instruction as a flavor in instTable[]
@@ -857,9 +848,7 @@ int tokenize(char *instr, char *delim, char *token[], char *tokens) {
 				tokens[size++] = *instr++;         // start token with .
 			}
 			// while more chars AND (not delimiter OR inside parens) AND token size limit not reached OR quoted
-			while (*instr
-					&& (!(strchr(delim, *instr)) || parenCount > 0 || quoted)
-					&& (size < MAX_SIZE - 1)) {
+			while (*instr && (!(strchr(delim, *instr)) || parenCount > 0 || quoted) && (size < MAX_SIZE - 1)) {
 				if (*instr == '\'')                     // if found '
 					if (quoted)
 						quoted = false;

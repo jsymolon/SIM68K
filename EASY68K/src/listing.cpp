@@ -123,8 +123,7 @@ int initList(char *name) {
 		createdL68 = true;
 		return (NORMAL);
 	} catch (...) {
-		sprintf(buffer,
-				"ERROR: An exception occurred in routine 'initList'. \n");
+		sprintf(buffer, "ERROR: An exception occurred in routine 'initList'. \n");
 		printError(NULL, EXCEPTION, 0);
 		return (MILD_ERROR);
 	}
@@ -273,16 +272,14 @@ int finishList() {
 			return (NORMAL);
 		putc('\n', listFile);
 		if (errorCount > 0)
-			fprintf(listFile, "%d error%s detected\n", errorCount,
-					(errorCount > 1) ? "s" : "");
+			fprintf(listFile, "%d error%s detected\n", errorCount, (errorCount > 1) ? "s" : "");
 		else {
 			//***** DO NOT CHANGE THIS TEXT *****
 			// "No error" is used by simulator to find the end of the code in the listing
 			fprintf(listFile, "No errors detected\n");
 		}
 		if (warningCount > 0)
-			fprintf(listFile, "%d warning%s generated\n", warningCount,
-					(warningCount > 1) ? "s" : "");
+			fprintf(listFile, "%d warning%s generated\n", warningCount, (warningCount > 1) ? "s" : "");
 		else
 			fprintf(listFile, "No warnings generated\n");
 
@@ -298,8 +295,7 @@ int finishList() {
 		return (NORMAL);
 	} catch (...) {
 		fclose(listFile);
-		sprintf(buffer,
-				"ERROR: An exception occurred in routine 'finishList'. \n");
+		sprintf(buffer, "ERROR: An exception occurred in routine 'finishList'. \n");
 		printError(NULL, EXCEPTION, 0);
 		return (MILD_ERROR);
 	}
