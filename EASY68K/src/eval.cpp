@@ -194,7 +194,7 @@ char* evalNumber(char *p, int *numberPtr, bool *refPtr, int *errorPtr) {
 		//ck   * is current address
 		if (*p == '*') {
 			*numberPtr = loc;
-			return ++p;
+			return (++p);
 		} else if (*p == '-') {
 			/* Evaluate unary minus operator recursively */
 			p = evalNumber(++p, &x, refPtr, errorPtr);

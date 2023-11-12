@@ -287,7 +287,7 @@ char* evalList(char *p, unsigned short *listPtr, int *errorPtr) {
 						regList |= (1 << reg1);
 						/* End of register list found - return its value */
 						*listPtr = regList;
-						return p + 2;
+						return (p + 2);
 					}
 				} else {
 					/* Invalid character found - return the error */

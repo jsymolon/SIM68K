@@ -31,7 +31,8 @@ extern unsigned int stcLabelW;  // structured while label number
 extern unsigned int stcLabelR;  // structured repeat label number
 extern unsigned int stcLabelF;  // structured for label number
 extern unsigned int stcLabelD;  // structured dbloop label number
-extern int errorCount, warningCount;
+extern int errorCount;
+extern int warningCount;
 extern bool SEXflag;            // true expands structured listing
 extern int lineNum;
 extern FILE *listFile;		// Listing file
@@ -109,9 +110,9 @@ std::string getBcc(std::string cc, int mode, int orx) {
 	std::transform(cc.begin(), cc.end(), cc.begin(), ::toupper);
 	for (int i = 0; i < BCC_COUNT; i++) {
 		if (cc == BccCodes[i][0])
-			return BccCodes[i][mode + orx];
+			return (BccCodes[i][mode + orx]);
 	}
-	return "B??";
+	return ("B??");
 }
 
 //-------------------------------------------------------
@@ -135,8 +136,11 @@ std::string getBcc(std::string cc, int mode, int orx) {
 //void outCmpBcc( char *size, char *op1, char *cc, char *op2, char *op3, char *last, std::string label, int &error) {
 void outCmpBcc(char *token[], char *last, std::string label, int &error) {
 
-	std::string stcLine, stcCmp, extent;
-	int orx = 0, n = 0;
+	std::string stcLine;
+	std::string stcCmp;
+	std::string extent;
+	int orx = 0;
+	int n = 0;
 
 	try {
 		error = OK;
@@ -290,7 +294,11 @@ int asmStructure(int size, char *label, char *arg, int *errorPtr) {
 		char tokens[512];             // place tokens here
 		char capLine[256];
 		char tokenEnd[10];            // last token of structure goes here
-		std::string stcLabel, stcLabel2, stcLine, sizeStr, extent;
+		std::string stcLabel;
+		std::string stcLabel2;
+		std::string stcLine;
+		std::string sizeStr;
+		std::string extent;
 		symbolDef *symbol;
 		int error;
 		int value;
