@@ -29,9 +29,12 @@ TEST(def_lookup, symboltest) {
 	const char *str = " .period";
 	int error = 0;
 	symbolDef* symd = define(const_cast<char *>(str), 5, false, true, &error);
+	std::string s_out = std::string(symd->name);
+	EXPECT_EQ(".period", s_out);
+
 	symbolDef* syml = lookup(const_cast<char *>(str), false, &error);
 
-	std::string s_out = std::string(syml->name);
+	s_out = std::string(syml->name);
 	EXPECT_EQ(".period", s_out);
 	EXPECT_EQ(5, syml->value);
 }
