@@ -364,7 +364,7 @@ int asmMacro(int size, char *label, char *arg, int *errorPtr) {
 		// pre process macro commands
 		// ----- ENDM and MEXIT -----
 		if (!(strcmp(token[1], "ENDM")) ||         // if ENDM opcode or
-				(!(strcmp(token[1], "MEXIT"))) && !skipCond) { // MEXIT
+				(!strcmp(token[1], "MEXIT")) && !skipCond) { // MEXIT
 			if (token[0] != empty)                    // if label present
 				NEWERROR(*errorPtr, LABEL_ERROR);
 			endmFlag = true;

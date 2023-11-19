@@ -559,6 +559,9 @@ int assemble(char *line, int *errorPtr) {
 	return (NORMAL);
 }
 
+//-------------------------------------------------------
+//-------------------------------------------------------
+//-------------------------------------------------------
 // create machine code for instruction
 int createCode(char *capLine, int *errorPtr) {
 	instruction *tablePtr;
