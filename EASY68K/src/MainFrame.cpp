@@ -278,7 +278,8 @@ void MainFrame::OnClose(wxCommandEvent &event) {
 
 // ------------------------------------------------------------------------------------------------
 void MainFrame::OnExit(wxCommandEvent &event) {
-	// TODO: OnExit
+	// TODO: check for dirty and ask
+	Close(true);
 }
 
 // ------------------------------------------------------------------------------------------------

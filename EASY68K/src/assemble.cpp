@@ -353,7 +353,7 @@ int assemble(char *line, int *errorPtr) {
 	int value = 0;
 	bool backRef = false;
 	int error2Ptr = 0;
-	char *capLine;
+	char capLine[256];
 	char *p;
 	bool comment;                   // true when line is comment
 	try {
